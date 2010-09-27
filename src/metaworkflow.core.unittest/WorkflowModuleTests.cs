@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using metaworkflow.core.Builder;
@@ -15,8 +17,10 @@ namespace metaworkflow.core.unittest
             builder.ForWorkflow(WorkflowType.Comment, StateType.New).Permit(TriggerType.Submit, StateType.UnderReview);
             builder.ForWorkflow(WorkflowType.Comment, StateType.UnderReview)
                 .Permit(TriggerType.Publish, StateType.Complete)
-                .Permit(TriggerType.Ignore, StateType.Rejected);
-            builder.ForWorkflow(WorkflowType.Comment, StateType.Complete);
+                .Permit(TriggerType.Ignore, StateType.Rejected)
+                .OnEntry<Step1>(StepPriority.Highest);
+            builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
+                .OnExit<Step1>(StepPriority.Lowest);
             builder.ForWorkflow(WorkflowType.Comment, StateType.Rejected);
         }
     }
@@ -38,6 +42,22 @@ namespace metaworkflow.core.unittest
             Assert.That(set.Where(p => p.Workflow == WorkflowType.Comment && p.State == StateType.UnderReview).FirstOrDefault().PermittedActions.Count(), Is.EqualTo(2));
             Assert.That(set.Where(p => p.Workflow == WorkflowType.Comment && p.State == StateType.Complete).FirstOrDefault().PermittedActions.Count(), Is.EqualTo(0));
             Assert.That(set.Where(p => p.Workflow == WorkflowType.Comment && p.State == StateType.New).FirstOrDefault().PermittedActions.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void verify_workflow_state_step_registrations()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MyWorkflowModule());
+
+            var container = builder.Build();
+
+            var set =
+                container.Resolve<IEnumerable<Lazy<IStateStep<StateType, TriggerType, TriggerContext>, IStateActionMetadata<WorkflowType, StateType>>>>();
+
+            Assert.That(set.Count(), Is.EqualTo(1));
+            Assert.That(set.First().Metadata.StateActionInfos, Is.Not.Null);
+            Assert.That(set.First().Metadata.StateActionInfos.Count(), Is.EqualTo(2));
         }
     }
 }

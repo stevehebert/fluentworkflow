@@ -16,6 +16,16 @@ namespace metaworkflow.core.Builder
         StateStepConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state);
     }
 
+    public class StepTypeInfo<TWorkflow, TState>
+    {
+        public TWorkflow Workflow { get; set; }
+        public TState State { get; set; }
+        public Type StateStepType { get; set; }
+        public WorkflowStepActionType ActionType { get; set; }
+        public int Priority { get; set; }
+
+    }
+
     /// <summary>
     /// The workflow builder used to configure state steps and action steps
     /// </summary>
@@ -35,6 +45,24 @@ namespace metaworkflow.core.Builder
                         select
                             new WorkflowStepDeclaration<TWorkflow, TState, TTrigger>(p.Key, q.State,
                                                                                      q.PermittedTriggers);
+        }
+
+
+        internal IEnumerable<StepTypeInfo<TWorkflow, TState>> ProduceTypeRoles()
+        {
+            return from p in _workflowConfiguration
+                   from q in p.Value
+                   from r in q.StateStepInfos
+                   select
+                       new StepTypeInfo<TWorkflow, TState>
+                           {
+                               Workflow = p.Key,
+                               State = q.State,
+                               StateStepType = r.StateStepType,
+                               ActionType = r.ActionType,
+                               Priority = r.Priority
+                           };
+
         }
 
         /// <summary>

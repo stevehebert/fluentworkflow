@@ -24,7 +24,7 @@
         /// Gets the priority.
         /// </summary>
         /// <value>The priority.</value>
-        public StepPriority Priority { get; private set; }
+        public int Priority { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateActionInfo&lt;TWorkflow, TState&gt;"/> class.
@@ -33,7 +33,7 @@
         /// <param name="state">The state.</param>
         /// <param name="workflowStepActionType">Type of the workflow step action.</param>
         /// <param name="stepPriority">execution priority of the step</param>
-        public StateActionInfo(TWorkflow workflow, TState state, WorkflowStepActionType workflowStepActionType, StepPriority stepPriority)
+        public StateActionInfo(TWorkflow workflow, TState state, WorkflowStepActionType workflowStepActionType, int stepPriority)
         {
             Workflow = workflow;
             State = state;
