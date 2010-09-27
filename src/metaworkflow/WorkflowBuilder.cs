@@ -5,25 +5,6 @@ using Stateless;
 
 namespace metaworkflow.core
 {
-    public class TriggerTrip<TTrigger, TTriggerContext>
-    {
-        public TTrigger Trigger { get; private set; }
-
-        public TTriggerContext TriggerContext { get; private set; }
-
-        public bool IsSet { get; private set; }
-
-        public void SetTrigger(TTrigger trigger, TTriggerContext triggerContext)
-        {
-            if(IsSet)
-                throw new InvalidOperationException("trigger has already been set");
-
-            Trigger = trigger;
-            TriggerContext = triggerContext;
-
-            IsSet = true;
-        }
-    }
 
 
 

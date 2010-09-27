@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\TriggerTrip.cs" />
+    <Compile Include="Enforce.cs" />
     <Compile Include="IStateStep.cs" />
     <Compile Include="TransitionInfo.cs" />
     <Compile Include="IMetaStateEngine.cs" />
@@ -60,9 +62,7 @@
   <ItemGroup>
     <None Include="MetaStateEngine.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Builder\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
