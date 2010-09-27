@@ -2,6 +2,11 @@
 
 namespace metaworkflow.core
 {
+    /// <summary>
+    /// the transition info passed to individual state steps
+    /// </summary>
+    /// <typeparam name="TState">The type of the state.</typeparam>
+    /// <typeparam name="TTrigger">The type of the trigger.</typeparam>
     public class TransitionInfo<TState, TTrigger>
     {
         /// <summary>
