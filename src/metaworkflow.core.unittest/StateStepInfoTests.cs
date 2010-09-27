@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using metaworkflow.core.Builder;
+﻿using metaworkflow.core.Builder;
 using metaworkflow.core.unittest.enums;
 using NUnit.Framework;
 using Stateless;
@@ -60,6 +56,18 @@ namespace metaworkflow.core.unittest
             Assert.That(stateStepInfo.Context.DocumentId, Is.EqualTo(5));
         }
 
+        [Test]
+        public void verify_transition_passthrough()
+        {
+            var triggerTrip = new TriggerTrip<TriggerType, TriggerContext>();
 
+            var transition = new StateMachine<StateType, TriggerType>.Transition(StateType.New, StateType.UnderReview,
+                                                                                 TriggerType.Ignore);
+
+            var stateStepInfo = new StateStepInfo<StateType, TriggerType, TriggerContext>(new TriggerContext { DocumentId = 5 }, transition, triggerTrip);
+
+            Assert.That(stateStepInfo.TransitionInfo.SourceState, Is.EqualTo(StateType.New));
+            Assert.That(stateStepInfo.TransitionInfo.TargetState, Is.EqualTo(StateType.UnderReview));
+        }
     }
 }
