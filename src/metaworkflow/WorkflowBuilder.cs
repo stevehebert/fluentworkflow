@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using metaworkflow.core;
-using Stateless;
+using metaworkflow.core.Builder;
 
 namespace metaworkflow.core
 {
-
-
-
     public enum WorkflowStepActionType
     {
         Entry,
@@ -20,21 +16,6 @@ namespace metaworkflow.core
         Lowest = Int32.MinValue,
     }
 
-    public class StateStepInfo
-    {
-        public Type StateStepType { get; private set; }
-
-        public int Priority { get; private set; }
-
-        public WorkflowStepActionType ActionType { get; private set; }
-
-        public StateStepInfo(Type stateStepType, int priority, WorkflowStepActionType actionType)
-        {
-            StateStepType = stateStepType;
-            Priority = priority;
-            ActionType = actionType;
-        }
-    }
 
     public class StateStepConfiguration<TState, TTrigger, TTriggerContext>
     {
@@ -43,8 +24,8 @@ namespace metaworkflow.core
         private readonly IDictionary<TTrigger, TState> _permittedTriggers = new Dictionary<TTrigger, TState>();
         public  IEnumerable<KeyValuePair<TTrigger, TState>> PermittedTriggers { get { return _permittedTriggers; } }
 
-        private readonly IList<StateStepInfo> _stateStepInfoList = new List<StateStepInfo>();
-        public IEnumerable<StateStepInfo> StateStepInfos { get { return _stateStepInfoList; } }
+        private readonly IList<StateStepMetadata> _stateStepInfoList = new List<StateStepMetadata>();
+        public IEnumerable<StateStepMetadata> StateStepInfos { get { return _stateStepInfoList; } }
 
         public StateStepConfiguration(TState state)
         {
@@ -58,12 +39,12 @@ namespace metaworkflow.core
 
         public void OnEntry<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
         {
-            _stateStepInfoList.Add(new StateStepInfo(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Entry ));
+            _stateStepInfoList.Add(new StateStepMetadata(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Entry ));
         }
 
         public void OnExit<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
         {
-            _stateStepInfoList.Add(new StateStepInfo(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Exit));
+            _stateStepInfoList.Add(new StateStepMetadata(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Exit));
         }
     }
 
