@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "metaworkflow.core", "src\metaworkflow\metaworkflow.core.csproj", "{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "metaworkflow.core.unittest", "src\metaworkflow.core.unittest\metaworkflow.core.unittest.csproj", "{639E403F-9927-4A8C-AB33-0994443AFD90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639E403F-9927-4A8C-AB33-0994443AFD90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639E403F-9927-4A8C-AB33-0994443AFD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639E403F-9927-4A8C-AB33-0994443AFD90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639E403F-9927-4A8C-AB33-0994443AFD90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,46 @@
+# Ignore file for Visual Studio 2008
+
+# use glob syntax
+syntax: glob
+
+# Ignore Visual Studio 2008 files
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.yaml
+[Bb]in
+[Db]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+.svn/
+_svn/
+glob:*.cs.orig
+glob:frontend/src/SolutionVersion.cs
+glob:frontend/src/ThomsonReuters.Pubs.Web/Scripts/jquery.debug.js
+glob:*.orig
+glob:frontend/src/PubsFxCop-results.xml
+glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/highCompat.css
+glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/lowCompat.css
+glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/nav/timeStamp.dat
+glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/timeStamp.dat
