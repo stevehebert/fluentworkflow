@@ -13,14 +13,18 @@ namespace metaworkflow.core.unittest
     {
         public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
         {
-            builder.ForWorkflow(WorkflowType.Comment, StateType.New).Permit(TriggerType.Submit, StateType.UnderReview);
+            builder.ForWorkflow(WorkflowType.Comment, StateType.New)
+                .Permit(TriggerType.Submit, StateType.UnderReview);
+
             builder.ForWorkflow(WorkflowType.Comment, StateType.UnderReview)
                 .Permit(TriggerType.Publish, StateType.Complete)
                 .Permit(TriggerType.Ignore, StateType.Rejected)
                 .OnEntry<Step1>(StepPriority.Highest)
                 .OnExit<Step1>(StepPriority.Lowest);
+
             builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
                 .OnEntry<Step1>(StepPriority.Lowest);
+
             builder.ForWorkflow(WorkflowType.Comment, StateType.Rejected);
         }
     }
@@ -99,10 +103,7 @@ namespace metaworkflow.core.unittest
 
             Assert.That(set.Count(), Is.EqualTo(1));
             Assert.That(set.First().Metadata.StateActionInfos, Is.Not.Null);
-            Assert.That(set.First().Metadata.StateActionInfos.Count(), Is.EqualTo(2));
+            Assert.That(set.First().Metadata.StateActionInfos.Count(), Is.EqualTo(3));
         }
-
-
-        
     }
 }

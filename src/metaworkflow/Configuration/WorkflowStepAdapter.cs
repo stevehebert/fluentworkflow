@@ -43,7 +43,7 @@ namespace metaworkflow.core.Configuration
                 configuration.Permit(path.Trigger, path.DestinationState);
 
             configuration.OnEntry<TTriggerContext>(
-                (context, transition) => _stateStepDispatcher.ExecuteStepActions(_workflowStepDeclaration,
+                (transition, context) => _stateStepDispatcher.ExecuteStepActions(_workflowStepDeclaration,
                                                                                  context,
                                                                                  transition,
                                                                                  stateMachine,

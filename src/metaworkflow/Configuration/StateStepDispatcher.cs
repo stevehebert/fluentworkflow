@@ -34,7 +34,6 @@ namespace metaworkflow.core.Configuration
             if (!items.Any())
                 return;
 
-
             var triggerTrip = new TriggerTrip<TTrigger, TTriggerContext>();
             var stateStepInfo = new StateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext, 
                                                                                      transition,

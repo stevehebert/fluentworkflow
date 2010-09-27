@@ -332,7 +332,7 @@
             trigger to be ignored.</param>
             <returns>The receiver.</returns>
         </member>
-        <member name="M:Stateless.StateMachine`2.StateConfiguration.OnEntry``1(System.Action{``0,Stateless.StateMachine{`0,`1}.Transition})">
+        <member name="M:Stateless.StateMachine`2.StateConfiguration.OnEntry``1(System.Action{Stateless.StateMachine{`0,`1}.Transition,``0})">
             <summary>
             Specify an action that will execute when transitioning into
             the configured state.
