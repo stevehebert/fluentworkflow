@@ -458,6 +458,14 @@
             <param name="exitAction">Action to execute.</param>
             <returns>The receiver.</returns>
         </member>
+        <member name="M:Stateless.StateMachine`2.StateConfiguration.OnExit(System.Action{Stateless.StateMachine{`0,`1}.Transition})">
+            <summary>
+            Specify an action taking a transition when transitioning from
+            the configured state.
+            </summary>
+            <param name="exitAction">The exit action to execute.</param>
+            <returns>The receiver.</returns>
+        </member>
         <member name="M:Stateless.StateMachine`2.StateConfiguration.OnExit``1(System.Action{Stateless.StateMachine{`0,`1}.Transition,``0})">
             <summary>
             Specify an action that will execute when transitioning from
