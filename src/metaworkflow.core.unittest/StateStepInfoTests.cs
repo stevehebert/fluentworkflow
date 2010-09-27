@@ -47,5 +47,19 @@ namespace metaworkflow.core.unittest
             Assert.That(triggerTrip.TriggerContext.DocumentId, Is.EqualTo(6));
         }
 
+        [Test]
+        public void verify_context_passthrough()
+        {
+            var triggerTrip = new TriggerTrip<TriggerType, TriggerContext>();
+
+            var transition = new StateMachine<StateType, TriggerType>.Transition(StateType.New, StateType.UnderReview,
+                                                                                 TriggerType.Ignore);
+
+            var stateStepInfo = new StateStepInfo<StateType, TriggerType, TriggerContext>(new TriggerContext { DocumentId = 5 }, transition, triggerTrip);
+
+            Assert.That(stateStepInfo.Context.DocumentId, Is.EqualTo(5));
+        }
+
+
     }
 }

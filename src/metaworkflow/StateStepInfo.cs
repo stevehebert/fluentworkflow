@@ -63,5 +63,4 @@ namespace metaworkflow.core
             TransitionInfo = new TransitionInfo<TState, TTrigger>(transition);
         }
     }
-
 }
