@@ -43,6 +43,10 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\nunit\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Stateless, Version=2.2.1.1, Culture=neutral, PublicKeyToken=93038f0927583c9a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\stateless\Stateless.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\TransitionInfoTests.cs" />
     <Compile Include="enums\StateType.cs" />
     <Compile Include="enums\TriggerContext.cs" />
     <Compile Include="enums\TriggerType.cs" />
