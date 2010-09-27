@@ -52,14 +52,16 @@
     <Compile Include="Builder\StateStepConfiguration.cs" />
     <Compile Include="Builder\StateStepMetadata.cs" />
     <Compile Include="Builder\TriggerTrip.cs" />
+    <Compile Include="Builder\WorkflowBuilder.cs" />
     <Compile Include="Enforce.cs" />
     <Compile Include="IStateStep.cs" />
+    <Compile Include="StepPriority.cs" />
     <Compile Include="TransitionInfo.cs" />
     <Compile Include="IMetaStateEngine.cs" />
     <Compile Include="MetaStateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateStepInfo.cs" />
-    <Compile Include="WorkflowBuilder.cs" />
+    <Compile Include="WorkflowStepActionType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MetaStateEngine.cd" />
