@@ -17,37 +17,6 @@ namespace metaworkflow.core
     }
 
 
-    public class StateStepConfiguration<TState, TTrigger, TTriggerContext>
-    {
-        public TState State { get; private set; }
-
-        private readonly IDictionary<TTrigger, TState> _permittedTriggers = new Dictionary<TTrigger, TState>();
-        public  IEnumerable<KeyValuePair<TTrigger, TState>> PermittedTriggers { get { return _permittedTriggers; } }
-
-        private readonly IList<StateStepMetadata> _stateStepInfoList = new List<StateStepMetadata>();
-        public IEnumerable<StateStepMetadata> StateStepInfos { get { return _stateStepInfoList; } }
-
-        public StateStepConfiguration(TState state)
-        {
-            State = state;
-        }
-
-        public void Permit(TTrigger trigger, TState destinationState)
-        {
-            _permittedTriggers.Add(trigger, destinationState);
-        }
-
-        public void OnEntry<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
-        {
-            _stateStepInfoList.Add(new StateStepMetadata(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Entry ));
-        }
-
-        public void OnExit<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
-        {
-            _stateStepInfoList.Add(new StateStepMetadata(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Exit));
-        }
-    }
-
 
     public interface IWorkflowBuilder <TWorkflow, TState, TTrigger, TTriggerContext>
     {
