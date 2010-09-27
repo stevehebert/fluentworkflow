@@ -41,6 +41,16 @@ namespace metaworkflow.core
                 builder.Register(c => localItem);
             }
 
+            builder.RegisterAdapter
+                <WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,
+                    WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>(
+                        (ctx, c) =>
+                        ctx.Resolve<Func<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>>()(c));
+
+            builder.RegisterType<StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>().As
+                <IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>();
+
+
             var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
                               group p by p.StateStepType
                               into g select g.Key;
@@ -67,6 +77,7 @@ namespace metaworkflow.core
             }
 
             builder.RegisterModule(metadataModule);
+            
         }
     }
 }
