@@ -58,6 +58,7 @@
     <Compile Include="Configuration\IStateStepDispatcher.cs" />
     <Compile Include="Configuration\StateActionInfo.cs" />
     <Compile Include="Configuration\StateActionMetadata.cs" />
+    <Compile Include="Configuration\StateMachineConfigurator.cs" />
     <Compile Include="Configuration\StateStepDispatcher.cs" />
     <Compile Include="Configuration\StateTriggerAction.cs" />
     <Compile Include="Configuration\WorkflowStepAdapter.cs" />

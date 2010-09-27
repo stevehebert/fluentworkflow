@@ -17,9 +17,10 @@ namespace metaworkflow.core.unittest
             builder.ForWorkflow(WorkflowType.Comment, StateType.UnderReview)
                 .Permit(TriggerType.Publish, StateType.Complete)
                 .Permit(TriggerType.Ignore, StateType.Rejected)
-                .OnEntry<Step1>(StepPriority.Highest);
-            builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
+                .OnEntry<Step1>(StepPriority.Highest)
                 .OnExit<Step1>(StepPriority.Lowest);
+            builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
+                .OnEntry<Step1>(StepPriority.Lowest);
             builder.ForWorkflow(WorkflowType.Comment, StateType.Rejected);
         }
     }
@@ -27,6 +28,48 @@ namespace metaworkflow.core.unittest
     [TestFixture]
     public class WorkflowModuleTests
     {
+
+        [Test]
+        public void verify_workflow_execution_through_entry_and_exit_phases()
+        {
+            var startingCount = Step1.ExecutionCount;
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MyWorkflowModule());
+
+            var container = builder.Build();
+
+            var stateMachine =
+                container.Resolve
+                    <Func<WorkflowType, StateType, IMetaStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
+
+            var machine = stateMachine(WorkflowType.Comment, StateType.UnderReview);
+            machine.Fire(TriggerType.Publish, new TriggerContext { DocumentId = 5 });
+
+            Assert.That(machine.State, Is.EqualTo(StateType.Complete));
+            Assert.That(Step1.ExecutionCount - startingCount, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void verify_workflow_execution_through_entry()
+        {
+            var startingCount = Step1.ExecutionCount;
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MyWorkflowModule());
+
+            var container = builder.Build();
+
+            var stateMachine =
+                container.Resolve
+                    <Func<WorkflowType, StateType, IMetaStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
+
+            var machine = stateMachine(WorkflowType.Comment, StateType.New);
+            machine.Fire(TriggerType.Submit, new TriggerContext { DocumentId = 5 });
+
+            Assert.That(machine.State, Is.EqualTo(StateType.UnderReview));
+            Assert.That(Step1.ExecutionCount - startingCount, Is.EqualTo(1));
+        }
+
+
         [Test]
         public void verify_workflow_step_declaration_registrations()
         {
@@ -58,5 +101,8 @@ namespace metaworkflow.core.unittest
             Assert.That(set.First().Metadata.StateActionInfos, Is.Not.Null);
             Assert.That(set.First().Metadata.StateActionInfos.Count(), Is.EqualTo(2));
         }
+
+
+        
     }
 }

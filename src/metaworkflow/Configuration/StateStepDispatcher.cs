@@ -24,17 +24,20 @@ namespace metaworkflow.core.Configuration
                                        WorkflowStepActionType workflowStepActionType)
         {
             var items = (from p in _stateSteps
-                        from q in p.Metadata.StateActionInfos
-                        where
-                            q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
-                            q.WorkflowStepActionType == workflowStepActionType
-                        orderby q.Priority descending
-                        select p.Value);
+                         from q in p.Metadata.StateActionInfos
+                         where
+                             (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
+                             q.WorkflowStepActionType == workflowStepActionType)
+                         orderby q.Priority descending
+                         select p.Value);
+
+            if (!items.Any())
+                return;
+
 
             var triggerTrip = new TriggerTrip<TTrigger, TTriggerContext>();
-
-
-            var stateStepInfo = new StateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext, transition,
+            var stateStepInfo = new StateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext, 
+                                                                                     transition,
                                                                                      triggerTrip);
             foreach(var item in items)
             {
@@ -46,7 +49,6 @@ namespace metaworkflow.core.Configuration
                 stateMachine.Fire(triggerTrip.Trigger, triggerTrip.TriggerContext);
                 break;
             }
-
         }
     }
 }

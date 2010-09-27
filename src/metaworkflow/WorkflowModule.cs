@@ -43,13 +43,16 @@ namespace metaworkflow.core
 
             builder.RegisterAdapter
                 <WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,
-                    WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>(
-                        (ctx, c) =>
-                        ctx.Resolve<Func<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>>()(c));
+                    WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>((ctx, c)=> new WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>(c, ctx.Resolve<IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>()));
 
             builder.RegisterType<StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>().As
                 <IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>();
 
+            builder.RegisterType<StateMachineConfigurator<TWorkflow, TState, TTrigger, TTriggerContext>>()
+                .As<IStateMachineConfigurator<TWorkflow, TState, TTrigger, TTriggerContext>>().SingleInstance();
+
+            builder.RegisterType<MetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>().As
+                <IMetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>();
 
             var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
                               group p by p.StateStepType

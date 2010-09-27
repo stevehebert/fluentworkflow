@@ -15,6 +15,12 @@ namespace metaworkflow.core.Configuration
         private readonly IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext> _stateStepDispatcher;
 
         /// <summary>
+        /// Gets the target workflow.
+        /// </summary>
+        /// <value>The target workflow.</value>
+        public TWorkflow Workflow { get { return _workflowStepDeclaration.Workflow; } }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WorkflowStepAdapter&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;"/> class.
         /// </summary>
         /// <param name="workflowStepDeclaration">The workflow step declaration.</param>

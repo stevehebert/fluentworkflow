@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using metaworkflow.core.Configuration;
 using Stateless;
 
 namespace metaworkflow.core
@@ -8,16 +9,19 @@ namespace metaworkflow.core
     public class MetaStateEngine <TWorkflow, TState, TTrigger, TTriggerContext> : IMetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>
     {
         private readonly StateMachine<TState, TTrigger> _stateMachine;
+        
+        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MetaStateEngine&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;"/> class.
         /// </summary>
         /// <param name="workflow">The workflow.</param>
         /// <param name="state">The state</param>
-        public MetaStateEngine(TWorkflow workflow, TState state)
+        /// <param name="stateMachineConfigurator">component responible for pulling together configuration of the state machine</param>
+        public MetaStateEngine(TWorkflow workflow, TState state, IStateMachineConfigurator<TWorkflow,TState,TTrigger,TTriggerContext> stateMachineConfigurator )
         {
             Workflow = workflow;
-            _stateMachine = new StateMachine<TState, TTrigger>(state);
+            _stateMachine = stateMachineConfigurator.CreateStateMachine(workflow, state);
         }
 
         /// <summary>
@@ -27,7 +31,7 @@ namespace metaworkflow.core
         /// <param name="triggerContext">The trigger context.</param>
         public void  Fire(TTrigger stateTrigger, TTriggerContext triggerContext)
         {
- 	        throw new NotImplementedException();
+ 	        _stateMachine.Fire(stateTrigger, triggerContext);
         }
 
         /// <summary>
