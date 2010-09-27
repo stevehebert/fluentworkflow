@@ -44,9 +44,10 @@ namespace metaworkflow.core.Builder
         /// </summary>
         /// <param name="trigger">The trigger.</param>
         /// <param name="destinationState">State of the destination.</param>
-        public void Permit(TTrigger trigger, TState destinationState)
+        public StateStepConfiguration<TState, TTrigger, TTriggerContext> Permit(TTrigger trigger, TState destinationState)
         {
             _permittedTriggers.Add(trigger, destinationState);
+            return this;
         }
 
         /// <summary>
@@ -54,9 +55,10 @@ namespace metaworkflow.core.Builder
         /// </summary>
         /// <typeparam name="TStateStep">The type of the state step.</typeparam>
         /// <param name="stepPriority">The step priority.</param>
-        public void OnEntry<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
+        public StateStepConfiguration<TState, TTrigger, TTriggerContext> OnEntry<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
         {
             _stateStepInfoList.Add(new StateStepMetadata(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Entry));
+            return this;
         }
 
         /// <summary>
@@ -64,9 +66,10 @@ namespace metaworkflow.core.Builder
         /// </summary>
         /// <typeparam name="TStateStep">The type of the state step.</typeparam>
         /// <param name="stepPriority">The step priority.</param>
-        public void OnExit<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
+        public StateStepConfiguration<TState, TTrigger, TTriggerContext> OnExit<TStateStep>(StepPriority stepPriority) where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
         {
             _stateStepInfoList.Add(new StateStepMetadata(typeof(TStateStep), (int)stepPriority, WorkflowStepActionType.Exit));
+            return this;
         }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="enums\WorkflowType.cs" />
     <Compile Include="MetaStateEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowModuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\metaworkflow\metaworkflow.core.csproj">

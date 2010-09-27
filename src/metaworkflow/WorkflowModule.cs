@@ -12,6 +12,14 @@ namespace metaworkflow.core
             var workflowBuilder = new WorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext>();
 
             Configure(workflowBuilder);
+
+            var items = workflowBuilder.ProduceStepDeclarations();
+
+            foreach (var item in items)
+            {
+                var localItem = item;
+                builder.Register(c => localItem);
+            }
         }
     }
 }

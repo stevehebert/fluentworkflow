@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using metaworkflow.core.Configuration;
 
 namespace metaworkflow.core.Builder
 {
@@ -22,8 +25,17 @@ namespace metaworkflow.core.Builder
     /// <typeparam name="TTriggerContext">The type of the trigger context.</typeparam>
     public class WorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext> : IWorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext>
     {
-        private readonly IDictionary<TWorkflow, StateStepConfiguration<TState, TTrigger, TTriggerContext>> _workflowConfiguration =
-            new Dictionary<TWorkflow, StateStepConfiguration<TState, TTrigger, TTriggerContext>>();
+        private readonly IDictionary<TWorkflow, IList<StateStepConfiguration<TState, TTrigger, TTriggerContext>>> _workflowConfiguration =
+            new Dictionary<TWorkflow, IList<StateStepConfiguration<TState, TTrigger, TTriggerContext>>>();
+
+        internal IEnumerable<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>> ProduceStepDeclarations()
+        {
+            return from p in _workflowConfiguration
+                   from q in p.Value
+                        select
+                            new WorkflowStepDeclaration<TWorkflow, TState, TTrigger>(p.Key, q.State,
+                                                                                     q.PermittedTriggers);
+        }
 
         /// <summary>
         /// declare a workflow state configuration
@@ -33,15 +45,16 @@ namespace metaworkflow.core.Builder
         /// <returns></returns>
         public StateStepConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state)
         {
-            StateStepConfiguration<TState, TTrigger, TTriggerContext> stateStepConfiguration = null;
+            IList<StateStepConfiguration<TState, TTrigger, TTriggerContext>> stateStepConfigurationList = null;
 
-            if (!_workflowConfiguration.TryGetValue(workflow, out stateStepConfiguration))
+            if (!_workflowConfiguration.TryGetValue(workflow, out stateStepConfigurationList))
             {
-                stateStepConfiguration = new StateStepConfiguration<TState, TTrigger, TTriggerContext>(state);
-                _workflowConfiguration.Add(workflow, stateStepConfiguration);
+                stateStepConfigurationList = new List<StateStepConfiguration<TState, TTrigger, TTriggerContext>>();
+                _workflowConfiguration.Add(workflow, stateStepConfigurationList);
             }
-
-            return stateStepConfiguration;
+            var configuration = new StateStepConfiguration<TState, TTrigger, TTriggerContext>(state);
+            stateStepConfigurationList.Add(configuration);
+            return configuration;
         }
     }
 }

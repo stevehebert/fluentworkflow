@@ -53,6 +53,11 @@
     <Compile Include="Builder\StateStepMetadata.cs" />
     <Compile Include="Builder\TriggerTrip.cs" />
     <Compile Include="Builder\WorkflowBuilder.cs" />
+    <Compile Include="Configuration\IStateActionMetadata.cs" />
+    <Compile Include="Configuration\StateActionInfo.cs" />
+    <Compile Include="Configuration\StateActionMetadata.cs" />
+    <Compile Include="Configuration\StateTriggerAction.cs" />
+    <Compile Include="Configuration\WorkflowStepDeclaration.cs" />
     <Compile Include="Enforce.cs" />
     <Compile Include="IStateStep.cs" />
     <Compile Include="StepPriority.cs" />
