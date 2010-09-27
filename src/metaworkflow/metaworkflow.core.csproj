@@ -49,14 +49,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder\TransitionInfo.cs" />
+    <Compile Include="IStateStep.cs" />
+    <Compile Include="TransitionInfo.cs" />
     <Compile Include="IMetaStateEngine.cs" />
     <Compile Include="MetaStateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateStepInfo.cs" />
     <Compile Include="WorkflowBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MetaStateEngine.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Builder\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

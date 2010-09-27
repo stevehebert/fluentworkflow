@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using metaworkflow.core.Builder;
+using metaworkflow.core;
 using Stateless;
 
 namespace metaworkflow.core
@@ -25,31 +25,7 @@ namespace metaworkflow.core
         }
     }
 
-    public class StateStepInfo<TState, TTrigger, TTriggerContext>
-    {
-        public TTriggerContext Context { get; private set; }
 
-        public void Fire(TTrigger trigger, TTriggerContext triggerContext)
-        {
-        }
-
-        public void Fire(TTrigger trigger)
-        {}
-
-        public TransitionInfo<TState, TTrigger> TransitionInfo { get; private set; }
-
-        public StateStepInfo(TTriggerContext triggerContext, StateMachine<TState, TTrigger>.Transition transition)
-        {
-            Context = triggerContext;
-
-            TransitionInfo = new TransitionInfo<TState, TTrigger>(transition);
-        }
-    }
-
-    public interface IStateStep<TState, TTrigger, TTriggerContext>
-    {
-        void Execute(StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo);
-    }
 
     public enum WorkflowStepActionType
     {

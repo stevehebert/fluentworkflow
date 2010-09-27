@@ -1,6 +1,6 @@
 ﻿using Stateless;
 
-namespace metaworkflow.core.Builder
+namespace metaworkflow.core
 {
     public class TransitionInfo<TState, TTrigger>
     {

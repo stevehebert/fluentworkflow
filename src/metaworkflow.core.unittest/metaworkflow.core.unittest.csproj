@@ -56,7 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder\TransitionInfoTests.cs" />
+    <Compile Include="TransitionInfoTests.cs" />
     <Compile Include="enums\StateType.cs" />
     <Compile Include="enums\TriggerContext.cs" />
     <Compile Include="enums\TriggerType.cs" />
@@ -69,6 +69,9 @@
       <Project>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</Project>
       <Name>metaworkflow.core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Builder\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

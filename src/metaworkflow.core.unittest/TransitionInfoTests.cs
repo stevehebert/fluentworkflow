@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Stateless;
 
-namespace metaworkflow.core.unittest.Builder
+namespace metaworkflow.core.unittest
 {
     [TestFixture]
     public class TransitionInfoTests
