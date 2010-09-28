@@ -26,8 +26,8 @@ namespace metaworkflow.core
         /// state can be held by the object for interaction during the execute
         /// phase.
         /// </summary>
-        /// <param name="triggerHandler">The trigger trip.</param>
-        void PreExecute(ITriggerHandler<TTrigger, TTriggerContext> triggerHandler);
+        /// <param name="flowMutator">The trigger trip.</param>
+        void PreExecute(IFlowMutator<TTrigger, TTriggerContext> flowMutator);
     }
 
 }

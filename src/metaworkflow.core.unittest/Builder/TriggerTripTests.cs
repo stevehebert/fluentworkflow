@@ -11,7 +11,7 @@ namespace metaworkflow.core.unittest.Builder
         [Test]
         public void verify_unset_indicator()
         {
-            var item = new TriggerHandler<TriggerType, TriggerContext>();
+            var item = new FlowMutator<TriggerType, TriggerContext>(new TriggerContext());
 
             Assert.That(item.IsSet, Is.False);
         }
@@ -19,7 +19,7 @@ namespace metaworkflow.core.unittest.Builder
         [Test]
         public void verify_set_indicator()
         {
-            var item = new TriggerHandler<TriggerType, TriggerContext>();
+            var item = new FlowMutator<TriggerType, TriggerContext>(new TriggerContext());
 
             item.SetTrigger(TriggerType.Publish, new TriggerContext());
 
@@ -29,7 +29,7 @@ namespace metaworkflow.core.unittest.Builder
         [Test]
         public void verify_inability_to_double_set_the_trigger_trip()
         {
-            var item = new TriggerHandler<TriggerType, TriggerContext>();
+            var item = new FlowMutator<TriggerType, TriggerContext>(new TriggerContext());
 
             item.SetTrigger(TriggerType.Publish, new TriggerContext());
             Assert.Throws<InvalidOperationException>(() => item.SetTrigger(TriggerType.Ignore, new TriggerContext()));
@@ -38,7 +38,7 @@ namespace metaworkflow.core.unittest.Builder
         [Test]
         public void verify_data_flowthrough()
         {
-            var item = new TriggerHandler<TriggerType, TriggerContext>();
+            var item = new FlowMutator<TriggerType, TriggerContext>(new TriggerContext());
 
             item.SetTrigger(TriggerType.Publish, new TriggerContext {DocumentId =42});
 

@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using metaworkflow.core.Builder;
 using metaworkflow.core.Configuration;
 using metaworkflow.core.unittest.enums;
-using Moq;
 using NUnit.Framework;
 using Stateless;
 
 namespace metaworkflow.core.unittest.Configuration
 {
-    public class SimpleMockStep : IStateStep<StateType, TriggerType, TriggerContext>
+    public class SimpleMockStep : IActionableStateStep<StateType, TriggerType, TriggerContext>
     {
+        private IFlowMutator<TriggerType, TriggerContext> _flowMutator; 
         public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
         {
-            stateStepInfo.Fire(TriggerType.Publish);
+            _flowMutator.SetTrigger(TriggerType.Publish);
+        }
+
+        public void PreExecute(IFlowMutator<TriggerType, TriggerContext> flowMutator)
+        {
+            _flowMutator = flowMutator;
         }
     }
     

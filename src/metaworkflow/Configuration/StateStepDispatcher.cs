@@ -34,18 +34,23 @@ namespace metaworkflow.core.Configuration
             if (!items.Any())
                 return;
 
-            var triggerTrip = new TriggerHandler<TTrigger, TTriggerContext>();
+            var flowMutator = new FlowMutator<TTrigger, TTriggerContext>(triggerContext);
             var stateStepInfo = new StateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext, 
-                                                                                     transition,
-                                                                                     triggerTrip);
+                                                                                     transition);
+            
             foreach(var item in items)
             {
+                var actionableItem = item as IActionableStateStep<TState, TTrigger, TTriggerContext>;
+
+                if(actionableItem != null)
+                    actionableItem.PreExecute(flowMutator);
+
                 item.Execute(stateStepInfo);
 
-                if (!triggerTrip.IsSet)
+                if (!flowMutator.IsSet)
                     continue;
 
-                stateMachine.Fire(triggerTrip.Trigger, triggerTrip.TriggerContext);
+                stateMachine.Fire(flowMutator.Trigger, flowMutator.TriggerContext);
                 break;
             }
         }
