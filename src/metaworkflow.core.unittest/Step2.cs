@@ -7,7 +7,6 @@ namespace metaworkflow.core.unittest
     {
         public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
         {
-            throw new NotImplementedException();
         }
     }
 }

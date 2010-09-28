@@ -9,6 +9,15 @@ using NUnit.Framework;
 
 namespace metaworkflow.core.unittest
 {
+    public class MySimpleWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
+    {
+
+        public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
+        {
+            builder.ForWorkflow(WorkflowType.Comment, StateType.New);
+        }
+    }
+
     public class MyWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
     {
         public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
@@ -104,6 +113,24 @@ namespace metaworkflow.core.unittest
             Assert.That(set.Count(), Is.EqualTo(1));
             Assert.That(set.First().Metadata.StateActionInfos, Is.Not.Null);
             Assert.That(set.First().Metadata.StateActionInfos.Count(), Is.EqualTo(3));
+        }
+
+        [Test]
+        public void verify_workflow_wireup_without_step_declarations()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MySimpleWorkflowModule());
+
+            var container = builder.Build();
+
+            var set =
+                container.Resolve
+                    <IEnumerable<Lazy
+                                    <IStateStep<StateType, TriggerType, TriggerContext>,
+                                        IStateActionMetadata<WorkflowType, StateType>>>>();
+
+            Assert.That(set.Count(), Is.EqualTo(0));
+
         }
     }
 }

@@ -13,9 +13,11 @@ namespace metaworkflow.core.unittest
             var transition = new StateMachine<StateType, TriggerType>.Transition(StateType.Complete, StateType.Rejected,
                                                                                  TriggerType.Submit);
 
-            Assert.That(transition.Source, Is.EqualTo(StateType.Complete));
-            Assert.That(transition.Destination, Is.EqualTo(StateType.Rejected));
-            Assert.That(transition.Trigger, Is.EqualTo(TriggerType.Submit));
+            var transitionInfo = new TransitionInfo<StateType, TriggerType>(transition);
+
+            Assert.That(transitionInfo.SourceState, Is.EqualTo(StateType.Complete));
+            Assert.That(transitionInfo.TargetState, Is.EqualTo(StateType.Rejected));
+            Assert.That(transitionInfo.Trigger, Is.EqualTo(TriggerType.Submit));
         }
     }
 }

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Builder\StateStepConfigurationTests.cs" />
     <Compile Include="Builder\TriggerTripTests.cs" />
+    <Compile Include="Configuration\StateStepDispatcherTests.cs" />
     <Compile Include="StateStepInfoTests.cs" />
     <Compile Include="Step1.cs" />
     <Compile Include="Step2.cs" />

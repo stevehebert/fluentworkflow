@@ -63,7 +63,6 @@
     <Compile Include="Configuration\StateTriggerAction.cs" />
     <Compile Include="Configuration\WorkflowStepAdapter.cs" />
     <Compile Include="Configuration\WorkflowStepDeclaration.cs" />
-    <Compile Include="Enforce.cs" />
     <Compile Include="IStateStep.cs" />
     <Compile Include="StepPriority.cs" />
     <Compile Include="TransitionInfo.cs" />
