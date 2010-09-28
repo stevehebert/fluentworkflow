@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="Builder\StateStepConfiguration.cs" />
     <Compile Include="Builder\StateStepMetadata.cs" />
-    <Compile Include="Builder\TriggerTrip.cs" />
+    <Compile Include="Builder\TriggerHandler.cs" />
     <Compile Include="Builder\WorkflowBuilder.cs" />
     <Compile Include="Configuration\IStateActionMetadata.cs" />
     <Compile Include="Configuration\IStateStepDispatcher.cs" />
