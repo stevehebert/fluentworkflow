@@ -40,5 +40,13 @@ namespace metaworkflow.core.Builder
             Priority = priority;
             ActionType = actionType;
         }
+
+        private IList<Type> _dependencies = new List<Type>();
+        public IEnumerable<Type> Dependencies { get { return _dependencies; } }
+
+        public void AddDependency(Type type)
+        {
+            _dependencies.Add(type);
+        }
     }
 }

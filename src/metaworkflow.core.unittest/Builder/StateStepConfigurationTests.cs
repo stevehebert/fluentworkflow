@@ -26,22 +26,22 @@ namespace metaworkflow.core.unittest.Builder
         {
             var config = new StateStepConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
 
-            config.OnEntry<Step1>(StepPriority.Medium);
-            config.OnExit<Step2>(StepPriority.Highest);
+            config.OnEntry<Step1>();
+            config.OnExit<Step2>();
             
 
             Assert.That(config.State, Is.EqualTo(StateType.Rejected));
             Assert.That(
                 config.StateStepInfos.Where(
                     p =>
-                    p.ActionType == WorkflowStepActionType.Entry && p.Priority == (int) StepPriority.Medium &&
+                    p.ActionType == WorkflowStepActionType.Entry &&
                     p.StateStepType == typeof (Step1)).Count(), Is.EqualTo(1));
 
 
             Assert.That(
                 config.StateStepInfos.Where(
                     p =>
-                    p.ActionType == WorkflowStepActionType.Exit && p.Priority == (int)StepPriority.Highest &&
+                    p.ActionType == WorkflowStepActionType.Exit && 
                     p.StateStepType == typeof(Step2)).Count(), Is.EqualTo(1));
         }
     }

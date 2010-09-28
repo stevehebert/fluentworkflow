@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using AutofacContrib.Attributed;
+using metaworkflow.core.Analysis;
 using metaworkflow.core.Builder;
 using metaworkflow.core.Configuration;
 
@@ -35,7 +36,16 @@ namespace metaworkflow.core
 
             Configure(workflowBuilder);
 
-            foreach (var item in workflowBuilder.ProduceStepDeclarations())
+            var declarations = workflowBuilder.ProduceStepDeclarations();
+
+            var closureAnalyzer = new ClosureAnalyzer();
+
+            var errors = closureAnalyzer.ValidateStepDeclarationClosure(declarations);
+
+            if (errors.Any())
+                throw new ClosureAnalysisException<TWorkflow, TState, TTrigger>(errors);
+
+            foreach (var item in declarations)
             {
                 var localItem = item;
                 builder.Register(c => localItem);

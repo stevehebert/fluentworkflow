@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\ClosureAnalysisException.cs" />
+    <Compile Include="Analysis\ClosureAnalyzer.cs" />
+    <Compile Include="Analysis\StepDeclarationClosureError.cs" />
     <Compile Include="Builder\IFlowMutator.cs" />
     <Compile Include="Builder\StateStepConfiguration.cs" />
     <Compile Include="Builder\StateStepMetadata.cs" />

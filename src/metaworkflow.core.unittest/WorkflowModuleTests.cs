@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using metaworkflow.core.Analysis;
 using metaworkflow.core.Builder;
 using metaworkflow.core.Configuration;
 using metaworkflow.core.unittest.enums;
@@ -9,6 +10,18 @@ using NUnit.Framework;
 
 namespace metaworkflow.core.unittest
 {
+    public class InvalidClosureWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
+    {
+        public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
+        {
+            builder.ForWorkflow(WorkflowType.Comment, StateType.New)
+                      .Permit(TriggerType.Publish, StateType.UnderReview);
+
+            builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
+                .Permit(TriggerType.Ignore, StateType.New);
+        }
+    }
+
     public class MySimpleWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
     {
 
@@ -28,11 +41,11 @@ namespace metaworkflow.core.unittest
             builder.ForWorkflow(WorkflowType.Comment, StateType.UnderReview)
                 .Permit(TriggerType.Publish, StateType.Complete)
                 .Permit(TriggerType.Ignore, StateType.Rejected)
-                .OnEntry<Step1>(StepPriority.Highest)
-                .OnExit<Step1>(StepPriority.Lowest);
+                .OnEntry<Step1>()
+                .OnExit<Step1>();
 
             builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
-                .OnEntry<Step1>(StepPriority.Lowest);
+                .OnEntry<Step1>();
 
             builder.ForWorkflow(WorkflowType.Comment, StateType.Rejected);
         }
@@ -130,7 +143,24 @@ namespace metaworkflow.core.unittest
                                         IStateActionMetadata<WorkflowType, StateType>>>>();
 
             Assert.That(set.Count(), Is.EqualTo(0));
+        }
 
+        [Test]
+        public void verify_invalid_closure_model()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new InvalidClosureWorkflowModule());
+
+            var exception = Assert.Throws<ClosureAnalysisException<WorkflowType, StateType, TriggerType>>(() => builder.Build());
+
+            Assert.That(exception.ClosureErrors.Count(), Is.EqualTo(1));
+
+            var item = exception.ClosureErrors.First();
+
+            Assert.That(item.Workflow, Is.EqualTo(WorkflowType.Comment));
+            Assert.That(item.DestinationState, Is.EqualTo(StateType.UnderReview));
+            Assert.That(item.DeclaringTrigger, Is.EqualTo(TriggerType.Publish));
+            Assert.That(item.DeclaringState, Is.EqualTo(StateType.New));
         }
     }
 }
