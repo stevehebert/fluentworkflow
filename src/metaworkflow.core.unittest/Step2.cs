@@ -1,5 +1,4 @@
-﻿using System;
-using metaworkflow.core.unittest.enums;
+﻿using metaworkflow.core.unittest.enums;
 
 namespace metaworkflow.core.unittest
 {
