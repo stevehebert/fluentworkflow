@@ -11,7 +11,7 @@ namespace metaworkflow.core.unittest
         [Test]
         public void set_trigger_execution_with_existing_context()
         {
-            var triggerTrip = new TriggerTrip
+            var triggerTrip = new TriggerHandler
                 <TriggerType,
                     TriggerContext>();
 
@@ -30,7 +30,7 @@ namespace metaworkflow.core.unittest
         [Test]
         public void set_trigger_execution_with_new_context()
         {
-            var triggerTrip = new TriggerTrip<TriggerType,TriggerContext>();
+            var triggerTrip = new TriggerHandler<TriggerType,TriggerContext>();
 
             var transition = new StateMachine<StateType, TriggerType>.Transition(StateType.New, StateType.UnderReview,
                                                                                  TriggerType.Ignore);
@@ -46,7 +46,7 @@ namespace metaworkflow.core.unittest
         [Test]
         public void verify_context_passthrough()
         {
-            var triggerTrip = new TriggerTrip<TriggerType, TriggerContext>();
+            var triggerTrip = new TriggerHandler<TriggerType, TriggerContext>();
 
             var transition = new StateMachine<StateType, TriggerType>.Transition(StateType.New, StateType.UnderReview,
                                                                                  TriggerType.Ignore);
@@ -59,7 +59,7 @@ namespace metaworkflow.core.unittest
         [Test]
         public void verify_transition_passthrough()
         {
-            var triggerTrip = new TriggerTrip<TriggerType, TriggerContext>();
+            var triggerTrip = new TriggerHandler<TriggerType, TriggerContext>();
 
             var transition = new StateMachine<StateType, TriggerType>.Transition(StateType.New, StateType.UnderReview,
                                                                                  TriggerType.Ignore);

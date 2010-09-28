@@ -1,4 +1,6 @@
 ﻿
+using metaworkflow.core.Builder;
+
 namespace metaworkflow.core
 {
     /// <summary>
@@ -15,6 +17,17 @@ namespace metaworkflow.core
         /// </summary>
         /// <param name="stateStepInfo">The state step info.</param>
         void Execute(StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo);
+    }
+
+    public interface IActionableStateStep<TState, TTrigger, TTriggerContext> : IStateStep<TState, TTrigger, TTriggerContext>
+    {
+        /// <summary>
+        /// provides state to the step prior to calling the execute method. provided
+        /// state can be held by the object for interaction during the execute
+        /// phase.
+        /// </summary>
+        /// <param name="triggerHandler">The trigger trip.</param>
+        void PreExecute(ITriggerHandler<TTrigger, TTriggerContext> triggerHandler);
     }
 
 }

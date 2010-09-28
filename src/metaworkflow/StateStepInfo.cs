@@ -26,7 +26,7 @@ namespace metaworkflow.core
         /// <exception cref="InvalidOperationException">thrown when a trigger has previously been set</exception>
         public void Fire(TTrigger trigger, TTriggerContext triggerContext)
         {
-            _triggerTrip.SetTrigger(trigger, triggerContext);
+            _triggerHandler.SetTrigger(trigger, triggerContext);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace metaworkflow.core
         /// <exception cref="InvalidOperationException">thrown when a trigger has previously been set</exception>
         public void Fire(TTrigger trigger)
         {
-            _triggerTrip.SetTrigger(trigger, Context);
+            _triggerHandler.SetTrigger(trigger, Context);
         }
 
         /// <summary>
@@ -45,20 +45,20 @@ namespace metaworkflow.core
         /// <value>The transition info.</value>
         public TransitionInfo<TState, TTrigger> TransitionInfo { get; private set; }
 
-        private readonly TriggerTrip<TTrigger, TTriggerContext> _triggerTrip;
+        private readonly TriggerHandler<TTrigger, TTriggerContext> _triggerHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateStepInfo&lt;TState, TTrigger, TTriggerContext&gt;"/> class.
         /// </summary>
         /// <param name="triggerContext">The trigger context.</param>
         /// <param name="transition">The transition information from the state machine.</param>
-        /// <param name="triggerTrip">The trigger trip.</param>
+        /// <param name="triggerHandler">The trigger trip.</param>
         public StateStepInfo(TTriggerContext triggerContext, 
                              StateMachine<TState, TTrigger>.Transition transition, 
-                             TriggerTrip<TTrigger, TTriggerContext> triggerTrip)
+                             TriggerHandler<TTrigger, TTriggerContext> triggerHandler)
         {
             Context = triggerContext;
-            _triggerTrip = triggerTrip;
+            _triggerHandler = triggerHandler;
 
             TransitionInfo = new TransitionInfo<TState, TTrigger>(transition);
         }
