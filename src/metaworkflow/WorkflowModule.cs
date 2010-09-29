@@ -83,7 +83,7 @@ namespace metaworkflow.core
 
                 foreach (var item in data)
                     metadata.Add(new StateActionInfo<TWorkflow, TState>(item.Workflow, item.State, item.ActionType,
-                                                                        item.Priority));
+                                                                        item.Priority, item.Dependency));
 
 
                 metadataModule.Add(type, metadata);

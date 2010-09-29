@@ -1,4 +1,6 @@
-﻿namespace metaworkflow.core.Configuration
+﻿using System;
+
+namespace metaworkflow.core.Configuration
 {
     public class StateActionInfo<TWorkflow, TState>
     {
@@ -24,7 +26,9 @@
         /// Gets the priority.
         /// </summary>
         /// <value>The priority.</value>
-        public int Priority { get; private set; }
+        public int Priority { get; set; }
+
+        public Type Dependency { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateActionInfo&lt;TWorkflow, TState&gt;"/> class.
@@ -33,12 +37,14 @@
         /// <param name="state">The state.</param>
         /// <param name="workflowStepActionType">Type of the workflow step action.</param>
         /// <param name="stepPriority">execution priority of the step</param>
-        public StateActionInfo(TWorkflow workflow, TState state, WorkflowStepActionType workflowStepActionType, int stepPriority)
+        /// <param name="dependency">action dependency</param>
+        public StateActionInfo(TWorkflow workflow, TState state, WorkflowStepActionType workflowStepActionType, int stepPriority, Type dependency)
         {
             Workflow = workflow;
             State = state;
             WorkflowStepActionType = workflowStepActionType;
             Priority = stepPriority;
+            Dependency = dependency;
         }
     }
 }

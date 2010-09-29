@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace metaworkflow.core.Builder
 {
@@ -29,6 +27,24 @@ namespace metaworkflow.core.Builder
         public WorkflowStepActionType ActionType { get; private set; }
 
         /// <summary>
+        /// Gets the dependency.
+        /// </summary>
+        /// <value>The dependency.</value>
+        public Type Dependency { get; private set; }
+
+        /// <summary>
+        /// Sets the dependency.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        public void SetDependency(Type type)
+        {
+            if (Dependency != null)
+                throw new InvalidOperationException("dependency cannot be set twice");
+
+            Dependency = type;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="StateStepMetadata"/> class.
         /// </summary>
         /// <param name="stateStepType">Type of the state step.</param>
@@ -39,14 +55,6 @@ namespace metaworkflow.core.Builder
             StateStepType = stateStepType;
             Priority = priority;
             ActionType = actionType;
-        }
-
-        private IList<Type> _dependencies = new List<Type>();
-        public IEnumerable<Type> Dependencies { get { return _dependencies; } }
-
-        public void AddDependency(Type type)
-        {
-            _dependencies.Add(type);
         }
     }
 }

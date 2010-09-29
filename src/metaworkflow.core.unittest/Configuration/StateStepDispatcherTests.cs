@@ -33,7 +33,7 @@ namespace metaworkflow.core.unittest.Configuration
             metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment,
                                                                       StateType.New,
                                                                       WorkflowStepActionType.Entry,
-                                                                      5));
+                                                                      5, null));
 
             var dispatcher =
                 new StateStepDispatcher<WorkflowType, StateType, TriggerType, TriggerContext>(new[]

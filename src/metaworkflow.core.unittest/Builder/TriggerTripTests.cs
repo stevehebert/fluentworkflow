@@ -36,6 +36,16 @@ namespace metaworkflow.core.unittest.Builder
         }
 
         [Test]
+        public void verify_inability_to_double_set_the_trigger_trip_on_non_context_trigger()
+        {
+            var item = new FlowMutator<TriggerType, TriggerContext>(new TriggerContext());
+
+            item.SetTrigger(TriggerType.Publish, new TriggerContext());
+            Assert.Throws<InvalidOperationException>(() => item.SetTrigger(TriggerType.Ignore));
+        }
+
+
+        [Test]
         public void verify_data_flowthrough()
         {
             var item = new FlowMutator<TriggerType, TriggerContext>(new TriggerContext());

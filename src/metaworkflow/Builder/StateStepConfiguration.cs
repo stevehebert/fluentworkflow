@@ -13,7 +13,7 @@ namespace metaworkflow.core.Builder
 
         public StateStepConfiguration<TState, TTrigger, TTriggerContext> DependsOn<TType>()
         {
-            _stateStepMetadata.AddDependency(typeof (TType));
+            _stateStepMetadata.SetDependency(typeof (TType));
             return this;
         }
         
