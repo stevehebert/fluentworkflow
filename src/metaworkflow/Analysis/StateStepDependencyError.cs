@@ -4,7 +4,8 @@ namespace metaworkflow.core.Analysis
 {
     public enum StateDependencyErrorReason
     {
-        UnknownDependency
+        UnknownDependency,
+        SelfReferencingDependency
     }
 
     public class StateStepDependencyError<TWorkflow, TState>
