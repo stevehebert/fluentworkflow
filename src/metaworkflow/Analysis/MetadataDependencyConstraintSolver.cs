@@ -14,36 +14,39 @@ namespace metaworkflow.core.Analysis
             var targetWorkflows = from p in typeRegistrations
                                   from q in p.Value.StateActionInfos
                                   group q by q.Workflow
-                                  into g
-                                  select g.Key;
+                                      into g
+                                      select g.Key;
 
-            foreach( var workflow in targetWorkflows)
+            foreach (var workflow in targetWorkflows)
             {
                 var targetStates = from p in typeRegistrations.Values
                                    from q in p.StateActionInfos
                                    group q by q.State
-                                   into g
-                                   select g.Key;
+                                       into g
+                                       select g.Key;
 
-                foreach( var state in targetStates )
+                foreach (var state in targetStates)
                 {
                     var targetActionTypes = from p in typeRegistrations.Values
                                             from q in p.StateActionInfos
                                             group q by q.WorkflowStepActionType
-                                            into g
-                                            select g.Key;
+                                                into g
+                                                select g.Key;
 
                     foreach (var actionType in targetActionTypes)
+                    {
+                        TState state1 = state;
+                        TWorkflow workflow1 = workflow;
+                        WorkflowStepActionType type = actionType;
                         errorList.AddRange(Evaluate(from p in typeRegistrations
                                                     from q in p.Value.StateActionInfos
-                                                    where q.Workflow.Equals(workflow)
-                                                          && q.State.Equals(state)
-                                                          && q.WorkflowStepActionType == actionType
+                                                    where q.Workflow.Equals(workflow1)
+                                                          && q.State.Equals(state1)
+                                                          && q.WorkflowStepActionType == type
                                                     select
                                                         new KeyValuePair<Type, StateActionInfo<TWorkflow, TState>>(
                                                         p.Key, q)));
-
-                        
+                    }
                 }
             }
 
@@ -66,31 +69,63 @@ namespace metaworkflow.core.Analysis
                                                            StateDependencyErrorReason.SelfReferencingDependency
                                                    };
             if (selfReferencingErrors.Any())
-            {
-                foreach (var error in selfReferencingErrors)
-                    yield return error;
-
-                yield break;
-            }
+                return selfReferencingErrors;
 
 
             var dependencies = from p in actionSet where p.Value.Dependency != null select new {p.Value.Dependency, p.Key, p.Value.Workflow, p.Value.State};
             var hostTypes = from p in actionSet select p.Key;
 
-            var unmatchedDendencies = from p in dependencies
+            var unmatchedDepndencies = from p in dependencies
                                       where !hostTypes.Contains(p.Dependency)
-                                      select p;
+                                      select
+                                          new StateStepDependencyError<TWorkflow, TState>
+                                              {
+                                                  Workflow = p.Workflow,
+                                                  State = p.State,
+                                                  Dependency = p.Dependency,
+                                                  Step = p.Key,
+                                                  ErrorReason = StateDependencyErrorReason.UnknownDependency
+                                              };
 
+
+            if( unmatchedDepndencies.Any())
+                return unmatchedDepndencies;
             
-            foreach (var unmatched in unmatchedDendencies)
-                yield return
-                    new StateStepDependencyError<TWorkflow, TState>
-                        {
-                            Workflow = unmatched.Workflow,
-                            State = unmatched.State,
-                            Step = unmatched.Key,
-                            Dependency = unmatched.Dependency
-                        };
+
+            var i = 0;
+            var processedItems = 0;
+            var previouslyProcessedItems = -1;
+            do
+            {
+                var items = from p in actionSet
+                            join q in actionSet on p.Key equals q.Value.Dependency
+                            where p.Value.Priority >= i
+                            select q;
+
+                foreach (var item in items)
+                    item.Value.Priority = i+1;
+
+                processedItems = items.Count();
+
+                if (processedItems == previouslyProcessedItems)
+                    return from p in items
+                           select
+                               new StateStepDependencyError<TWorkflow, TState>
+                                   {
+                                       Step = p.Key,
+                                       Dependency = p.Value.Dependency,
+                                       State = p.Value.State,
+                                       Workflow = p.Value.Workflow,
+                                       ErrorReason = StateDependencyErrorReason.ParticipatesInCyclicalReference
+                                   };
+
+                previouslyProcessedItems = processedItems;
+
+                i++;
+            } while (processedItems > 0);
+
+            return new StateStepDependencyError<TWorkflow, TState>[0];
         }
+
     }
 }
