@@ -2,7 +2,7 @@
 
 namespace fluentworkflow.core
 {
-    public interface IMetaStateEngine<out TWorkflow, out TState, TTrigger, in TTriggerContext>
+    public interface IFluentStateEngine<out TWorkflow, out TState, TTrigger, in TTriggerContext>
     {
         /// <summary>
         /// Fires the specified pubs state trigger.

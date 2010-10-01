@@ -8,7 +8,7 @@ using Stateless;
 namespace fluentworkflow.core.unittest
 {
     [TestFixture]
-    public class MetaStateEngineTests
+    public class FluentStateEngineTests
     {
         [Test]
         public void verify_trigger_option_behavior()
@@ -20,7 +20,7 @@ namespace fluentworkflow.core.unittest
                 new StateMachine<StateType, TriggerType>(StateType.New));
 
 
-            var engine = new MetaStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>(WorkflowType.Comment,
+            var engine = new FluentStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>(WorkflowType.Comment,
                                                                                                  StateType.New, mockConfigurator.Object );
 
             var options = engine.GetTriggerOptions();

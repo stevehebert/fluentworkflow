@@ -9,9 +9,9 @@ using fluentworkflow.core.Configuration;
 
 namespace fluentworkflow.core
 {
-    public abstract class WorkflowModule<TWorkflow, TState, TTrigger, TTriggerContext> : Module
+    public abstract class FluentWorkflowModule<TWorkflow, TState, TTrigger, TTriggerContext> : Module
     {
-        internal class WorkflowMetadataModule : MetadataModule<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>
+        internal class FluentWorkflowMetadataModule : MetadataModule<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>
         {
             private readonly IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> _metadataValues =
                 new Dictionary<Type, IStateActionMetadata<TWorkflow, TState>>();
@@ -48,7 +48,7 @@ namespace fluentworkflow.core
             if (errors.Any())
                 throw new ClosureAnalysisException<TWorkflow, TState, TTrigger>(errors);
 
-            var metadataModule = new WorkflowMetadataModule();
+            var metadataModule = new FluentWorkflowMetadataModule();
 
             var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
                               group p by p.StateStepType
@@ -89,14 +89,14 @@ namespace fluentworkflow.core
                 <WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,
                     WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>((ctx, c)=> new WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>(c, ctx.Resolve<IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>()));
 
-            builder.RegisterType<StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>().As
-                <IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>();
+            builder.RegisterGeneric(typeof (StateStepDispatcher<,,,>)).As(typeof (IStateStepDispatcher<,,,>)).
+                InstancePerDependency();
 
-            builder.RegisterType<StateMachineConfigurator<TWorkflow, TState, TTrigger, TTriggerContext>>()
-                .As<IStateMachineConfigurator<TWorkflow, TState, TTrigger, TTriggerContext>>().SingleInstance();
-
-            builder.RegisterType<MetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>().As
-                <IMetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>();
+            builder.RegisterGeneric(typeof (StateMachineConfigurator<,,,>)).As(typeof (IStateMachineConfigurator<,,,>)).
+                SingleInstance();
+            //TODO
+            builder.RegisterType<FluentStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>().As
+                <IFluentStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>();
         }
     }
 }

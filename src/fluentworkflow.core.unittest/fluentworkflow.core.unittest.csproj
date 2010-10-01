@@ -69,7 +69,7 @@
     <Compile Include="enums\TriggerContext.cs" />
     <Compile Include="enums\TriggerType.cs" />
     <Compile Include="enums\WorkflowType.cs" />
-    <Compile Include="MetaStateEngineTests.cs" />
+    <Compile Include="FluentStateEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkflowModuleTests.cs" />
   </ItemGroup>

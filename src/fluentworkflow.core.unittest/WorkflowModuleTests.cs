@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace fluentworkflow.core.unittest
 {
-    public class InvalidClosureWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
+    public class InvalidClosureFluentWorkflowModule : FluentWorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
     {
         public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
         {
@@ -22,7 +22,7 @@ namespace fluentworkflow.core.unittest
         }
     }
 
-    public class MySimpleWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
+    public class MySimpleFluentWorkflowModule : FluentWorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
     {
 
         public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
@@ -31,7 +31,7 @@ namespace fluentworkflow.core.unittest
         }
     }
 
-    public class MyWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
+    public class MyFluentWorkflowModule : FluentWorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
     {
         public override void Configure(IWorkflowBuilder<WorkflowType, StateType, TriggerType, TriggerContext> builder)
         {
@@ -42,7 +42,9 @@ namespace fluentworkflow.core.unittest
                 .Permit(TriggerType.Publish, StateType.Complete)
                 .Permit(TriggerType.Ignore, StateType.Rejected)
                 .OnEntry<Step1>()
+                .OnEntry<Step2>().DependsOn<Step1>()
                 .OnExit<Step1>();
+
 
             builder.ForWorkflow(WorkflowType.Comment, StateType.Complete)
                 .OnEntry<Step1>();
@@ -60,13 +62,13 @@ namespace fluentworkflow.core.unittest
         {
             var startingCount = Step1.ExecutionCount;
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new MyWorkflowModule());
+            builder.RegisterModule(new MyFluentWorkflowModule());
 
             var container = builder.Build();
 
             var stateMachine =
                 container.Resolve
-                    <Func<WorkflowType, StateType, IMetaStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
+                    <Func<WorkflowType, StateType, IFluentStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
 
             var machine = stateMachine(WorkflowType.Comment, StateType.UnderReview);
             machine.Fire(TriggerType.Publish, new TriggerContext { DocumentId = 5 });
@@ -80,13 +82,13 @@ namespace fluentworkflow.core.unittest
         {
             var startingCount = Step1.ExecutionCount;
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new MyWorkflowModule());
+            builder.RegisterModule(new MyFluentWorkflowModule());
 
             var container = builder.Build();
 
             var stateMachine =
                 container.Resolve
-                    <Func<WorkflowType, StateType, IMetaStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
+                    <Func<WorkflowType, StateType, IFluentStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
 
             var machine = stateMachine(WorkflowType.Comment, StateType.New);
             machine.Fire(TriggerType.Submit, new TriggerContext { DocumentId = 5 });
@@ -100,7 +102,7 @@ namespace fluentworkflow.core.unittest
         public void verify_workflow_step_declaration_registrations()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new MyWorkflowModule());
+            builder.RegisterModule(new MyFluentWorkflowModule());
 
             var container = builder.Build();
 
@@ -116,23 +118,23 @@ namespace fluentworkflow.core.unittest
         public void verify_workflow_state_step_registrations()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new MyWorkflowModule());
+            builder.RegisterModule(new MyFluentWorkflowModule());
 
             var container = builder.Build();
 
             var set =
                 container.Resolve<IEnumerable<Lazy<IStateStep<StateType, TriggerType, TriggerContext>, IStateActionMetadata<WorkflowType, StateType>>>>();
 
-            Assert.That(set.Count(), Is.EqualTo(1));
+            Assert.That(set.Count(), Is.EqualTo(2));
             Assert.That(set.First().Metadata.StateActionInfos, Is.Not.Null);
-            Assert.That(set.First().Metadata.StateActionInfos.Count(), Is.EqualTo(3));
+            Assert.That(set.Where(p => p.Value.GetType() == typeof(Step1)).First().Metadata.StateActionInfos.Count(), Is.EqualTo(3));
         }
 
         [Test]
         public void verify_workflow_wireup_without_step_declarations()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new MySimpleWorkflowModule());
+            builder.RegisterModule(new MySimpleFluentWorkflowModule());
 
             var container = builder.Build();
 
@@ -149,7 +151,7 @@ namespace fluentworkflow.core.unittest
         public void verify_invalid_closure_model()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new InvalidClosureWorkflowModule());
+            builder.RegisterModule(new InvalidClosureFluentWorkflowModule());
 
             var exception = Assert.Throws<ClosureAnalysisException<WorkflowType, StateType, TriggerType>>(() => builder.Build());
 

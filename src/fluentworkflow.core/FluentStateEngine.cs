@@ -6,19 +6,19 @@ using Stateless;
 
 namespace fluentworkflow.core
 {
-    public class MetaStateEngine <TWorkflow, TState, TTrigger, TTriggerContext> : IMetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>
+    public class FluentStateEngine <TWorkflow, TState, TTrigger, TTriggerContext> : IFluentStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>
     {
         private readonly StateMachine<TState, TTrigger> _stateMachine;
         
         
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MetaStateEngine&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;"/> class.
+        /// Initializes a new instance of the <see cref="FluentStateEngine{TWorkflow,TState,TTrigger,TTriggerContext}"/> class.
         /// </summary>
         /// <param name="workflow">The workflow.</param>
         /// <param name="state">The state</param>
         /// <param name="stateMachineConfigurator">component responible for pulling together configuration of the state machine</param>
-        public MetaStateEngine(TWorkflow workflow, TState state, IStateMachineConfigurator<TWorkflow,TState,TTrigger,TTriggerContext> stateMachineConfigurator )
+        public FluentStateEngine(TWorkflow workflow, TState state, IStateMachineConfigurator<TWorkflow,TState,TTrigger,TTriggerContext> stateMachineConfigurator )
         {
             Workflow = workflow;
             _stateMachine = stateMachineConfigurator.CreateStateMachine(workflow, state);
