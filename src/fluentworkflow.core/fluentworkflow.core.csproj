@@ -53,6 +53,7 @@
     <Compile Include="Analysis\ClosureAnalysisException.cs" />
     <Compile Include="Analysis\ClosureAnalyzer.cs" />
     <Compile Include="Analysis\MetadataDependencyConstraintSolver.cs" />
+    <Compile Include="Analysis\StateStepDependencyException.cs" />
     <Compile Include="Analysis\StateStepDependencyError.cs" />
     <Compile Include="Analysis\StepDeclarationClosureError.cs" />
     <Compile Include="Builder\IFlowMutator.cs" />

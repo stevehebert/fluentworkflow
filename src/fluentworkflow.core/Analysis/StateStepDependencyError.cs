@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace fluentworkflow.core.Analysis
 {
@@ -40,5 +41,14 @@ namespace fluentworkflow.core.Analysis
         /// </summary>
         /// <value>The error reason.</value>
         public StateDependencyErrorReason ErrorReason { get; set; }
+
+        public override string ToString()
+        {
+            return
+                string.Format(CultureInfo.InvariantCulture,
+                    "Error: {0} - StepType: {1} on Workflow {2}, State {3} declares a dependency on type {4}",
+                    ErrorReason, Step.Name, Workflow, State, Dependency.Name);
+
+        }
     }
 }

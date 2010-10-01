@@ -23,6 +23,11 @@ namespace fluentworkflow.core
 
             public override void Register(IMetadataRegistrar<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>> registrar)
             {
+                var results = new MetadataDependencyConstraintSolver().Analyze(_metadataValues);
+
+                if (results.Any())
+                    throw new StateStepDependencyException<TWorkflow, TState>(results);
+
                 foreach (var value in _metadataValues)
                     RegisterType(value.Key, value.Value);
             }
@@ -30,7 +35,7 @@ namespace fluentworkflow.core
 
         public abstract void Configure(IWorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext> builder);
 
-        protected override void Load(ContainerBuilder builder)
+        protected sealed override void Load(ContainerBuilder builder)
         {
             var workflowBuilder = new WorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext>();
 
@@ -43,6 +48,36 @@ namespace fluentworkflow.core
             if (errors.Any())
                 throw new ClosureAnalysisException<TWorkflow, TState, TTrigger>(errors);
 
+            var metadataModule = new WorkflowMetadataModule();
+
+            var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
+                              group p by p.StateStepType
+                                  into g
+                                  select g.Key;
+
+            if (uniqueTypes.Any())
+            {
+
+                foreach (var type in uniqueTypes)
+                {
+                    var localType = type;
+                    var metadata = new StateActionMetadata<TWorkflow, TState>();
+
+                    var data = from p in workflowBuilder.ProduceTypeRoles()
+                               where p.StateStepType == localType
+                               select p;
+
+                    foreach (var item in data)
+                        metadata.Add(new StateActionInfo<TWorkflow, TState>(item.Workflow, item.State, item.ActionType,
+                                                                            item.Priority, item.Dependency));
+
+
+                    metadataModule.Add(type, metadata);
+                }
+
+
+                builder.RegisterModule(metadataModule);
+            }
 
             foreach (var item in declarations)
             {
@@ -62,34 +97,6 @@ namespace fluentworkflow.core
 
             builder.RegisterType<MetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>().As
                 <IMetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>>();
-
-            var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
-                              group p by p.StateStepType
-                              into g select g.Key;
-
-            if (!uniqueTypes.Any()) return;
-
-            var metadataModule = new WorkflowMetadataModule();
-
-            foreach (var type in uniqueTypes)
-            {
-                var localType = type;
-                var metadata = new StateActionMetadata<TWorkflow, TState>();
-
-                var data = from p in workflowBuilder.ProduceTypeRoles()
-                           where p.StateStepType == localType
-                           select p;
-
-                foreach (var item in data)
-                    metadata.Add(new StateActionInfo<TWorkflow, TState>(item.Workflow, item.State, item.ActionType,
-                                                                        item.Priority, item.Dependency));
-
-
-                metadataModule.Add(type, metadata);
-            }
-
-            builder.RegisterModule(metadataModule);
-            
         }
     }
 }
