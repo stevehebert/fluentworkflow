@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace metaworkflow.core.Builder
+namespace fluentworkflow.core.Builder
 {
     /// <summary>
     /// State Step info used for metadata composition

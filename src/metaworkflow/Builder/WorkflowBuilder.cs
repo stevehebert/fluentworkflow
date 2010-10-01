@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using metaworkflow.core.Configuration;
+using fluentworkflow.core.Configuration;
 
-namespace metaworkflow.core.Builder
+namespace fluentworkflow.core.Builder
 {
     public interface IWorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext>
     {

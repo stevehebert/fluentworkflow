@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using AutofacContrib.Attributed;
-using metaworkflow.core.Analysis;
-using metaworkflow.core.Builder;
-using metaworkflow.core.Configuration;
+using fluentworkflow.core.Analysis;
+using fluentworkflow.core.Builder;
+using fluentworkflow.core.Configuration;
 
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     public abstract class WorkflowModule<TWorkflow, TState, TTrigger, TTriggerContext> : Module
     {
@@ -38,12 +38,11 @@ namespace metaworkflow.core
 
             var declarations = workflowBuilder.ProduceStepDeclarations();
 
-            var closureAnalyzer = new ClosureAnalyzer();
-
-            var errors = closureAnalyzer.ValidateStepDeclarationClosure(declarations);
+            var errors = new ClosureAnalyzer().ValidateStepDeclarationClosure(declarations);
 
             if (errors.Any())
                 throw new ClosureAnalysisException<TWorkflow, TState, TTrigger>(errors);
+
 
             foreach (var item in declarations)
             {

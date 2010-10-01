@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using metaworkflow.core.Analysis;
-using metaworkflow.core.Configuration;
-using metaworkflow.core.unittest.enums;
+using fluentworkflow.core.Analysis;
+using fluentworkflow.core.Configuration;
+using fluentworkflow.core.unittest.enums;
 using NUnit.Framework;
 
-namespace metaworkflow.core.unittest.Analysis
+namespace fluentworkflow.core.unittest.Analysis
 {
         public static class Extensions
         {
@@ -271,7 +271,7 @@ namespace metaworkflow.core.unittest.Analysis
         }
 
         [Test]
-        public void verify_behavior_of_large_dependency_tree()
+        public void verify_behavior_of_large_cyclical_dependency_tree()
         {
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
@@ -289,11 +289,22 @@ namespace metaworkflow.core.unittest.Analysis
             Assert.That((from p in results where p.Step == typeof(TestStep3) select p).First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
             Assert.That((from p in results where p.Step == typeof(TestStep4) select p).First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
             Assert.That((from p in results where p.Step == typeof(TestStep5) select p).First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
-
-
         }
 
+        [Test]
+        public void verify_behavior_of_small_cyclical_dependency_tree()
+        {
+            var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
+            typeRegistrations.Add(CreateInterdependentSteps<TestStep1, TestStep2>());
+            typeRegistrations.Add(CreateInterdependentSteps<TestStep2, TestStep1>());
+
+            var results = new MetadataDependencyConstraintSolver().Analyze(typeRegistrations);
+
+            Assert.That(results.Count(), Is.EqualTo(2));
+            Assert.That((from p in results where p.Step == typeof(TestStep1) select p).First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
+            Assert.That((from p in results where p.Step == typeof(TestStep2) select p).First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
+        }
 
         [Test]
         public void verify_mismatched_dependency_in_midst_of_good_dependencies_in_other_workflows()

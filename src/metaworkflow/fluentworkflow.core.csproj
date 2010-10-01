@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{639E403F-9927-4A8C-AB33-0994443AFD90}</ProjectGuid>
+    <ProjectGuid>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>metaworkflow.core.unittest</RootNamespace>
-    <AssemblyName>metaworkflow.core.unittest</AssemblyName>
+    <RootNamespace>fluentworkflow.core</RootNamespace>
+    <AssemblyName>fluentworkflow.core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -37,14 +37,7 @@
     <Reference Include="AutofacContrib.Attributed">
       <HintPath>..\..\lib\autofac\AutofacContrib.Attributed.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\..\lib\moq\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\lib\nunit\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Stateless, Version=2.2.1.1, Culture=neutral, PublicKeyToken=93038f0927583c9a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Stateless">
       <HintPath>..\..\lib\stateless\Stateless.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -57,27 +50,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\MetadataDependencyConstraintSolverTests.cs" />
-    <Compile Include="Builder\StateStepConfigurationTests.cs" />
-    <Compile Include="Builder\TriggerTripTests.cs" />
-    <Compile Include="Configuration\StateStepDispatcherTests.cs" />
-    <Compile Include="StateStepInfoTests.cs" />
-    <Compile Include="Step1.cs" />
-    <Compile Include="Step2.cs" />
-    <Compile Include="TransitionInfoTests.cs" />
-    <Compile Include="enums\StateType.cs" />
-    <Compile Include="enums\TriggerContext.cs" />
-    <Compile Include="enums\TriggerType.cs" />
-    <Compile Include="enums\WorkflowType.cs" />
-    <Compile Include="MetaStateEngineTests.cs" />
+    <Compile Include="Analysis\ClosureAnalysisException.cs" />
+    <Compile Include="Analysis\ClosureAnalyzer.cs" />
+    <Compile Include="Analysis\MetadataDependencyConstraintSolver.cs" />
+    <Compile Include="Analysis\StateStepDependencyError.cs" />
+    <Compile Include="Analysis\StepDeclarationClosureError.cs" />
+    <Compile Include="Builder\IFlowMutator.cs" />
+    <Compile Include="Builder\StateStepConfiguration.cs" />
+    <Compile Include="Builder\StateStepMetadata.cs" />
+    <Compile Include="Builder\FlowMutator.cs" />
+    <Compile Include="Builder\WorkflowBuilder.cs" />
+    <Compile Include="Configuration\IStateActionMetadata.cs" />
+    <Compile Include="Configuration\IStateStepDispatcher.cs" />
+    <Compile Include="Configuration\StateActionInfo.cs" />
+    <Compile Include="Configuration\StateActionMetadata.cs" />
+    <Compile Include="Configuration\StateMachineConfigurator.cs" />
+    <Compile Include="Configuration\StateStepDispatcher.cs" />
+    <Compile Include="Configuration\StateTriggerAction.cs" />
+    <Compile Include="Configuration\WorkflowStepAdapter.cs" />
+    <Compile Include="Configuration\WorkflowStepDeclaration.cs" />
+    <Compile Include="IStateStep.cs" />
+    <Compile Include="StepPriority.cs" />
+    <Compile Include="TransitionInfo.cs" />
+    <Compile Include="IMetaStateEngine.cs" />
+    <Compile Include="MetaStateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkflowModuleTests.cs" />
+    <Compile Include="StateStepInfo.cs" />
+    <Compile Include="WorkflowModule.cs" />
+    <Compile Include="WorkflowStepActionType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\metaworkflow\metaworkflow.core.csproj">
-      <Project>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</Project>
-      <Name>metaworkflow.core</Name>
-    </ProjectReference>
+    <None Include="MetaStateEngine.cd" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

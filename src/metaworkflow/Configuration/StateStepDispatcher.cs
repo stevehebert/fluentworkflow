@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using metaworkflow.core.Builder;
+using fluentworkflow.core.Builder;
 using Stateless;
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
     public class StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext> : IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>
     {
@@ -28,7 +28,7 @@ namespace metaworkflow.core.Configuration
                          where
                              (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
                              q.WorkflowStepActionType == workflowStepActionType)
-                         orderby q.Priority descending
+                         orderby q.Priority
                          select p.Value);
 
             if (!items.Any())

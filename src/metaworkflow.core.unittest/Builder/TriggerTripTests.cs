@@ -1,9 +1,9 @@
 ﻿using System;
-using metaworkflow.core.Builder;
-using metaworkflow.core.unittest.enums;
+using fluentworkflow.core.Builder;
+using fluentworkflow.core.unittest.enums;
 using NUnit.Framework;
 
-namespace metaworkflow.core.unittest.Builder
+namespace fluentworkflow.core.unittest.Builder
 {
     [TestFixture]
     public class TriggerTripTests

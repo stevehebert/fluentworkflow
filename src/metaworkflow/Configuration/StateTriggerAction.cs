@@ -1,6 +1,6 @@
 ﻿
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
     public class StateTriggerAction<TState, TTrigger>
     {

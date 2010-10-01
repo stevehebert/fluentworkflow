@@ -1,6 +1,6 @@
 ﻿using Stateless;
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
     /// <summary>
     /// responsible for configuration the state machine given an individual state step declaration

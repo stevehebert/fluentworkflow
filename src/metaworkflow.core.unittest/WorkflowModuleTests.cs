@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using metaworkflow.core.Analysis;
-using metaworkflow.core.Builder;
-using metaworkflow.core.Configuration;
-using metaworkflow.core.unittest.enums;
+using fluentworkflow.core.Analysis;
+using fluentworkflow.core.Builder;
+using fluentworkflow.core.Configuration;
+using fluentworkflow.core.unittest.enums;
 using NUnit.Framework;
 
-namespace metaworkflow.core.unittest
+namespace fluentworkflow.core.unittest
 {
     public class InvalidClosureWorkflowModule : WorkflowModule<WorkflowType, StateType, TriggerType, TriggerContext>
     {

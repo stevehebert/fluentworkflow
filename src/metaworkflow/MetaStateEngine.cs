@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using metaworkflow.core.Configuration;
+using fluentworkflow.core.Configuration;
 using Stateless;
 
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     public class MetaStateEngine <TWorkflow, TState, TTrigger, TTriggerContext> : IMetaStateEngine<TWorkflow, TState, TTrigger, TTriggerContext>
     {

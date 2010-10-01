@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace metaworkflow.core.Builder
+namespace fluentworkflow.core.Builder
 {
     public class FlowMutator<TTrigger, TTriggerContext> : IFlowMutator<TTrigger, TTriggerContext>
     {

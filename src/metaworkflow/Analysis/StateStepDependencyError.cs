@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace metaworkflow.core.Analysis
+namespace fluentworkflow.core.Analysis
 {
     public enum StateDependencyErrorReason
     {

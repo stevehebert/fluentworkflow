@@ -2,7 +2,7 @@
 using System.Linq;
 using Stateless;
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
     public interface IStateMachineConfigurator<TWorkflow, TState, TTrigger, TTriggerContext>
     {

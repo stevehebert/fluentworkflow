@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     public interface IMetaStateEngine<out TWorkflow, out TState, TTrigger, in TTriggerContext>
     {

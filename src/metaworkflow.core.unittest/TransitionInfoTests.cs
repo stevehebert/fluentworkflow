@@ -1,8 +1,8 @@
-﻿using metaworkflow.core.unittest.enums;
+﻿using fluentworkflow.core.unittest.enums;
 using NUnit.Framework;
 using Stateless;
 
-namespace metaworkflow.core.unittest
+namespace fluentworkflow.core.unittest
 {
     [TestFixture]
     public class TransitionInfoTests

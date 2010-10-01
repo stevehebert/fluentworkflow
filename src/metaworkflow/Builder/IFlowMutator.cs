@@ -1,4 +1,4 @@
-﻿namespace metaworkflow.core.Builder
+﻿namespace fluentworkflow.core.Builder
 {
     public interface IFlowMutator<TTrigger, TTriggerContext>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using metaworkflow.core.Configuration;
+using fluentworkflow.core.Configuration;
 
-namespace metaworkflow.core.Analysis
+namespace fluentworkflow.core.Analysis
 {
     public class MetadataDependencyConstraintSolver
     {

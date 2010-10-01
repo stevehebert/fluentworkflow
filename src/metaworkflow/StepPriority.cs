@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     public enum StepPriority
     {

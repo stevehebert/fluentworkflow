@@ -1,7 +1,7 @@
 ﻿
-using metaworkflow.core.Builder;
+using fluentworkflow.core.Builder;
 
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     /// <summary>
     /// The state step interface

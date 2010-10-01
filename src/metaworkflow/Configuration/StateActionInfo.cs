@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
     public class StateActionInfo<TWorkflow, TState>
     {

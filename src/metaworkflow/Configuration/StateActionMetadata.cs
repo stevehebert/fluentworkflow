@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
     public class StateActionMetadata<TWorkflow, TState> : IStateActionMetadata<TWorkflow, TState>
     {

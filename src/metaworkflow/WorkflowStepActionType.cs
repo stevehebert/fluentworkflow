@@ -1,5 +1,5 @@
 ﻿
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     public enum WorkflowStepActionType
     {

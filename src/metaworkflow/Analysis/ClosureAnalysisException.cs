@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace metaworkflow.core.Analysis
+namespace fluentworkflow.core.Analysis
 {
     public class ClosureAnalysisException<TWorkflow, TState, TTrigger> : Exception
     {

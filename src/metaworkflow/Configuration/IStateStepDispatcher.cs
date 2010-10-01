@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Stateless;
 
-namespace metaworkflow.core.Configuration
+namespace fluentworkflow.core.Configuration
 {
 
     public interface IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>

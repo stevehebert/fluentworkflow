@@ -1,5 +1,5 @@
 ﻿
-namespace metaworkflow.core.unittest.enums
+namespace fluentworkflow.core.unittest.enums
 {
     public enum WorkflowType
     {

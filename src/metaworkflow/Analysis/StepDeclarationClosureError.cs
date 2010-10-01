@@ -1,4 +1,4 @@
-﻿namespace metaworkflow.core.Analysis
+﻿namespace fluentworkflow.core.Analysis
 {
     public class StepDeclarationClosureError<TWorkflow, TState, TTrigger>
     {

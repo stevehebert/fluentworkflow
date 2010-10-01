@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace metaworkflow.core.Builder
+namespace fluentworkflow.core.Builder
 {
     public class ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> : StateStepConfiguration<TState, TTrigger, TTriggerContext>
     {

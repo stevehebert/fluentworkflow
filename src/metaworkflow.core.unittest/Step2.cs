@@ -1,6 +1,6 @@
-﻿using metaworkflow.core.unittest.enums;
+﻿using fluentworkflow.core.unittest.enums;
 
-namespace metaworkflow.core.unittest
+namespace fluentworkflow.core.unittest
 {
     public class Step2 : IStateStep<StateType, TriggerType, TriggerContext>
     {

@@ -1,6 +1,6 @@
 ﻿using Stateless;
 
-namespace metaworkflow.core
+namespace fluentworkflow.core
 {
     /// <summary>
     /// the transition info passed to individual state steps
