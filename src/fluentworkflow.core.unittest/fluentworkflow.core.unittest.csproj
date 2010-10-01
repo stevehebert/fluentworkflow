@@ -74,7 +74,7 @@
     <Compile Include="WorkflowModuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\metaworkflow\fluentworkflow.core.csproj">
+    <ProjectReference Include="..\fluentworkflow.core\fluentworkflow.core.csproj">
       <Project>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</Project>
       <Name>fluentworkflow.core</Name>
     </ProjectReference>
