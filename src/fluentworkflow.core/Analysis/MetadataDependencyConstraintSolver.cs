@@ -5,8 +5,19 @@ using fluentworkflow.core.Configuration;
 
 namespace fluentworkflow.core.Analysis
 {
+    /// <summary>
+    /// This constraint solver is responsible for validating relationships between state steps
+    /// and resolving the execution order
+    /// </summary>
     public class MetadataDependencyConstraintSolver
     {
+        /// <summary>
+        /// Analyzes the specified type registrations.
+        /// </summary>
+        /// <typeparam name="TWorkflow">The type of the workflow.</typeparam>
+        /// <typeparam name="TState">The type of the state.</typeparam>
+        /// <param name="typeRegistrations">The type registrations.</param>
+        /// <returns></returns>
         public IEnumerable<StateStepDependencyError<TWorkflow, TState>> Analyze<TWorkflow, TState>(IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> typeRegistrations)
         {
             // first, we'll verify that each workflow, state, action type is
