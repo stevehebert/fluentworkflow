@@ -8,17 +8,11 @@ using Stateless;
 
 namespace fluentworkflow.core.unittest.Configuration
 {
-    public class SimpleMockStep : IActionableStateStep<StateType, TriggerType, TriggerContext>
+    public class SimpleMockStep : IMutatingEntryStateStep<StateType, TriggerType, TriggerContext>
     {
-        private IFlowMutator<TriggerType, TriggerContext> _flowMutator; 
-        public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+        public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo, IFlowMutator<TriggerType, TriggerContext> flowMutator)
         {
-            _flowMutator.SetTrigger(TriggerType.Publish);
-        }
-
-        public void PreExecute(IFlowMutator<TriggerType, TriggerContext> flowMutator)
-        {
-            _flowMutator = flowMutator;
+            flowMutator.SetTrigger(TriggerType.Publish);
         }
     }
     

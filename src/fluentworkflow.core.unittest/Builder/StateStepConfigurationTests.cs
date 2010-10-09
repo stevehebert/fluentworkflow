@@ -27,7 +27,7 @@ namespace fluentworkflow.core.unittest.Builder
             var config = new StateStepConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
 
             config.OnEntry<Step1>();
-            config.OnExit<Step2>();
+            config.OnExit<ExitStep3>();
             
 
             Assert.That(config.State, Is.EqualTo(StateType.Rejected));
@@ -42,7 +42,7 @@ namespace fluentworkflow.core.unittest.Builder
                 config.StateStepInfos.Where(
                     p =>
                     p.ActionType == WorkflowStepActionType.Exit && 
-                    p.StateStepType == typeof(Step2)).Count(), Is.EqualTo(1));
+                    p.StateStepType == typeof(ExitStep3)).Count(), Is.EqualTo(1));
         }
     }
 }

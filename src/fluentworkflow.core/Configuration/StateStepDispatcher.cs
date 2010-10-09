@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using fluentworkflow.core.Builder;
 using Stateless;
@@ -40,12 +41,8 @@ namespace fluentworkflow.core.Configuration
             
             foreach(var item in items)
             {
-                var actionableItem = item as IActionableStateStep<TState, TTrigger, TTriggerContext>;
-
-                if(actionableItem != null)
-                    actionableItem.PreExecute(flowMutator);
-
-                item.Execute(stateStepInfo);
+                
+                Dispatch(item, stateStepInfo, flowMutator, workflowStepActionType);
 
                 if (!flowMutator.IsSet)
                     continue;
@@ -53,6 +50,43 @@ namespace fluentworkflow.core.Configuration
                 stateMachine.Fire(flowMutator.Trigger, flowMutator.TriggerContext);
                 break;
             }
+        }
+
+        private void Dispatch( IStateStep<TState, TTrigger, TTriggerContext> stateStep, 
+                               StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo, 
+                               IFlowMutator<TTrigger, TTriggerContext> flowMutator,
+                               WorkflowStepActionType actionType)
+        {
+            if( actionType == WorkflowStepActionType.Entry)
+            {
+                var mutatingStateStep = stateStep as IMutatingEntryStateStep<TState, TTrigger, TTriggerContext>;
+
+                if (mutatingStateStep != null)
+                {
+                    mutatingStateStep.Execute(stateStepInfo, flowMutator);
+                    return;
+                }
+
+                var entryStateStep = stateStep as IEntryStateStep<TState, TTrigger, TTriggerContext>;
+
+                if (entryStateStep == null)
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+                                                                      "Internal error mismatch on entry type with state step {0}",
+                                                                      stateStep.GetType()));
+
+                entryStateStep.Execute(stateStepInfo);
+
+                return;
+            }
+
+            var exitStep = stateStep as IExitStateStep<TState, TTrigger, TTriggerContext>;
+
+            if(exitStep == null)
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+                                                                  "Internal error mismatch on entry type with state step {0}",
+                                                                  stateStep.GetType()));
+
+            exitStep.Execute(stateStepInfo);
         }
     }
 }

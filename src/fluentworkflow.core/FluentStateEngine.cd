@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="fluentworkflow.core.FluentStateEngine&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;">
+    <Position X="0.75" Y="0.75" Width="3" />
+    <Members>
+      <Field Name="_stateMachine" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAgAAAAAAAAAAAAEAAAAAAAABgAAAAA=</HashCode>
+      <FileName>FluentStateEngine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="fluentworkflow.core.Configuration.StateMachineConfigurator&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;">
+    <Position X="5" Y="1.25" Width="3.25" />
+    <Members>
+      <Method Name="StateMachineConfigurator" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\StateMachineConfigurator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="fluentworkflow.core.Configuration.StateStepDispatcher&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;">
+    <Position X="9" Y="5.25" Width="4.5" />
+    <Members>
+      <Field Name="_stateSteps" Hidden="true" />
+      <Method Name="StateStepDispatcher" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\StateStepDispatcher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="fluentworkflow.core.Configuration.WorkflowStepAdapter&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;">
+    <Position X="9.5" Y="1.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAACAAAAAAAAAAAAAACAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Configuration\WorkflowStepAdapter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="fluentworkflow.core.Configuration.WorkflowStepDeclaration&lt;TWorkflow, TState, TTrigger&gt;">
+    <Position X="13.5" Y="1.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAA=</HashCode>
+      <FileName>Configuration\WorkflowStepDeclaration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="fluentworkflow.core.IStateStep&lt;TState, TTrigger, TTriggerContext&gt;" Collapsed="true">
+    <Position X="5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IStateStep.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="fluentworkflow.core.IMutatingEntryStateStep&lt;TState, TTrigger, TTriggerContext&gt;" Collapsed="true">
+    <Position X="4" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IStateStep.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

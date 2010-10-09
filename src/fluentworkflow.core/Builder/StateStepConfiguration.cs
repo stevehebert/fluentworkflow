@@ -77,7 +77,7 @@ namespace fluentworkflow.core.Builder
         /// declares a step to be executed when entering the underlying state
         /// </summary>
         /// <typeparam name="TStateStep">The type of the state step.</typeparam>
-        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnEntry<TStateStep>() where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
+        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnEntry<TStateStep>() where TStateStep : IEntryStateStep<TState, TTrigger, TTriggerContext>
         {
             var metadata = new StateStepMetadata(typeof (TStateStep), 0, WorkflowStepActionType.Entry);
 
@@ -86,10 +86,25 @@ namespace fluentworkflow.core.Builder
         }
 
         /// <summary>
+        /// declares a step to be executed when entering the underlying state
+        /// </summary>
+        /// <typeparam name="TStateStep">The type of the state step.</typeparam>
+        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnMutatableEntry<TStateStep>() where TStateStep : IMutatingEntryStateStep<TState, TTrigger, TTriggerContext>
+        {
+            var metadata = new StateStepMetadata(typeof (TStateStep), 0, WorkflowStepActionType.Entry);
+
+            _stateStepInfoList.Add(metadata);
+            return new ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext>(metadata, State,
+                                                                                       _permittedTriggers,
+                                                                                       _stateStepInfoList);
+        }
+
+
+        /// <summary>
         /// declares a step to tbe executed when exiting the underlying state
         /// </summary>
         /// <typeparam name="TStateStep">The type of the state step.</typeparam>
-        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnExit<TStateStep>() where TStateStep : IStateStep<TState, TTrigger, TTriggerContext>
+        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnExit<TStateStep>() where TStateStep : IExitStateStep<TState, TTrigger, TTriggerContext>
         {
             var metadata = new StateStepMetadata(typeof (TStateStep), 0, WorkflowStepActionType.Exit);
 

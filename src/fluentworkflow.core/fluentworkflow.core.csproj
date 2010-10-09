@@ -81,7 +81,7 @@
     <Compile Include="WorkflowStepActionType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MetaStateEngine.cd" />
+    <None Include="FluentStateEngine.cd" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
