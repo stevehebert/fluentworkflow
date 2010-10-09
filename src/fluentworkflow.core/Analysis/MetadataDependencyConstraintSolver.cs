@@ -44,50 +44,52 @@ namespace fluentworkflow.core.Analysis
                                  select q)
                 item.Priority = 0;
 
+
             var pass = 0;
             var processedItems = 0;
 
+            var targetItems = (from p in typeRegistrations
+                              from q in p.Value.StateActionInfos
+                              from p1 in typeRegistrations
+                              from q1 in p1.Value.StateActionInfos
+                              where q.Dependency == p1.Key
+                                    && q.Workflow.Equals(q1.Workflow)
+                                    && q.State.Equals(q1.State)
+                                    && q.WorkflowStepActionType == q1.WorkflowStepActionType
+                              select new {q, q1, p.Key}).ToList();
+                
+
+
             do
             {
-                var targetItems = from p in typeRegistrations
-                                  from q in p.Value.StateActionInfos
-                                  where (from p1 in typeRegistrations
-                                         from q1 in p1.Value.StateActionInfos
-                                         select new {q1, p1}).Any(
-                                             s =>
-                                             s.p1.Key == q.Dependency && s.q1.Workflow.Equals(q.Workflow) &&
-                                             s.q1.State.Equals(q.State) &&
-                                             s.q1.WorkflowStepActionType == q.WorkflowStepActionType &&
-                                             q.Priority >= pass)
-                                  select new {q, p.Key};
-
                 var previousProcessedItems = processedItems;
                 processedItems = 0;
 
-                foreach (var item in targetItems)
+                foreach (var item in targetItems.Where(p => p.q1.Priority >= p.q.Priority ))
                 {
                     item.q.Priority = pass + 1;
-                    processedItems += 1;
+                    processedItems++;
                 }
 
-
-                if (previousProcessedItems == processedItems)
+                if( processedItems == previousProcessedItems)
                 {
                     foreach (var item in targetItems)
                         yield return
                             new StateStepDependencyError<TWorkflow, TState>
-                                {
-                                    Workflow = item.q.Workflow,
-                                    State = item.q.State,
-                                    Dependency = item.q.Dependency,
-                                    Step = item.Key,
-                                    ErrorReason = StateDependencyErrorReason.ParticipatesInCyclicalReference
-                                };
+                            {
+                                Workflow = item.q.Workflow,
+                                State = item.q.State,
+                                Dependency = item.q.Dependency,
+                                Step = item.Key,
+                                ErrorReason = StateDependencyErrorReason.ParticipatesInCyclicalReference
+                            };
                     break;
+                    
                 }
 
-                pass += 1;
+                var localPass = ++ pass;
 
+                targetItems = (from p in targetItems where p.q.Priority == localPass select p).ToList();
             } while (processedItems > 0);
 
         }
