@@ -12,7 +12,7 @@ namespace blogflow.Domain.BlogEntry
         {
             WorkflowDescriptor = new WorkflowDescriptor(DocumentType.Post, StateType.New);
             DocumentHistory = new[] {new DocumentHistory {Action = "Created", Updated = DateTime.Now}};
-            DocumentContents = new[] {new BlogEntryContent()};
+            DocumentContents = new[] {new BlogPostContent()};
         }
 
         /// <summary>

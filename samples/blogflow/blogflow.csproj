@@ -92,7 +92,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Database\DatabaseModule.cs" />
-    <Compile Include="Domain\BlogEntry\BlogEntryContent.cs" />
+    <Compile Include="Domain\BlogEntry\BlogPostContent.cs" />
     <Compile Include="Domain\BlogEntry\BlogPost.cs" />
     <Compile Include="Domain\DocumentHistory.cs" />
     <Compile Include="Domain\IBlogDocument.cs" />
