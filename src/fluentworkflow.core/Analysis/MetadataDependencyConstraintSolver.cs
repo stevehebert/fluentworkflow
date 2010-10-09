@@ -56,22 +56,6 @@ namespace fluentworkflow.core.Analysis
 
         public IEnumerable<StateStepDependencyError<TWorkflow, TState>> Evaluate<TWorkflow, TState>(IEnumerable<KeyValuePair<Type, StateActionInfo<TWorkflow, TState>>> actionSet)
         {
-
-            var selfReferencingErrors = from p in actionSet
-                                        where p.Key == p.Value.Dependency
-                                        select new StateStepDependencyError<TWorkflow, TState>
-                                                   {
-                                                       Workflow = p.Value.Workflow,
-                                                       State = p.Value.State,
-                                                       Step = p.Key,
-                                                       Dependency = p.Value.Dependency,
-                                                       ErrorReason =
-                                                           StateDependencyErrorReason.SelfReferencingDependency
-                                                   };
-            if (selfReferencingErrors.Any())
-                return selfReferencingErrors;
-
-
             var dependencies = from p in actionSet where p.Value.Dependency != null select new {p.Value.Dependency, p.Key, p.Value.Workflow, p.Value.State};
             var hostTypes = from p in actionSet select p.Key;
 

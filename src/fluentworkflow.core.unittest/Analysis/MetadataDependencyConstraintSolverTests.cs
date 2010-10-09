@@ -45,7 +45,7 @@ namespace fluentworkflow.core.unittest.Analysis
             Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step1)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
-            Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.SelfReferencingDependency));
+            Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
         }
 
 
@@ -67,7 +67,7 @@ namespace fluentworkflow.core.unittest.Analysis
             Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step1)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
-            Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.SelfReferencingDependency));
+            Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
         }
 
 
