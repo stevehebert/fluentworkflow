@@ -9,7 +9,36 @@ namespace fluentworkflow.core.Analysis
     {
         public IEnumerable<StateStepDependencyError<TWorkflow, TState>> Analyze<TWorkflow, TState>(IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> typeRegistrations)
         {
+            // first, we'll verify that each workflow, state, action type is
+            // a fully closed set
+            var dependentItems = from p in typeRegistrations
+                                 from q in p.Value.StateActionInfos
+                                 where q.Dependency != null
+                                 select new {q, p.Key};
+
+            foreach (var missingItem in from p in dependentItems
+                                        where !typeRegistrations.Any(q => q.Key == p.q.Dependency)
+                                          || !typeRegistrations.Any(a => a.Key == p.q.Dependency 
+                                                        && a.Value.StateActionInfos.Any(b => b.State.Equals(p.q.State) 
+                                                        && b.Workflow.Equals(p.q.Workflow) 
+                                                        && b.WorkflowStepActionType == p.q.WorkflowStepActionType))
+                                        select new StateStepDependencyError<TWorkflow, TState>
+                                                   {
+                                                       ErrorReason = StateDependencyErrorReason.UnknownDependency,
+                                                       Dependency = p.q.Dependency,
+                                                       State = p.q.State,
+                                                       Step = p.Key,
+                                                       Workflow = p.q.Workflow
+                                                   })
+                yield return missingItem;
+
+                           
+
+           
+                        
             var errorList = new List<StateStepDependencyError<TWorkflow, TState>>();
+
+
 
             var targetWorkflows = from p in typeRegistrations
                                   from q in p.Value.StateActionInfos
@@ -50,32 +79,13 @@ namespace fluentworkflow.core.Analysis
                 }
             }
 
-            return errorList;
-
+            foreach (var item in errorList)
+                yield return item;
+            
         }
 
         public IEnumerable<StateStepDependencyError<TWorkflow, TState>> Evaluate<TWorkflow, TState>(IEnumerable<KeyValuePair<Type, StateActionInfo<TWorkflow, TState>>> actionSet)
         {
-            var dependencies = from p in actionSet where p.Value.Dependency != null select new {p.Value.Dependency, p.Key, p.Value.Workflow, p.Value.State};
-            var hostTypes = from p in actionSet select p.Key;
-
-            var unmatchedDepndencies = from p in dependencies
-                                      where !hostTypes.Contains(p.Dependency)
-                                      select
-                                          new StateStepDependencyError<TWorkflow, TState>
-                                              {
-                                                  Workflow = p.Workflow,
-                                                  State = p.State,
-                                                  Dependency = p.Dependency,
-                                                  Step = p.Key,
-                                                  ErrorReason = StateDependencyErrorReason.UnknownDependency
-                                              };
-
-
-            if( unmatchedDepndencies.Any())
-                return unmatchedDepndencies;
-            
-
             var i = 0;
             var processedItems = 0;
             var previouslyProcessedItems = -1;
