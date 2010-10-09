@@ -39,6 +39,8 @@ namespace fluentworkflow.core.Analysis
             if (missingMatch > 0)
                 yield break;
 
+
+            // next we'll reset the priority ordering equal on all state steps
             foreach (var item in from p in typeRegistrations
                                  from q in p.Value.StateActionInfos
                                  select q)
@@ -48,6 +50,7 @@ namespace fluentworkflow.core.Analysis
             var pass = 0;
             var processedItems = 0;
 
+            // next we'll grab the items that have dependencies as our starting point
             var targetItems = (from p in typeRegistrations
                               from q in p.Value.StateActionInfos
                               from p1 in typeRegistrations
@@ -65,12 +68,16 @@ namespace fluentworkflow.core.Analysis
                 var previousProcessedItems = processedItems;
                 processedItems = 0;
 
+                // here we increment order on references whose parents have the same value
                 foreach (var item in targetItems.Where(p => p.q1.Priority >= p.q.Priority ))
                 {
                     item.q.Priority = pass + 1;
                     processedItems++;
                 }
 
+                // the nature of this algorithm means that two passes with the same number
+                // of processed items indicate cyclical reference points. in which
+                // case we end processing after enumerating the errors.
                 if( processedItems == previousProcessedItems)
                 {
                     foreach (var item in targetItems)
@@ -87,8 +94,8 @@ namespace fluentworkflow.core.Analysis
                     
                 }
 
+                // increment our pass and select the subset of records that have been progressed in the current round
                 var localPass = ++ pass;
-
                 targetItems = (from p in targetItems where p.q.Priority == localPass select p).ToList();
             } while (processedItems > 0);
 
