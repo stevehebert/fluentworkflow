@@ -16,11 +16,12 @@ namespace fluentworkflow.core.Analysis
                                  where q.Dependency != null
                                  select new {q, p.Key};
 
+            var missingMatch = 0;
             foreach (var missingItem in from p in dependentItems
                                         where !typeRegistrations.Any(q => q.Key == p.q.Dependency)
-                                          || !typeRegistrations.Any(a => a.Key == p.q.Dependency 
-                                                        && a.Value.StateActionInfos.Any(b => b.State.Equals(p.q.State) 
-                                                        && b.Workflow.Equals(p.q.Workflow) 
+                                          || !typeRegistrations.Any(a => a.Key == p.q.Dependency
+                                                        && a.Value.StateActionInfos.Any(b => b.State.Equals(p.q.State)
+                                                        && b.Workflow.Equals(p.q.Workflow)
                                                         && b.WorkflowStepActionType == p.q.WorkflowStepActionType))
                                         select new StateStepDependencyError<TWorkflow, TState>
                                                    {
@@ -30,96 +31,65 @@ namespace fluentworkflow.core.Analysis
                                                        Step = p.Key,
                                                        Workflow = p.q.Workflow
                                                    })
-                yield return missingItem;
-
-                           
-
-           
-                        
-            var errorList = new List<StateStepDependencyError<TWorkflow, TState>>();
-
-
-
-            var targetWorkflows = from p in typeRegistrations
-                                  from q in p.Value.StateActionInfos
-                                  group q by q.Workflow
-                                      into g
-                                      select g.Key;
-
-            foreach (var workflow in targetWorkflows)
             {
-                var targetStates = from p in typeRegistrations.Values
-                                   from q in p.StateActionInfos
-                                   group q by q.State
-                                       into g
-                                       select g.Key;
-
-                foreach (var state in targetStates)
-                {
-                    var targetActionTypes = from p in typeRegistrations.Values
-                                            from q in p.StateActionInfos
-                                            group q by q.WorkflowStepActionType
-                                                into g
-                                                select g.Key;
-
-                    foreach (var actionType in targetActionTypes)
-                    {
-                        TState state1 = state;
-                        TWorkflow workflow1 = workflow;
-                        WorkflowStepActionType type = actionType;
-                        errorList.AddRange(Evaluate(from p in typeRegistrations
-                                                    from q in p.Value.StateActionInfos
-                                                    where q.Workflow.Equals(workflow1)
-                                                          && q.State.Equals(state1)
-                                                          && q.WorkflowStepActionType == type
-                                                    select
-                                                        new KeyValuePair<Type, StateActionInfo<TWorkflow, TState>>(
-                                                        p.Key, q)));
-                    }
-                }
+                missingMatch += 1;
+                yield return missingItem;
             }
 
-            foreach (var item in errorList)
-                yield return item;
-            
-        }
+            if (missingMatch > 0)
+                yield break;
 
-        public IEnumerable<StateStepDependencyError<TWorkflow, TState>> Evaluate<TWorkflow, TState>(IEnumerable<KeyValuePair<Type, StateActionInfo<TWorkflow, TState>>> actionSet)
-        {
-            var i = 0;
+            foreach (var item in from p in typeRegistrations
+                                 from q in p.Value.StateActionInfos
+                                 select q)
+                item.Priority = 0;
+
+            var pass = 0;
             var processedItems = 0;
-            var previouslyProcessedItems = -1;
+
             do
             {
-                var items = from p in actionSet
-                            join q in actionSet on p.Key equals q.Value.Dependency
-                            where p.Value.Priority >= i
-                            select q;
+                var targetItems = from p in typeRegistrations
+                                  from q in p.Value.StateActionInfos
+                                  where (from p1 in typeRegistrations
+                                         from q1 in p1.Value.StateActionInfos
+                                         select new {q1, p1}).Any(
+                                             s =>
+                                             s.p1.Key == q.Dependency && s.q1.Workflow.Equals(q.Workflow) &&
+                                             s.q1.State.Equals(q.State) &&
+                                             s.q1.WorkflowStepActionType == q.WorkflowStepActionType &&
+                                             q.Priority >= pass)
+                                  select new {q, p.Key};
 
-                foreach (var item in items)
-                    item.Value.Priority = i+1;
+                var previousProcessedItems = processedItems;
+                processedItems = 0;
 
-                processedItems = items.Count();
+                foreach (var item in targetItems)
+                {
+                    item.q.Priority = pass + 1;
+                    processedItems += 1;
+                }
 
-                if (processedItems == previouslyProcessedItems)
-                    return from p in items
-                           select
-                               new StateStepDependencyError<TWorkflow, TState>
-                                   {
-                                       Step = p.Key,
-                                       Dependency = p.Value.Dependency,
-                                       State = p.Value.State,
-                                       Workflow = p.Value.Workflow,
-                                       ErrorReason = StateDependencyErrorReason.ParticipatesInCyclicalReference
-                                   };
 
-                previouslyProcessedItems = processedItems;
+                if (previousProcessedItems == processedItems)
+                {
+                    foreach (var item in targetItems)
+                        yield return
+                            new StateStepDependencyError<TWorkflow, TState>
+                                {
+                                    Workflow = item.q.Workflow,
+                                    State = item.q.State,
+                                    Dependency = item.q.Dependency,
+                                    Step = item.Key,
+                                    ErrorReason = StateDependencyErrorReason.ParticipatesInCyclicalReference
+                                };
+                    break;
+                }
 
-                i++;
+                pass += 1;
+
             } while (processedItems > 0);
 
-            return new StateStepDependencyError<TWorkflow, TState>[0];
         }
-
     }
 }
