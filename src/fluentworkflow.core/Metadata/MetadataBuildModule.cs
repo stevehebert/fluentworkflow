@@ -13,20 +13,20 @@ namespace fluentworkflow.core.Metadata
 
     public class MetadataResolver<TType, TWorkflow, TState, TDetail> : IMetadataResolver<TType, TWorkflow, TState, TDetail>
     {
-        private readonly IEnumerable<Lazy<TType, IEnumerable<MetadataInstance<TWorkflow, TState, TDetail>>>> _resolver;
+        private readonly IEnumerable<Lazy<TType, IMetadataInfo<TWorkflow, TState, TDetail>>> _resolverInfo;
 
-        public MetadataResolver(IEnumerable<Lazy<TType, IEnumerable<MetadataInstance<TWorkflow, TState, TDetail>>>> resolver)
+        public MetadataResolver(IEnumerable<Lazy<TType, IMetadataInfo<TWorkflow, TState, TDetail>>> resolverInfo)
         {
-            _resolver = resolver;
+            _resolverInfo = resolverInfo;
 
         }
         public IEnumerable<TType> For(TWorkflow workflow, TState state)
         {
             return
                 from p in
-                    _resolver.Where(
+                    _resolverInfo.Where(
                         f =>
-                        f.Metadata.FirstOrDefault(g => g.Workflow.Equals(workflow) && g.State.Equals(state)) != null)
+                        f.Metadata.MetadataInstances.FirstOrDefault(g => g.Workflow.Equals(workflow) && g.State.Equals(state)) != null)
                 select p.Value;
         }
     }
@@ -50,7 +50,7 @@ namespace fluentworkflow.core.Metadata
 
     public interface IMetadataInfo<TWorkflow, TState, TDetail>
     {
-        IEnumerable<MetadataInstance<TWorkflow, TState, TDetail>> MetadataInstances { get; set; }
+        IEnumerable<MetadataInstance<TWorkflow, TState, TDetail>> MetadataInstances { get; }
     }
 
     public class MetadataInfo<TWorkflow, TState, TDetail> :IMetadataInfo<TWorkflow,TState, TDetail>
