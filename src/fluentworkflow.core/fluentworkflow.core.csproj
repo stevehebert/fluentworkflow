@@ -71,6 +71,8 @@
     <Compile Include="Configuration\WorkflowStepAdapter.cs" />
     <Compile Include="Configuration\WorkflowStepDeclaration.cs" />
     <Compile Include="IStateStep.cs" />
+    <Compile Include="Metadata\MetadataBuildModule.cs" />
+    <Compile Include="Metadata\MetadataInstance.cs" />
     <Compile Include="StepPriority.cs" />
     <Compile Include="TransitionInfo.cs" />
     <Compile Include="IFluentStateEngine.cs" />

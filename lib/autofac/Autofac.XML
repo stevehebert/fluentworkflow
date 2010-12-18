@@ -3285,49 +3285,6 @@
             <param name="registrationAccessor">A function that will return existing registrations for a service.</param>
             <returns>Registrations providing the service.</returns>
         </member>
-        <member name="M:Autofac.Features.Scanning.ScanningRegistrationExtensions.IsAssignableToClosed(System.Type,System.Type)">
-            <summary>Determines whether the candidate type supports any base or interface that closes the
-            provided generic service type.</summary>
-            <param name="candidateType">The type that is being checked for the interface.</param>
-            <param name="openGenericServiceType">The open generic type to locate.</param>
-            <returns>True if an interface was found; otherwise false.</returns>
-        </member>
-        <member name="M:Autofac.Features.Scanning.ScanningRegistrationExtensions.GetServicesThatClose(System.Type,System.Type)">
-            <summary>Returns the first concrete interface supported by the candidate type that
-            closes the provided open generic service type.</summary>
-            <param name="candidateType">The type that is being checked for the interface.</param>
-            <param name="openGenericServiceType">The open generic type to locate.</param>
-            <returns>The type of the interface.</returns>
-        </member>
-        <member name="M:Autofac.Features.Scanning.ScanningRegistrationExtensions.FindAssignableTypesThatClose(System.Type,System.Type)">
-            <summary>
-            Looks for an interface on the candidate type that closes the provided open generic interface type.
-            </summary>
-            <param name="candidateType">The type that is being checked for the interface.</param>
-            <param name="openGenericServiceType">The open generic service type to locate.</param>
-            <returns>True if a closed implementation was found; otherwise false.</returns>
-        </member>
-        <member name="T:Autofac.Features.Scanning.ScanningRegistrationExtensionsResources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:Autofac.Features.Scanning.ScanningRegistrationExtensionsResources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:Autofac.Features.Scanning.ScanningRegistrationExtensionsResources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
-        <member name="P:Autofac.Features.Scanning.ScanningRegistrationExtensionsResources.NotOpenGenericType">
-            <summary>
-              Looks up a localized string similar to The type &apos;{0}&apos; is not an open generic class or interface type..
-            </summary>
-        </member>
         <member name="T:Autofac.Module">
             <summary>
             Base class for user-defined modules. Modules can add a set of releated components
@@ -3987,6 +3944,18 @@
             <param name="parameter">The parameter to supply to the constructor.</param>
             <returns>A registration builder allowing further configuration of the component.</returns>
         </member>
+        <member name="M:Autofac.RegistrationExtensions.WithParameter``3(Autofac.Builder.IRegistrationBuilder{``0,``1,``2},System.Func{System.Reflection.ParameterInfo,Autofac.IComponentContext,System.Boolean},System.Func{System.Reflection.ParameterInfo,Autofac.IComponentContext,System.Object})">
+            <summary>
+            Configure an explicit value for a constructor parameter.
+            </summary>
+            <typeparam name="TLimit">Registration limit type.</typeparam>
+            <typeparam name="TStyle">Registration style.</typeparam>
+            <typeparam name="TReflectionActivatorData">Activator data type.</typeparam>
+            <param name="registration">Registration to set parameter on.</param>
+            <param name="parameterSelector">A predicate selecting the parameter to set.</param>
+            <param name="valueProvider"></param>
+            <returns>A registration builder allowing further configuration of the component.</returns>
+        </member>
         <member name="M:Autofac.RegistrationExtensions.WithParameters``3(Autofac.Builder.IRegistrationBuilder{``0,``1,``2},System.Collections.Generic.IEnumerable{Autofac.Core.Parameter})">
             <summary>
             Configure explicit values for constructor parameters.
@@ -4176,6 +4145,42 @@
             <param name="builder">Container builder.</param>
             <param name="adapter">Function adapting <typeparamref name="TFrom"/> to
             service <typeparamref name="TTo"/>.</param>
+        </member>
+        <member name="M:Autofac.RegistrationExtensions.RegisterDecorator``1(Autofac.ContainerBuilder,System.Func{Autofac.IComponentContext,System.Collections.Generic.IEnumerable{Autofac.Core.Parameter},``0,``0},System.Object,System.Object)">
+            <summary>
+            Decorate all components implementing service <typeparamref name="TService"/>
+            using the provided <paramref name="decorator"/> function.
+            </summary>
+            <typeparam name="TService">Service type being decorated.</typeparam>
+            <param name="builder">Container builder.</param>
+            <param name="decorator">Function decorating a component instance that provides
+            <typeparamref name="TService"/>, given the context and parameters.</param>
+            <param name="fromKey">Service key or name associated with the components being decorated.</param>
+            <param name="toKey">Service key or name given to the decorated components.</param>
+        </member>
+        <member name="M:Autofac.RegistrationExtensions.RegisterDecorator``1(Autofac.ContainerBuilder,System.Func{Autofac.IComponentContext,``0,``0},System.Object,System.Object)">
+            <summary>
+            Decorate all components implementing service <typeparamref name="TService"/>
+            using the provided <paramref name="decorator"/> function.
+            </summary>
+            <typeparam name="TService">Service type being decorated.</typeparam>
+            <param name="builder">Container builder.</param>
+            <param name="decorator">Function decorating a component instance that provides
+            <typeparamref name="TService"/>, given the context.</param>
+            <param name="fromKey">Service key or name associated with the components being decorated.</param>
+            <param name="toKey">Service key or name given to the decorated components.</param>
+        </member>
+        <member name="M:Autofac.RegistrationExtensions.RegisterDecorator``1(Autofac.ContainerBuilder,System.Func{``0,``0},System.Object,System.Object)">
+            <summary>
+            Decorate all components implementing service <typeparamref name="TService"/>
+            using the provided <paramref name="decorator"/> function.
+            </summary>
+            <typeparam name="TService">Service type being decorated.</typeparam>
+            <param name="builder">Container builder.</param>
+            <param name="decorator">Function decorating a component instance that provides
+            <typeparamref name="TService"/>.</param>
+            <param name="fromKey">Service key or name associated with the components being decorated.</param>
+            <param name="toKey">Service key or name given to the decorated components.</param>
         </member>
         <member name="M:Autofac.RegistrationExtensions.OnRelease``3(Autofac.Builder.IRegistrationBuilder{``0,``1,``2},System.Action{``0})">
             <summary>
@@ -4789,7 +4794,7 @@
             </returns>
             <exception cref="T:Autofac.Core.DependencyResolutionException"/>
         </member>
-        <member name="M:Autofac.ResolutionExtensions.ResolveOptionalKeyed``1(Autofac.IComponentContext,System.String)">
+        <member name="M:Autofac.ResolutionExtensions.ResolveOptionalKeyed``1(Autofac.IComponentContext,System.Object)">
             <summary>
             Retrieve a service from the context, or null if the service is not
             registered.
@@ -4802,7 +4807,7 @@
             </returns>
             <exception cref="T:Autofac.Core.DependencyResolutionException"/>
         </member>
-        <member name="M:Autofac.ResolutionExtensions.ResolveOptionalKeyed``1(Autofac.IComponentContext,System.String,System.Collections.Generic.IEnumerable{Autofac.Core.Parameter})">
+        <member name="M:Autofac.ResolutionExtensions.ResolveOptionalKeyed``1(Autofac.IComponentContext,System.Object,System.Collections.Generic.IEnumerable{Autofac.Core.Parameter})">
             <summary>
             Retrieve a service from the context, or null if the service is not
             registered.
@@ -4816,7 +4821,7 @@
             </returns>
             <exception cref="T:Autofac.Core.DependencyResolutionException"/>
         </member>
-        <member name="M:Autofac.ResolutionExtensions.ResolveOptionalKeyed``1(Autofac.IComponentContext,System.String,Autofac.Core.Parameter[])">
+        <member name="M:Autofac.ResolutionExtensions.ResolveOptionalKeyed``1(Autofac.IComponentContext,System.Object,Autofac.Core.Parameter[])">
             <summary>
             Retrieve a service from the context, or null if the service is not
             registered.
@@ -5134,6 +5139,67 @@
             The type against which targets are matched.
             </summary>
         </member>
+        <member name="T:Autofac.TypeExtensions">
+            <summary>
+            Extends <see cref="T:System.Type"/> with methods that are useful in
+            building scanning rules for <see cref="M:Autofac.RegistrationExtensions.RegisterAssemblyTypes(Autofac.ContainerBuilder,System.Reflection.Assembly[])"/>.
+            </summary>
+        </member>
+        <member name="M:Autofac.TypeExtensions.IsInNamespace(System.Type,System.String)">
+            <summary>
+            Returns true if this type is in the <paramref name="namespace"/> namespace
+            or one of its sub-namespaces.
+            </summary>
+            <param name="this">The type to test.</param>
+            <param name="namespace">The namespace to test.</param>
+            <returns>True if this type is in the <paramref name="namespace"/> namespace
+            or one of its sub-namespaces; otherwise, false.</returns>
+        </member>
+        <member name="M:Autofac.TypeExtensions.IsInNamespaceOf``1(System.Type)">
+            <summary>
+            Returns true if this type is in the same namespace as <typeparamref name="T"/>
+            or one of its sub-namespaces.
+            </summary>
+            <param name="this">The type to test.</param>
+            <returns>True if this type is in the same namespace as <typeparamref name="T"/>
+            or one of its sub-namespaces; otherwise, false.</returns>
+        </member>
+        <member name="M:Autofac.TypeExtensions.IsClosedTypeOf(System.Type,System.Type)">
+            <summary>Determines whether the candidate type supports any base or 
+            interface that closes the provided generic type.</summary>
+            <param name="this"></param>
+            <param name="openGeneric"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Autofac.TypeExtensions.IsAssignableTo``1(System.Type)">
+            <summary>
+            Determines whether this type is assignable to <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">The type to test assignability to.</typeparam>
+            <returns>True if this type is assignable to references of type
+            <typeparamref name="T"/>; otherwise, False.</returns>
+        </member>
+        <member name="T:Autofac.TypeExtensionsResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Autofac.TypeExtensionsResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Autofac.TypeExtensionsResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Autofac.TypeExtensionsResources.NotOpenGenericType">
+            <summary>
+              Looks up a localized string similar to The type &apos;{0}&apos; is not an open generic class or interface type..
+            </summary>
+        </member>
         <member name="T:Autofac.Util.Enforce">
             <summary>
             Helper methods used throughout the codebase.
@@ -5316,6 +5382,21 @@
             <param name="sequence">The sequence.</param>
             <param name="leadingItem">The leading item.</param>
             <returns></returns>
+        </member>
+        <member name="M:Autofac.Util.TypeExtensions.GetTypesThatClose(System.Type,System.Type)">
+            <summary>Returns the first concrete interface supported by the candidate type that
+            closes the provided open generic service type.</summary>
+            <param name="this">The type that is being checked for the interface.</param>
+            <param name="openGeneric">The open generic type to locate.</param>
+            <returns>The type of the interface.</returns>
+        </member>
+        <member name="M:Autofac.Util.TypeExtensions.FindAssignableTypesThatClose(System.Type,System.Type)">
+            <summary>
+            Looks for an interface on the candidate type that closes the provided open generic interface type.
+            </summary>
+            <param name="candidateType">The type that is being checked for the interface.</param>
+            <param name="openGenericServiceType">The open generic service type to locate.</param>
+            <returns>True if a closed implementation was found; otherwise false.</returns>
         </member>
     </members>
 </doc>

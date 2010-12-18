@@ -21,6 +21,7 @@ namespace fluentworkflow.core.Analysis
 
                 var destinationStates = from p in stepDeclarations
                                         from q in p.PermittedActions
+                                        where p.Workflow.Equals(localWorkflow)
                                         select new {q.DestinationState, p.State, q.Trigger};
 
 
