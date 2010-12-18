@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{AEA8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fluentworkflow.core.testhelpers", "fluentworkflow.core.testhelpers\fluentworkflow.core.testhelpers.csproj", "{204719BC-3753-45B6-AE77-EA47FD9E1C56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blogflow", "samples\blogflow\blogflow.csproj", "{695A7B56-B704-4ABD-B781-4598B8B9D0CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{695A7B56-B704-4ABD-B781-4598B8B9D0CB} = {AEA8B37B-9207-41E4-8183-ADD9CBB05CED}
 	EndGlobalSection
 EndGlobal
