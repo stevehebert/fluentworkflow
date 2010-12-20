@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.Web.Mvc;
 
 namespace blogflow
 {
@@ -32,6 +34,11 @@ namespace blogflow
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new ApplicationModule());
+
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
