@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using blogflow.Domain.Models;
 using blogflow.Domain.Repository;
 using NUnit.Framework;
@@ -52,7 +53,28 @@ namespace blogflow.unittests.Domain.Repository
 
                 Assert.That(retrievedItem, Is.Null);
             }
+        }
+
+        [Test]
+        public void verify_retrieval_of_multiple_documents()
+        {
+            var item1 = new TestDocument { Id = Guid.NewGuid(), Name = "foo1" };
+            var item2 = new TestDocument { Id = Guid.NewGuid(), Name = "foo2" };
             
+            using (var sessionProvider = new TestSessionProvider())
+            {
+                var repo = new BlogFlowRepository(sessionProvider.Session);
+
+                repo.Add(item1);
+                repo.Add(item2);
+                repo.Save();
+
+                var retrievedItems = repo.All<TestDocument>();
+
+                Assert.That(retrievedItems.Count(), Is.EqualTo(2));
+                Assert.That(retrievedItems.Where(p => p.Name == "foo1").Count(), Is.EqualTo(1));
+                Assert.That(retrievedItems.Where(p => p.Name == "foo2").Count(), Is.EqualTo(1));
+            }
         }
     }
 
