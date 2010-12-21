@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using blogflow.Domain.Models;
 
-namespace blogflow.Domain
+namespace blogflow.Domain.Repository
 {
     public interface IRepository
     {

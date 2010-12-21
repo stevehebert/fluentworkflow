@@ -85,7 +85,10 @@
     <Compile Include="ApplicationModule.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Domain\IRepository.cs" />
+    <Compile Include="Domain\Registration\SectionModule.cs" />
+    <Compile Include="Domain\Repository\BlogFlowRepository.cs" />
+    <Compile Include="Domain\Repository\DocumentStoreFactory.cs" />
+    <Compile Include="Domain\Repository\IRepository.cs" />
     <Compile Include="Domain\Models\IDocumentModel.cs" />
     <Compile Include="Domain\Workflow\DocumentType.cs" />
     <Compile Include="Domain\Workflow\StateTrigger.cs" />

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using blogflow.Domain.Models;
 using Raven.Client;
 
-namespace blogflow.Domain
+namespace blogflow.Domain.Repository
 {
     public class BlogFlowRepository : IRepository
     {
-        private IDocumentSession _documentSession;
+        private readonly IDocumentSession _documentSession;
 
         public BlogFlowRepository(IDocumentSession documentSession)
         {
