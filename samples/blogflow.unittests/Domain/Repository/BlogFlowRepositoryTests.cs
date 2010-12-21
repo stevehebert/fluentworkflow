@@ -2,6 +2,7 @@
 using System.Linq;
 using blogflow.Domain.Models;
 using blogflow.Domain.Repository;
+using blogflow.Domain.Workflow;
 using NUnit.Framework;
 using Raven.Client;
 
@@ -116,6 +117,8 @@ namespace blogflow.unittests.Domain.Repository
     public class TestDocument : IDocumentModel
     {
         public Guid Id { get; set; }
+
+        public WorkflowState State { get; set; }
 
         public string Name { get; set; }
     }
