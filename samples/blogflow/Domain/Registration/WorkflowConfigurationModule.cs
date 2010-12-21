@@ -20,7 +20,7 @@ namespace blogflow.Domain.Registration
                 .Permit(StateTrigger.Reject, WorkflowState.Rejected)
                 .OnEntry<DocumentPersister>()
                 .OnMutatableEntry<AutoApproveProcessor>().DependsOn<DocumentPersister>()
-                //.OnEntry<UnderReviewNotifier>().DependsOn<AutoApproveProcessor>()
+                .OnEntry<UnderReviewNotifier>().DependsOn<AutoApproveProcessor>()
                 .OnExit<StateChangeRecorder>();
 
             builder.ForWorkflow(DocumentType.Comment, WorkflowState.Published)

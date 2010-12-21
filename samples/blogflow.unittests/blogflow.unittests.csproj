@@ -65,6 +65,7 @@
     <Compile Include="Domain\Repository\DocumentStoreFactoryTests.cs" />
     <Compile Include="Domain\Workflow\EntrySteps\AutoApproveProcessorTests.cs" />
     <Compile Include="Domain\Workflow\EntrySteps\DocumentPersisterTests.cs" />
+    <Compile Include="Domain\Workflow\EntrySteps\UnderReviewNotifierTests.cs" />
     <Compile Include="Domain\Workflow\ExitSteps\StateChangeRecorderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

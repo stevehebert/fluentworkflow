@@ -96,6 +96,7 @@
     <Compile Include="Domain\Workflow\DocumentType.cs" />
     <Compile Include="Domain\Workflow\EntrySteps\AutoApproveProcessor.cs" />
     <Compile Include="Domain\Workflow\EntrySteps\DocumentPersister.cs" />
+    <Compile Include="Domain\Workflow\EntrySteps\UnderReviewNotifier.cs" />
     <Compile Include="Domain\Workflow\ExitSteps\StateChangeRecorder.cs" />
     <Compile Include="Domain\Workflow\StateTrigger.cs" />
     <Compile Include="Domain\Workflow\WorkflowState.cs" />
@@ -103,6 +104,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Notification\IContextNotification.cs" />
+    <Compile Include="Notification\Registration\SectionModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
