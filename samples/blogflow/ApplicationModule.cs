@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Autofac;
+﻿using Autofac;
 
 namespace blogflow
 {
@@ -10,7 +6,8 @@ namespace blogflow
     {
         protected override void Load(ContainerBuilder builder)
         {
-            base.Load(builder);
+            builder.RegisterModule(new Notification.Registration.SectionModule());
+            builder.RegisterModule(new Domain.Registration.SectionModule());
         }
     }
 }

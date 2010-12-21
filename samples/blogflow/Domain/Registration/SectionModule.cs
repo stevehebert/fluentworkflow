@@ -12,6 +12,8 @@ namespace blogflow.Domain.Registration
             builder.Register(c => c.Resolve<IDocumentStore>().OpenSession()).InstancePerLifetimeScope();
 
             builder.RegisterType<BlogFlowRepository>().As<IRepository>().InstancePerLifetimeScope();
+
+            builder.RegisterModule(new WorkflowConfigurationModule());
         }
     }
 }
