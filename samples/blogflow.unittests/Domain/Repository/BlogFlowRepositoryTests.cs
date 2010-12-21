@@ -28,6 +28,32 @@ namespace blogflow.unittests.Domain.Repository
                 Assert.That(retrievedItem.Name, Is.EqualTo(item.Name));
             }
         }
+
+        [Test]
+        public void verify_deletion_of_a_test_document()
+        {
+            var item = new TestDocument { Id = Guid.NewGuid(), Name = "foo" };
+
+            using (var sessionProvider = new TestSessionProvider())
+            {
+                var repo = new BlogFlowRepository(sessionProvider.Session);
+
+                repo.Add(item);
+                repo.Save();
+
+                var retrievedItem = repo.SingleOrDefault<TestDocument>(p => p.Name == "foo");
+
+                Assert.That(retrievedItem, Is.Not.Null);
+
+                repo.Delete(retrievedItem);
+                repo.Save();
+
+                retrievedItem = repo.SingleOrDefault<TestDocument>(p => p.Name == "foo");
+
+                Assert.That(retrievedItem, Is.Null);
+            }
+            
+        }
     }
 
     public class TestSessionProvider : IDisposable
