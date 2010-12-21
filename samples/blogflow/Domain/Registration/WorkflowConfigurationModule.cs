@@ -12,13 +12,22 @@ namespace blogflow.Domain.Registration
         public override void Configure(IWorkflowBuilder<DocumentType, WorkflowState, StateTrigger, IDocumentContext> builder)
         {
             builder.ForWorkflow(DocumentType.Comment, WorkflowState.Create)
+                .Permit(StateTrigger.Submit, WorkflowState.UnderReview)
                 .OnExit<StateChangeRecorder>();
 
             builder.ForWorkflow(DocumentType.Comment, WorkflowState.UnderReview)
-                .OnEntry<DocumentPersister>();
-            //.OnMutatableEntry<AutoApproveProcessor>().DependsOn<DocumentPersister>()
-//                .OnEntry<UnderReviewNotifier>().DependsOn<AutoApproveProcessor>();
+                .Permit(StateTrigger.Approve, WorkflowState.Published)
+                .Permit(StateTrigger.Reject, WorkflowState.Rejected)
+                .OnEntry<DocumentPersister>()
+                .OnMutatableEntry<AutoApproveProcessor>().DependsOn<DocumentPersister>()
+                //.OnEntry<UnderReviewNotifier>().DependsOn<AutoApproveProcessor>()
+                .OnExit<StateChangeRecorder>();
 
+            builder.ForWorkflow(DocumentType.Comment, WorkflowState.Published)
+                .OnEntry<DocumentPersister>();
+
+            builder.ForWorkflow(DocumentType.Comment, WorkflowState.Rejected)
+                .OnEntry<DocumentPersister>();
 
         }
     }

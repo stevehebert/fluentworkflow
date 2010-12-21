@@ -8,6 +8,7 @@ namespace blogflow.Domain.Models
 {
     public interface IDocumentContext
     {
+        string UserName { get; }
         void SetState(WorkflowState workflowState);
         void Save();
 

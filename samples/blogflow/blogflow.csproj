@@ -94,6 +94,7 @@
     <Compile Include="Domain\Repository\IRepository.cs" />
     <Compile Include="Domain\Models\IDocumentModel.cs" />
     <Compile Include="Domain\Workflow\DocumentType.cs" />
+    <Compile Include="Domain\Workflow\EntrySteps\AutoApproveProcessor.cs" />
     <Compile Include="Domain\Workflow\EntrySteps\DocumentPersister.cs" />
     <Compile Include="Domain\Workflow\ExitSteps\StateChangeRecorder.cs" />
     <Compile Include="Domain\Workflow\StateTrigger.cs" />
