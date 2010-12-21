@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\lib\moq\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\nunit\nunit.framework.dll</HintPath>
     </Reference>
@@ -60,9 +63,19 @@
   <ItemGroup>
     <Compile Include="Domain\Repository\BlogFlowRepositoryTests.cs" />
     <Compile Include="Domain\Repository\DocumentStoreFactoryTests.cs" />
+    <Compile Include="Domain\Workflow\EntrySteps\DocumentPersisterTests.cs" />
+    <Compile Include="Domain\Workflow\ExitSteps\StateChangeRecorderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\fluentworkflow.core.testhelpers\fluentworkflow.core.testhelpers.csproj">
+      <Project>{204719BC-3753-45B6-AE77-EA47FD9E1C56}</Project>
+      <Name>fluentworkflow.core.testhelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\fluentworkflow.core\fluentworkflow.core.csproj">
+      <Project>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</Project>
+      <Name>fluentworkflow.core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\blogflow\blogflow.csproj">
       <Project>{695A7B56-B704-4ABD-B781-4598B8B9D0CB}</Project>
       <Name>blogflow</Name>

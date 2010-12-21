@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using blogflow.Domain.Models;
+using blogflow.Domain.Workflow.EntrySteps;
+using blogflow.Domain.Workflow.ExitSteps;
 using fluentworkflow.core;
 using blogflow.Domain.Workflow;
 using fluentworkflow.core.Builder;
@@ -15,6 +17,12 @@ namespace blogflow.Domain.Registration
         {
             builder.ForWorkflow(DocumentType.Comment, WorkflowState.Create)
                 .OnExit<StateChangeRecorder>();
+
+            builder.ForWorkflow(DocumentType.Comment, WorkflowState.UnderReview)
+                .OnEntry<DocumentPersister>();
+            //.OnMutatableEntry<AutoApproveProcessor>().DependsOn<DocumentPersister>()
+//                .OnEntry<UnderReviewNotifier>().DependsOn<AutoApproveProcessor>();
+
 
         }
     }
