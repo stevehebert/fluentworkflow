@@ -2,6 +2,7 @@
 using blogflow.Domain.Models;
 using blogflow.Domain.Repository;
 using NUnit.Framework;
+using Raven.Client;
 
 namespace blogflow.unittests.Domain.Repository
 {
@@ -13,10 +14,9 @@ namespace blogflow.unittests.Domain.Repository
         {
             var item = new TestDocument {Id = Guid.NewGuid(), Name = "foo"};
 
-            using( var store = new DocumentStoreFactory().CreateStore())
-            using( var session = store.OpenSession())
+            using( var sessionProvider = new TestSessionProvider())
             {
-                var repo = new BlogFlowRepository(session);
+                var repo = new BlogFlowRepository(sessionProvider.Session);
 
                 repo.Add(item);
                 repo.Save();
@@ -26,6 +26,41 @@ namespace blogflow.unittests.Domain.Repository
                 Assert.That(retrievedItem, Is.Not.Null);
                 Assert.That(retrievedItem.Id, Is.EqualTo(item.Id));
                 Assert.That(retrievedItem.Name, Is.EqualTo(item.Name));
+            }
+        }
+    }
+
+    public class TestSessionProvider : IDisposable
+    {
+        private bool _finalized;
+        private IDocumentStore _documentStore;
+
+        public TestSessionProvider()
+        {
+            _documentStore = new DocumentStoreFactory().CreateStore();
+            Session = _documentStore.OpenSession();
+        }
+
+        public IDocumentSession Session { get; private set; }
+
+        ~TestSessionProvider()
+        {
+            if( !_finalized)
+                throw new InvalidOperationException("test session provider not disposed");
+
+        }
+
+        public void Dispose()
+        {
+            if (!_finalized)
+            {
+                _documentStore.Dispose();
+                Session.Dispose();
+                Session = null;
+                _documentStore = null;
+
+                GC.SuppressFinalize(this);
+                _finalized = true;
             }
         }
     }
