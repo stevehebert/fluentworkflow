@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=2.3.2.632, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\autofac\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\lib\moq\Moq.dll</HintPath>
     </Reference>
@@ -61,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Registration\WorkflowConfigurationModuleTests.cs" />
     <Compile Include="Domain\Repository\BlogFlowRepositoryTests.cs" />
     <Compile Include="Domain\Repository\DocumentStoreFactoryTests.cs" />
     <Compile Include="Domain\Workflow\EntrySteps\AutoApproveProcessorTests.cs" />
