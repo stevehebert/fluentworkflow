@@ -11,11 +11,12 @@ namespace blogflow.Domain.Workflow.EntrySteps
         /// <summary>
         /// hands the target state to the context and saves
         /// </summary>
-        /// <param name="stateStepInfo">The state step info.</param>
-        public void Execute(StateStepInfo<WorkflowState, StateTrigger, IDocumentContext> stateStepInfo)
+        /// <param name="entryStateStepInfo">The state step info.</param>
+        public void Execute(EntryStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo)
         {
-            stateStepInfo.Context.SetState(stateStepInfo.TransitionInfo.TargetState);
-            stateStepInfo.Context.Save();
+
+            entryStateStepInfo.Context.SetState(entryStateStepInfo.StateEntryTransitionInfo.CurrentState);
+            entryStateStepInfo.Context.Save();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace fluentworkflow.core.Configuration
                 return;
 
             var flowMutator = new FlowMutator<TTrigger, TTriggerContext>(triggerContext);
-            var stateStepInfo = new StateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext, 
+            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext, 
                                                                                      transition);
             
             foreach(var item in items)
@@ -53,7 +53,7 @@ namespace fluentworkflow.core.Configuration
         }
 
         private void Dispatch( IStateStep<TState, TTrigger, TTriggerContext> stateStep, 
-                               StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo, 
+                               EntryStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo, 
                                IFlowMutator<TTrigger, TTriggerContext> flowMutator,
                                WorkflowStepActionType actionType)
         {
@@ -63,7 +63,7 @@ namespace fluentworkflow.core.Configuration
 
                 if (mutatingStateStep != null)
                 {
-                    mutatingStateStep.Execute(stateStepInfo, flowMutator);
+                    mutatingStateStep.Execute(entryStateStepInfo, flowMutator);
                     return;
                 }
 
@@ -74,7 +74,7 @@ namespace fluentworkflow.core.Configuration
                                                                       "Internal error mismatch on entry type with state step {0}",
                                                                       stateStep.GetType()));
 
-                entryStateStep.Execute(stateStepInfo);
+                entryStateStep.Execute(entryStateStepInfo);
 
                 return;
             }
@@ -86,7 +86,7 @@ namespace fluentworkflow.core.Configuration
                                                                   "Internal error mismatch on entry type with state step {0}",
                                                                   stateStep.GetType()));
 
-            exitStep.Execute(stateStepInfo);
+            exitStep.Execute(entryStateStepInfo);
         }
     }
 }

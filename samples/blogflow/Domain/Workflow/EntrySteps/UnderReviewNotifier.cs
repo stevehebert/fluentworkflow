@@ -23,10 +23,10 @@ namespace blogflow.Domain.Workflow.EntrySteps
         /// <summary>
         /// Executes the specified state step notifying when a document is under review
         /// </summary>
-        /// <param name="stateStepInfo">The state step info.</param>
-        public void Execute(StateStepInfo<WorkflowState, StateTrigger, IDocumentContext> stateStepInfo)
+        /// <param name="entryStateStepInfo">The state step info.</param>
+        public void Execute(EntryStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo)
         {
-            _contextNotification.NotifyUnderReviewStatus(stateStepInfo.Context);
+            _contextNotification.NotifyUnderReviewStatus(entryStateStepInfo.Context);
         }
     }
 }

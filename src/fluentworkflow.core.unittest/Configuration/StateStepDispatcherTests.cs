@@ -10,7 +10,7 @@ namespace fluentworkflow.core.unittest.Configuration
 {
     public class SimpleMockStep : IMutatingEntryStateStep<StateType, TriggerType, TriggerContext>
     {
-        public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo, IFlowMutator<TriggerType, TriggerContext> flowMutator)
+        public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo, IFlowMutator<TriggerType, TriggerContext> flowMutator)
         {
             flowMutator.SetTrigger(TriggerType.Publish);
         }

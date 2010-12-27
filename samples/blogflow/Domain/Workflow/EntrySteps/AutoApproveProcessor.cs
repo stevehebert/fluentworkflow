@@ -6,9 +6,9 @@ namespace blogflow.Domain.Workflow.EntrySteps
 {
     public class AutoApproveProcessor : IMutatingEntryStateStep<WorkflowState, StateTrigger, IDocumentContext>
     {
-        public void Execute(StateStepInfo<WorkflowState, StateTrigger, IDocumentContext> stateStepInfo, IFlowMutator<StateTrigger, IDocumentContext> flowMutator)
+        public void Execute(EntryStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo, IFlowMutator<StateTrigger, IDocumentContext> flowMutator)
         {
-            if(stateStepInfo.Context.UserName == "foo")
+            if(entryStateStepInfo.Context.UserName == "foo")
                 flowMutator.SetTrigger(StateTrigger.Approve);
         }
     }

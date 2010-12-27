@@ -13,7 +13,7 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new StateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TContext>(context, transition);
 
             exitStateStep.Execute(stateStepInfo);
         }
@@ -26,7 +26,7 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new StateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TContext>(context, transition);
 
             entryStateStep.Execute(stateStepInfo);
         }
@@ -39,7 +39,7 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new StateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TContext>(context, transition);
 
             var flowMutator = new FlowMutator<TTrigger, TContext>(context);
 

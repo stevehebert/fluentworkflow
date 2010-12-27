@@ -338,35 +338,35 @@ namespace fluentworkflow.core.unittest.Analysis
 
         public class TestStep1 : IStateStep<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo)
             {
             }
         }
 
         public class TestStep2 : IStateStep<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo)
             {
             }
         }
 
         public class TestStep3 : IStateStep<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo)
             {
             }
         }
 
         public class TestStep4 : IStateStep<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo)
             {
             }
         }
 
         public class TestStep5 : IStateStep<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo)
             {
             }
         }

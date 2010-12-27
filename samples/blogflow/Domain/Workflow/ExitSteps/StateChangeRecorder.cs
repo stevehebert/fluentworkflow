@@ -24,10 +24,10 @@ namespace blogflow.Domain.Workflow.ExitSteps
         /// <summary>
         /// Executes the specified state step.
         /// </summary>
-        /// <param name="stateStepInfo">The state step info.</param>
-        public void Execute(StateStepInfo<WorkflowState, StateTrigger, IDocumentContext> stateStepInfo)
+        /// <param name="entryStateStepInfo">The state step info.</param>
+        public void Execute(EntryStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo)
         {
-            var item = new StateChangeInfo(stateStepInfo.TransitionInfo.SourceState, DateTime.Now);
+            var item = new StateChangeInfo(entryStateStepInfo.StateEntryTransitionInfo.PriorState, DateTime.Now);
             _repository.Add(item);
             _repository.Save();
         }

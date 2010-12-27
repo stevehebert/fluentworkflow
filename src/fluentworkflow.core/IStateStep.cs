@@ -15,17 +15,17 @@ namespace fluentworkflow.core
 
     public interface IExitStateStep<TState, TTrigger, TTriggerContext> : IStateStep<TState, TTrigger, TTriggerContext>
     {
-        void Execute(StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo);
+        void Execute(EntryStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo);
     }
 
     public interface IEntryStateStep<TState, TTrigger, TTriggerContext> : IStateStep<TState, TTrigger, TTriggerContext>
     {
-        void Execute(StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo);
+        void Execute(EntryStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo);
     }
 
     public interface IMutatingEntryStateStep<TState, TTrigger, TTriggerContext> : IStateStep<TState, TTrigger, TTriggerContext>
     {
-        void Execute(StateStepInfo<TState, TTrigger, TTriggerContext> stateStepInfo,
+        void Execute(EntryStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo,
                      IFlowMutator<TTrigger, TTriggerContext> flowMutator);
     }
 
