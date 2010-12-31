@@ -5,7 +5,7 @@ using Stateless;
 namespace fluentworkflow.core.unittest
 {
     [TestFixture]
-    public class TransitionInfoTests
+    public class StateEntryTransitionInfoTests
     {
         [Test]
         public void verify_information_passthrough()

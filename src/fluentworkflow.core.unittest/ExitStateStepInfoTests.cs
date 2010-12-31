@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using fluentworkflow.core.unittest.enums;
+﻿using fluentworkflow.core.unittest.enums;
 using NUnit.Framework;
 using Stateless;
 
