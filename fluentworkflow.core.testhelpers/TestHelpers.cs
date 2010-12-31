@@ -13,7 +13,7 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new ExitStateStepInfo<TState, TTrigger, TContext>(context, transition);
 
             exitStateStep.Execute(stateStepInfo);
         }

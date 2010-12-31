@@ -15,7 +15,7 @@ namespace fluentworkflow.core
 
     public interface IExitStateStep<TState, TTrigger, TTriggerContext> : IStateStep<TState, TTrigger, TTriggerContext>
     {
-        void Execute(EntryStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo);
+        void Execute(ExitStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo);
     }
 
     public interface IEntryStateStep<TState, TTrigger, TTriggerContext> : IStateStep<TState, TTrigger, TTriggerContext>

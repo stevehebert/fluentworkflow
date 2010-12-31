@@ -46,13 +46,12 @@ namespace fluentworkflow.core.unittest.Configuration
             stateMachine.Configure(StateType.New).Permit(TriggerType.Publish, StateType.UnderReview);
 
 
-            dispatcher.ExecuteStepActions(declaration,
+            dispatcher.ExecuteEntryStepActions(declaration,
                                           context,
                                           new StateMachine<StateType, TriggerType>.Transition(StateType.New,
                                                                                               StateType.UnderReview,
                                                                                               TriggerType.Publish),
-                                          stateMachine,
-                                          WorkflowStepActionType.Entry);
+                                          stateMachine);
 
 
             Assert.That(stateMachine.State, Is.EqualTo(StateType.UnderReview));
@@ -67,7 +66,7 @@ namespace fluentworkflow.core.unittest.Configuration
         //}
 
 
-        //public void ExecuteStepActions(WorkflowStepDeclaration<TWorkflow, TState, TTrigger> stepDeclaration,
+        //public void ExecuteEntryStepActions(WorkflowStepDeclaration<TWorkflow, TState, TTrigger> stepDeclaration,
         //                               TTriggerContext triggerContext,
         //                               StateMachine<TState, TTrigger>.Transition transition,
         //                               StateMachine<TState, TTrigger> stateMachine,
