@@ -70,17 +70,19 @@
     <Compile Include="Configuration\StateTriggerAction.cs" />
     <Compile Include="Configuration\WorkflowStepAdapter.cs" />
     <Compile Include="Configuration\WorkflowStepDeclaration.cs" />
-    <Compile Include="IStateStep.cs" />
+    <Compile Include="ExitStateTaskInfo.cs" />
+    <Compile Include="IStateTask.cs" />
     <Compile Include="Metadata\MetadataBuildModule.cs" />
     <Compile Include="Metadata\MetadataInstance.cs" />
+    <Compile Include="StateExitTransitionInfo.cs" />
     <Compile Include="StepPriority.cs" />
-    <Compile Include="TransitionInfo.cs" />
+    <Compile Include="StateEntryTransitionInfo.cs" />
     <Compile Include="IFluentStateEngine.cs" />
     <Compile Include="FluentStateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateStepInfo.cs" />
+    <Compile Include="EntryStateTaskInfo.cs" />
     <Compile Include="FluentWorkflowModule.cs" />
-    <Compile Include="WorkflowStepActionType.cs" />
+    <Compile Include="WorkflowTaskActionType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FluentStateEngine.cd" />

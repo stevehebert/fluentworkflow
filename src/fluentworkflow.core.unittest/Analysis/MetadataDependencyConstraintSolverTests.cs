@@ -27,22 +27,22 @@ namespace fluentworkflow.core.unittest.Analysis
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(Step1)));
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowStepActionType.Entry, 0, typeof(Step2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(Task1)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
 
-            typeRegistrations.Add(typeof(Step1), metadata);
+            typeRegistrations.Add(typeof(Task1), metadata);
 
             metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowStepActionType.Entry, 0, null));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry, 0, null));
 
-            typeRegistrations.Add(typeof(Step2), metadata);
+            typeRegistrations.Add(typeof(Task2), metadata);
 
             var analyzer = new MetadataDependencyConstraintSolver();
             var errorResults = analyzer.Analyze(typeRegistrations);
 
             Assert.That(errorResults.Count(), Is.EqualTo(1));
-            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Step1)));
-            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step1)));
+            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Task1)));
+            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Task1)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
             Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
@@ -55,16 +55,16 @@ namespace fluentworkflow.core.unittest.Analysis
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(Step1)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(Task1)));
 
-            typeRegistrations.Add(typeof(Step1), metadata);
+            typeRegistrations.Add(typeof(Task1), metadata);
 
             var analyzer = new MetadataDependencyConstraintSolver();
             var errorResults = analyzer.Analyze(typeRegistrations);
 
             Assert.That(errorResults.Count(), Is.EqualTo(1));
-            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Step1)));
-            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step1)));
+            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Task1)));
+            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Task1)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
             Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.ParticipatesInCyclicalReference));
@@ -77,14 +77,14 @@ namespace fluentworkflow.core.unittest.Analysis
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(Step2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
 
-            typeRegistrations.Add(typeof(Step1), metadata);
+            typeRegistrations.Add(typeof(Task1), metadata);
 
             metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, null));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, null));
 
-            typeRegistrations.Add(typeof (Step2), metadata);
+            typeRegistrations.Add(typeof (Task2), metadata);
 
             var analyzer = new MetadataDependencyConstraintSolver();
             var errorResults = analyzer.Analyze(typeRegistrations);
@@ -98,16 +98,16 @@ namespace fluentworkflow.core.unittest.Analysis
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(Step2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
 
-            typeRegistrations.Add(typeof(Step1), metadata);
+            typeRegistrations.Add(typeof(Task1), metadata);
 
             var analyzer = new MetadataDependencyConstraintSolver();
             var errorResults = analyzer.Analyze(typeRegistrations);
 
             Assert.That(errorResults.Count(), Is.EqualTo(1));
-            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Step1)));
-            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step2)));
+            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Task1)));
+            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Task2)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
             Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.UnknownDependency));
@@ -119,22 +119,22 @@ namespace fluentworkflow.core.unittest.Analysis
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(Step2)));
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowStepActionType.Entry, 0, typeof(Step2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
  
-            typeRegistrations.Add(typeof(Step1), metadata);
+            typeRegistrations.Add(typeof(Task1), metadata);
 
             metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowStepActionType.Entry, 0, null));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry, 0, null));
 
-            typeRegistrations.Add(typeof(Step2), metadata);
+            typeRegistrations.Add(typeof(Task2), metadata);
 
             var analyzer = new MetadataDependencyConstraintSolver();
             var errorResults = analyzer.Analyze(typeRegistrations);
 
             Assert.That(errorResults.Count(), Is.EqualTo(1));
-            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Step1)));
-            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step2)));
+            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Task1)));
+            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Task2)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
             Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.UnknownDependency));
@@ -143,7 +143,7 @@ namespace fluentworkflow.core.unittest.Analysis
         private static KeyValuePair<Type, IStateActionMetadata<WorkflowType, StateType>> CreateInterdependentSteps<TStep, TDependency>()
         {
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(TDependency)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(TDependency)));
 
             return new KeyValuePair<Type, IStateActionMetadata<WorkflowType, StateType>>(typeof(TStep), metadata);
         }
@@ -151,7 +151,7 @@ namespace fluentworkflow.core.unittest.Analysis
         private static KeyValuePair<Type, IStateActionMetadata<WorkflowType, StateType>> CreateIndependentSteps<TStep>()
         {
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, null));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, null));
 
             return new KeyValuePair<Type, IStateActionMetadata<WorkflowType, StateType>>(typeof(TStep), metadata);
         }
@@ -312,61 +312,61 @@ namespace fluentworkflow.core.unittest.Analysis
             var typeRegistrations = new Dictionary<Type, IStateActionMetadata<WorkflowType, StateType>>();
 
             var metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowStepActionType.Entry, 0, typeof(Step2)));
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowStepActionType.Entry, 0, typeof(Step2)));
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.NewOrder, StateType.Rejected, WorkflowStepActionType.Entry, 0, typeof(Step2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.New, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.NewOrder, StateType.Rejected, WorkflowTaskActionType.Entry, 0, typeof(Task2)));
 
-            typeRegistrations.Add(typeof(Step1), metadata);
+            typeRegistrations.Add(typeof(Task1), metadata);
 
             metadata = new StateActionMetadata<WorkflowType, StateType>();
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowStepActionType.Entry, 0, null));
-            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.NewOrder, StateType.Rejected, WorkflowStepActionType.Entry, 0, null));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry, 0, null));
+            metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.NewOrder, StateType.Rejected, WorkflowTaskActionType.Entry, 0, null));
 
-            typeRegistrations.Add(typeof(Step2), metadata);
+            typeRegistrations.Add(typeof(Task2), metadata);
 
             var analyzer = new MetadataDependencyConstraintSolver();
             var errorResults = analyzer.Analyze(typeRegistrations);
 
             Assert.That(errorResults.Count(), Is.EqualTo(1));
-            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Step1)));
-            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Step2)));
+            Assert.That(errorResults.First().Step, Is.EqualTo(typeof(Task1)));
+            Assert.That(errorResults.First().Dependency, Is.EqualTo(typeof(Task2)));
             Assert.That(errorResults.First().State, Is.EqualTo(StateType.New));
             Assert.That(errorResults.First().Workflow, Is.EqualTo(WorkflowType.Comment));
             Assert.That(errorResults.First().ErrorReason, Is.EqualTo(StateDependencyErrorReason.UnknownDependency));
         }
 
 
-        public class TestStep1 : IStateStep<StateType, TriggerType, TriggerContext>
+        public class TestStep1 : IStateTask<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo)
             {
             }
         }
 
-        public class TestStep2 : IStateStep<StateType, TriggerType, TriggerContext>
+        public class TestStep2 : IStateTask<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo)
             {
             }
         }
 
-        public class TestStep3 : IStateStep<StateType, TriggerType, TriggerContext>
+        public class TestStep3 : IStateTask<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo)
             {
             }
         }
 
-        public class TestStep4 : IStateStep<StateType, TriggerType, TriggerContext>
+        public class TestStep4 : IStateTask<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo)
             {
             }
         }
 
-        public class TestStep5 : IStateStep<StateType, TriggerType, TriggerContext>
+        public class TestStep5 : IStateTask<StateType, TriggerType, TriggerContext>
         {
-            public void Execute(StateStepInfo<StateType, TriggerType, TriggerContext> stateStepInfo)
+            public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo)
             {
             }
         }

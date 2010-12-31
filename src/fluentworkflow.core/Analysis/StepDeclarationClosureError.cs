@@ -40,5 +40,19 @@
             DeclaringTrigger = declaringTrigger;
             DestinationState = destinationState;
         }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return
+                string.Format(
+                    "  Error: Workflow '{0}', State '{1}', Trigger '{2}' points to destination state '{3}' that is undefined.",
+                    Workflow, DeclaringState, DeclaringTrigger, DestinationState);
+        }
     }
 }

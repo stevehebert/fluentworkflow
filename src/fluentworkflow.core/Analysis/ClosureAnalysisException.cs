@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace fluentworkflow.core.Analysis
@@ -18,8 +17,10 @@ namespace fluentworkflow.core.Analysis
         {
             var builder = new StringBuilder();
 
+            builder.AppendLine("Fatal Error: workflow closure errors found");
+
             foreach (var error in errors)
-                builder.Append(error.ToString());
+                builder.AppendLine(error.ToString());
 
             return builder.ToString();
         }

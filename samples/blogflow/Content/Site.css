@@ -6,8 +6,8 @@ to use a different color start by replacing all instances of
 body
 {
     background-color: #5c87b2;
-    font-size: .75em;
-    font-family: Verdana, Helvetica, Sans-Serif;
+    font-size: 75%;
+    font-family: Verdana, Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
     color: #696969;
@@ -44,7 +44,6 @@ h1, h2, h3, h4, h5, h6
 {
     font-size: 1.5em;
     color: #000;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1
@@ -105,7 +104,6 @@ page width. Or, you can specify an exact pixel width. */
     color: #fff;
     border: none;
     line-height: 2em;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 32px !important;
 }
 
@@ -186,21 +184,20 @@ ul#menu li.selected a
 
 fieldset 
 {
-    margin: 1em 0;
-    padding: 1em;
-    border: 1px solid #CCC;
-}
-
-fieldset p 
-{
-    margin: 2px 12px 10px 10px;
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
 }
 
 legend 
 {
-    font-size: 1.1em;
-    font-weight: 600;
-    padding: 2px 4px 8px 4px;
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
 }
 
 input[type="text"] 
@@ -321,11 +318,15 @@ div#title
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
 .display-label,
-.editor-label,
+.editor-label
+{
+    margin: 1em 0 0 0;
+}
+
 .display-field,
 .editor-field
 {
-    margin: 0.5em 0;
+    margin:0.5em 0 0 0;
 }
 
 .text-box

@@ -43,18 +43,16 @@ namespace fluentworkflow.core.Configuration
                 configuration.Permit(path.Trigger, path.DestinationState);
 
             configuration.OnEntry<TTriggerContext>(
-                (transition, context) => _stateStepDispatcher.ExecuteStepActions(_workflowStepDeclaration,
+                (transition, context) => _stateStepDispatcher.ExecuteEntryStepActions(_workflowStepDeclaration,
                                                                                  context,
                                                                                  transition,
-                                                                                 stateMachine,
-                                                                                 WorkflowStepActionType.Entry));
+                                                                                 stateMachine));
 
             configuration.OnExit<TTriggerContext>(
-                (transition, context) => _stateStepDispatcher.ExecuteStepActions(_workflowStepDeclaration, 
+                (transition, context) => _stateStepDispatcher.ExecuteExitStepActions(_workflowStepDeclaration, 
                                                                                  context, 
                                                                                  transition,
-                                                                                 stateMachine,
-                                                                                 WorkflowStepActionType.Exit));
+                                                                                 stateMachine));
 
         }
     }

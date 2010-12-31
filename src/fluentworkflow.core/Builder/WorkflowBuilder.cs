@@ -40,7 +40,7 @@ namespace fluentworkflow.core.Builder
         /// Gets or sets the type of the action.
         /// </summary>
         /// <value>The type of the action.</value>
-        public WorkflowStepActionType ActionType { get; set; }
+        public WorkflowTaskActionType ActionType { get; set; }
 
         /// <summary>
         /// Gets or sets the priority.

@@ -20,7 +20,7 @@ namespace fluentworkflow.core.Analysis
             builder.Append("State Step Dependency Errors on:\n");
 
             foreach (var error in stateStepDependencyErrors)
-                builder.AppendFormat("  {0}\n", error);
+                builder.AppendLine("  " + error);
 
             return builder.ToString();
         }

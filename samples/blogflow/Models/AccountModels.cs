@@ -12,62 +12,62 @@ namespace blogflow.Models
 {
 
     #region Models
-    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+
     public class ChangePasswordModel
     {
         [Required]
         [DataType(DataType.Password)]
-        [DisplayName("Current password")]
+        [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
         [Required]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
-        [DisplayName("New password")]
+        [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
-        [Required]
         [DataType(DataType.Password)]
-        [DisplayName("Confirm new password")]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class LogOnModel
     {
         [Required]
-        [DisplayName("User name")]
+        [Display(Name = "User name")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [DisplayName("Password")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [DisplayName("Remember me?")]
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 
-    [PropertiesMustMatch("Password", "ConfirmPassword", ErrorMessage = "The password and confirmation password do not match.")]
+
     public class RegisterModel
     {
         [Required]
-        [DisplayName("User name")]
+        [Display(Name = "User name")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        [DisplayName("Email address")]
+        [Display(Name = "Email address")]
         public string Email { get; set; }
 
         [Required]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
-        [DisplayName("Password")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required]
         [DataType(DataType.Password)]
-        [DisplayName("Confirm password")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
     #endregion
@@ -216,47 +216,8 @@ namespace blogflow.Models
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-    public sealed class PropertiesMustMatchAttribute : ValidationAttribute
-    {
-        private const string _defaultErrorMessage = "'{0}' and '{1}' do not match.";
-        private readonly object _typeId = new object();
-
-        public PropertiesMustMatchAttribute(string originalProperty, string confirmProperty)
-            : base(_defaultErrorMessage)
-        {
-            OriginalProperty = originalProperty;
-            ConfirmProperty = confirmProperty;
-        }
-
-        public string ConfirmProperty { get; private set; }
-        public string OriginalProperty { get; private set; }
-
-        public override object TypeId
-        {
-            get
-            {
-                return _typeId;
-            }
-        }
-
-        public override string FormatErrorMessage(string name)
-        {
-            return String.Format(CultureInfo.CurrentUICulture, ErrorMessageString,
-                OriginalProperty, ConfirmProperty);
-        }
-
-        public override bool IsValid(object value)
-        {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(value);
-            object originalValue = properties.Find(OriginalProperty, true /* ignoreCase */).GetValue(value);
-            object confirmValue = properties.Find(ConfirmProperty, true /* ignoreCase */).GetValue(value);
-            return Object.Equals(originalValue, confirmValue);
-        }
-    }
-
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class ValidatePasswordLengthAttribute : ValidationAttribute
+    public sealed class ValidatePasswordLengthAttribute : ValidationAttribute, IClientValidatable
     {
         private const string _defaultErrorMessage = "'{0}' must be at least {1} characters long.";
         private readonly int _minCharacters = Membership.Provider.MinRequiredPasswordLength;
@@ -268,7 +229,7 @@ namespace blogflow.Models
 
         public override string FormatErrorMessage(string name)
         {
-            return String.Format(CultureInfo.CurrentUICulture, ErrorMessageString,
+            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString,
                 name, _minCharacters);
         }
 
@@ -276,6 +237,13 @@ namespace blogflow.Models
         {
             string valueAsString = value as string;
             return (valueAsString != null && valueAsString.Length >= _minCharacters);
+        }
+
+        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        {
+            return new[]{
+                new ModelClientValidationStringLengthRule(FormatErrorMessage(metadata.GetDisplayName()), _minCharacters, int.MaxValue)
+            };
         }
     }
     #endregion
