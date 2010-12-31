@@ -61,6 +61,7 @@
     <Compile Include="Builder\StateStepConfigurationTests.cs" />
     <Compile Include="Builder\TriggerTripTests.cs" />
     <Compile Include="Configuration\StateStepDispatcherTests.cs" />
+    <Compile Include="ExitStateStepInfoTests.cs" />
     <Compile Include="ExitStep3.cs" />
     <Compile Include="EntryStateStepInfoTests.cs" />
     <Compile Include="Step1.cs" />

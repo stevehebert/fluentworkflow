@@ -70,6 +70,7 @@
     <Compile Include="Configuration\StateTriggerAction.cs" />
     <Compile Include="Configuration\WorkflowStepAdapter.cs" />
     <Compile Include="Configuration\WorkflowStepDeclaration.cs" />
+    <Compile Include="ExitStateStepInfo.cs" />
     <Compile Include="IStateStep.cs" />
     <Compile Include="Metadata\MetadataBuildModule.cs" />
     <Compile Include="Metadata\MetadataInstance.cs" />
