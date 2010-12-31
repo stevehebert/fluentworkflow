@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Stateless;
+﻿using Stateless;
 
 namespace fluentworkflow.core.Configuration
 {
 
-    public interface IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>
+    public interface IStateStepDispatcher<TWorkflow, TState, TTrigger, in TTriggerContext>
     {
         void ExecuteStepActions(WorkflowStepDeclaration<TWorkflow, TState, TTrigger> stepDeclaration,
                                 TTriggerContext triggerContext,
