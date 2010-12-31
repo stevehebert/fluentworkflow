@@ -26,23 +26,23 @@ namespace fluentworkflow.core.unittest.Builder
         {
             var config = new StateStepConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
 
-            config.OnEntry<Step1>();
-            config.OnExit<ExitStep3>();
+            config.OnEntry<Task1>();
+            config.OnExit<ExitTask3>();
             
 
             Assert.That(config.State, Is.EqualTo(StateType.Rejected));
             Assert.That(
                 config.StateStepInfos.Where(
                     p =>
-                    p.ActionType == WorkflowStepActionType.Entry &&
-                    p.StateStepType == typeof (Step1)).Count(), Is.EqualTo(1));
+                    p.ActionType == WorkflowTaskActionType.Entry &&
+                    p.StateStepType == typeof (Task1)).Count(), Is.EqualTo(1));
 
 
             Assert.That(
                 config.StateStepInfos.Where(
                     p =>
-                    p.ActionType == WorkflowStepActionType.Exit && 
-                    p.StateStepType == typeof(ExitStep3)).Count(), Is.EqualTo(1));
+                    p.ActionType == WorkflowTaskActionType.Exit && 
+                    p.StateStepType == typeof(ExitTask3)).Count(), Is.EqualTo(1));
         }
     }
 }

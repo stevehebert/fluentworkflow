@@ -24,7 +24,7 @@ namespace fluentworkflow.core.Builder
         /// Gets the type of the action.
         /// </summary>
         /// <value>The type of the action.</value>
-        public WorkflowStepActionType ActionType { get; private set; }
+        public WorkflowTaskActionType ActionType { get; private set; }
 
         /// <summary>
         /// Gets the dependency.
@@ -50,7 +50,7 @@ namespace fluentworkflow.core.Builder
         /// <param name="stateStepType">Type of the state step.</param>
         /// <param name="priority">The priority.</param>
         /// <param name="actionType">Type of the action.</param>
-        public StateStepMetadata(Type stateStepType, int priority, WorkflowStepActionType actionType)
+        public StateStepMetadata(Type stateStepType, int priority, WorkflowTaskActionType actionType)
         {
             StateStepType = stateStepType;
             Priority = priority;

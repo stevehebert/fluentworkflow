@@ -20,7 +20,7 @@ namespace fluentworkflow.core.Configuration
         /// Gets workflow step action value.
         /// </summary>
         /// <value>The workflow step action value.</value>
-        public WorkflowStepActionType WorkflowStepActionType { get; private set; }
+        public WorkflowTaskActionType WorkflowTaskActionType { get; private set; }
 
         /// <summary>
         /// Gets the priority.
@@ -35,14 +35,14 @@ namespace fluentworkflow.core.Configuration
         /// </summary>
         /// <param name="workflow">The workflow.</param>
         /// <param name="state">The state.</param>
-        /// <param name="workflowStepActionType">Type of the workflow step action.</param>
+        /// <param name="workflowTaskActionType">Type of the workflow step action.</param>
         /// <param name="stepPriority">execution priority of the step</param>
         /// <param name="dependency">action dependency</param>
-        public StateActionInfo(TWorkflow workflow, TState state, WorkflowStepActionType workflowStepActionType, int stepPriority, Type dependency)
+        public StateActionInfo(TWorkflow workflow, TState state, WorkflowTaskActionType workflowTaskActionType, int stepPriority, Type dependency)
         {
             Workflow = workflow;
             State = state;
-            WorkflowStepActionType = workflowStepActionType;
+            WorkflowTaskActionType = workflowTaskActionType;
             Priority = stepPriority;
             Dependency = dependency;
         }

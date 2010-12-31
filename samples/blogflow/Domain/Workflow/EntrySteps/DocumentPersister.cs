@@ -6,17 +6,17 @@ namespace blogflow.Domain.Workflow.EntrySteps
     /// <summary>
     /// Responsible for notifying the context of the state change event
     /// </summary>
-    public class DocumentPersister : IEntryStateStep<WorkflowState, StateTrigger, IDocumentContext>
+    public class DocumentPersister : IEntryStateTask<WorkflowState, StateTrigger, IDocumentContext>
     {
         /// <summary>
         /// hands the target state to the context and saves
         /// </summary>
-        /// <param name="entryStateStepInfo">The state step info.</param>
-        public void Execute(EntryStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo)
+        /// <param name="entryStateTaskInfo">The state step info.</param>
+        public void Execute(EntryStateTaskInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateTaskInfo)
         {
 
-            entryStateStepInfo.Context.SetState(entryStateStepInfo.StateEntryTransitionInfo.CurrentState);
-            entryStateStepInfo.Context.Save();
+            entryStateTaskInfo.Context.SetState(entryStateTaskInfo.StateEntryTransitionInfo.CurrentState);
+            entryStateTaskInfo.Context.Save();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace fluentworkflow.core.Analysis
                                           || !typeRegistrations.Any(a => a.Key == p.q.Dependency
                                                         && a.Value.StateActionInfos.Any(b => b.State.Equals(p.q.State)
                                                         && b.Workflow.Equals(p.q.Workflow)
-                                                        && b.WorkflowStepActionType == p.q.WorkflowStepActionType))
+                                                        && b.WorkflowTaskActionType == p.q.WorkflowTaskActionType))
                                         select new StateStepDependencyError<TWorkflow, TState>
                                                    {
                                                        ErrorReason = StateDependencyErrorReason.UnknownDependency,
@@ -69,7 +69,7 @@ namespace fluentworkflow.core.Analysis
                               where q.Dependency == p1.Key
                                     && q.Workflow.Equals(q1.Workflow)
                                     && q.State.Equals(q1.State)
-                                    && q.WorkflowStepActionType == q1.WorkflowStepActionType
+                                    && q.WorkflowTaskActionType == q1.WorkflowTaskActionType
                               select new {q, q1, p.Key}).ToList();
                 
 

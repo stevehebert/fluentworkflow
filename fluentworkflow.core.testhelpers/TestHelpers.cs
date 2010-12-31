@@ -5,7 +5,7 @@ namespace fluentworkflow.core.testhelpers
 {
     public static class TestHelpers
     {
-        public static void ExecuteWithContext<TState,TTrigger,TContext>( this IExitStateStep<TState,TTrigger,TContext> exitStateStep,
+        public static void ExecuteWithContext<TState,TTrigger,TContext>( this IExitStateTask<TState,TTrigger,TContext> exitStateTask,
             TState source,
             TState destination,
             TTrigger trigger,
@@ -13,12 +13,12 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new ExitStateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new ExitStateTaskInfo<TState, TTrigger, TContext>(context, transition);
 
-            exitStateStep.Execute(stateStepInfo);
+            exitStateTask.Execute(stateStepInfo);
         }
 
-        public static void ExecuteWithContext<TState, TTrigger, TContext>(this IEntryStateStep<TState, TTrigger, TContext> entryStateStep,
+        public static void ExecuteWithContext<TState, TTrigger, TContext>(this IEntryStateTask<TState, TTrigger, TContext> entryStateTask,
             TState source,
             TState destination,
             TTrigger trigger,
@@ -26,12 +26,12 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new EntryStateTaskInfo<TState, TTrigger, TContext>(context, transition);
 
-            entryStateStep.Execute(stateStepInfo);
+            entryStateTask.Execute(stateStepInfo);
         }
 
-        public static IFlowMutator<TTrigger, TContext> ExecuteWithContext<TState, TTrigger, TContext>(this IMutatingEntryStateStep<TState, TTrigger, TContext> entryStateStep,
+        public static IFlowMutator<TTrigger, TContext> ExecuteWithContext<TState, TTrigger, TContext>(this IMutatingEntryStateTask<TState, TTrigger, TContext> entryStateTask,
             TState source,
             TState destination,
             TTrigger trigger,
@@ -39,11 +39,11 @@ namespace fluentworkflow.core.testhelpers
         {
             var transition = new StateMachine<TState, TTrigger>.Transition(source, destination, trigger);
 
-            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TContext>(context, transition);
+            var stateStepInfo = new EntryStateTaskInfo<TState, TTrigger, TContext>(context, transition);
 
             var flowMutator = new FlowMutator<TTrigger, TContext>(context);
 
-            entryStateStep.Execute(stateStepInfo, flowMutator);
+            entryStateTask.Execute(stateStepInfo, flowMutator);
 
             return flowMutator;
         }

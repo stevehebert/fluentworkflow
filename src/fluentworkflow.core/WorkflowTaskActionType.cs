@@ -1,7 +1,7 @@
 ﻿
 namespace fluentworkflow.core
 {
-    public enum WorkflowStepActionType
+    public enum WorkflowTaskActionType
     {
         Entry,
         Exit

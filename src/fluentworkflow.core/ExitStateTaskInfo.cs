@@ -2,13 +2,7 @@
 
 namespace fluentworkflow.core
 {
-    /// <summary>
-    /// Contextual information for the current state transition process
-    /// </summary>
-    /// <typeparam name="TState">The type of the state.</typeparam>
-    /// <typeparam name="TTrigger">The type of the trigger.</typeparam>
-    /// <typeparam name="TTriggerContext">The type of the trigger context.</typeparam>
-    public class EntryStateStepInfo<TState, TTrigger, TTriggerContext>
+    public class ExitStateTaskInfo<TState, TTrigger, TTriggerContext>
     {
         /// <summary>
         /// Gets the workflow context
@@ -20,20 +14,20 @@ namespace fluentworkflow.core
         /// Gets the state transition information
         /// </summary>
         /// <value>The transition info.</value>
-        public StateEntryTransitionInfo<TState, TTrigger> StateEntryTransitionInfo { get; private set; }
+        public StateExitTransitionInfo<TState, TTrigger> StateExitTransitionInfo { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EntryStateStepInfo{TState,TTrigger,TTriggerContext}"/> class.
+        /// Initializes a new instance of the <see cref="ExitStateTaskInfo{TState,TTrigger,TTriggerContext}"/> class.
         /// </summary>
         /// <param name="triggerContext">The trigger context.</param>
         /// <param name="transition">The transition information from the state machine.</param>
-        public EntryStateStepInfo(TTriggerContext triggerContext, 
+        public ExitStateTaskInfo(TTriggerContext triggerContext, 
                              StateMachine<TState, TTrigger>.Transition transition)
                              
         {
             Context = triggerContext;
 
-            StateEntryTransitionInfo = new StateEntryTransitionInfo<TState, TTrigger>(transition);
+            StateExitTransitionInfo = new StateExitTransitionInfo<TState, TTrigger>(transition);
         }
     }
 }

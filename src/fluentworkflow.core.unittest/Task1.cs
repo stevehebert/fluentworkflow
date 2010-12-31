@@ -3,10 +3,10 @@ using fluentworkflow.core.unittest.enums;
 
 namespace fluentworkflow.core.unittest
 {
-    public class Step1 : IEntryStateStep<StateType, TriggerType, TriggerContext>
+    public class Task1 : IEntryStateTask<StateType, TriggerType, TriggerContext>
     {
         public static int ExecutionCount { get; private set; }
-        public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo)
+        public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo)
         {
             ExecutionCount++;
         }

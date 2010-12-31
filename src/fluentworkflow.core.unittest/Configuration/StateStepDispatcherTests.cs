@@ -8,9 +8,9 @@ using Stateless;
 
 namespace fluentworkflow.core.unittest.Configuration
 {
-    public class SimpleMockStep : IMutatingEntryStateStep<StateType, TriggerType, TriggerContext>
+    public class SimpleMockTask : IMutatingEntryStateTask<StateType, TriggerType, TriggerContext>
     {
-        public void Execute(EntryStateStepInfo<StateType, TriggerType, TriggerContext> entryStateStepInfo, IFlowMutator<TriggerType, TriggerContext> flowMutator)
+        public void Execute(EntryStateTaskInfo<StateType, TriggerType, TriggerContext> entryStateTaskInfo, IFlowMutator<TriggerType, TriggerContext> flowMutator)
         {
             flowMutator.SetTrigger(TriggerType.Publish);
         }
@@ -26,7 +26,7 @@ namespace fluentworkflow.core.unittest.Configuration
 
             metadata.Add(new StateActionInfo<WorkflowType, StateType>(WorkflowType.Comment,
                                                                       StateType.New,
-                                                                      WorkflowStepActionType.Entry,
+                                                                      WorkflowTaskActionType.Entry,
                                                                       5, null));
 
             var dispatcher =
@@ -34,9 +34,9 @@ namespace fluentworkflow.core.unittest.Configuration
                                                                                                   {
                                                                                                       new Lazy
                                                                                                           <
-                                                                                                          IStateStep<StateType,TriggerType,TriggerContext>,
+                                                                                                          IStateTask<StateType,TriggerType,TriggerContext>,
                                                                                                           IStateActionMetadata<WorkflowType,StateType>>(
-                                                                                                          () =>new SimpleMockStep(),metadata)
+                                                                                                          () =>new SimpleMockTask(),metadata)
                                                                                                   });
 
             var declaration = new WorkflowStepDeclaration<WorkflowType, StateType, TriggerType>(WorkflowType.Comment, StateType.New, new List<KeyValuePair<TriggerType, StateType>>());
@@ -58,9 +58,9 @@ namespace fluentworkflow.core.unittest.Configuration
 
         }
         //        private readonly
-        //    IEnumerable<Lazy<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> _stateSteps;
+        //    IEnumerable<Lazy<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> _stateSteps;
 
-        //public StateStepDispatcher(IEnumerable<Lazy<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> stateSteps)
+        //public StateStepDispatcher(IEnumerable<Lazy<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> stateSteps)
         //{
         //    _stateSteps = stateSteps;
         //}
@@ -70,13 +70,13 @@ namespace fluentworkflow.core.unittest.Configuration
         //                               TTriggerContext triggerContext,
         //                               StateMachine<TState, TTrigger>.Transition transition,
         //                               StateMachine<TState, TTrigger> stateMachine,
-        //                               WorkflowStepActionType workflowStepActionType)
+        //                               WorkflowTaskActionType WorkflowTaskActionType)
         //{
         //    var items = (from p in _stateSteps
         //                 from q in p.Metadata.StateActionInfos
         //                 where
         //                     (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
-        //                     q.WorkflowStepActionType == workflowStepActionType)
+        //                     q.WorkflowTaskActionType == WorkflowTaskActionType)
         //                 orderby q.Priority descending
         //                 select p.Value);
 

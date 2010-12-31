@@ -10,9 +10,9 @@ namespace fluentworkflow.core.Configuration
     public class StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext> : IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>
     {
         private readonly
-            IEnumerable<Lazy<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> _stateSteps;
+            IEnumerable<Lazy<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> _stateSteps;
 
-        public StateStepDispatcher(IEnumerable<Lazy<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> stateSteps)
+        public StateStepDispatcher(IEnumerable<Lazy<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> stateSteps)
         {
             _stateSteps = stateSteps;
         }
@@ -27,7 +27,7 @@ namespace fluentworkflow.core.Configuration
                          from q in p.Metadata.StateActionInfos
                          where
                              (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
-                             q.WorkflowStepActionType == WorkflowStepActionType.Entry)
+                             q.WorkflowTaskActionType == WorkflowTaskActionType.Entry)
                          orderby q.Priority
                          select p.Value);
 
@@ -35,7 +35,7 @@ namespace fluentworkflow.core.Configuration
                 return;
 
             var flowMutator = new FlowMutator<TTrigger, TTriggerContext>(triggerContext);
-            var stateStepInfo = new EntryStateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext,
+            var stateStepInfo = new EntryStateTaskInfo<TState, TTrigger, TTriggerContext>(triggerContext,
                                                                                      transition);
 
             foreach (var item in items)
@@ -57,7 +57,7 @@ namespace fluentworkflow.core.Configuration
                          from q in p.Metadata.StateActionInfos
                          where
                              (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
-                             q.WorkflowStepActionType == WorkflowStepActionType.Exit)
+                             q.WorkflowTaskActionType == WorkflowTaskActionType.Exit)
                          orderby q.Priority
                          select p.Value);
 
@@ -65,7 +65,7 @@ namespace fluentworkflow.core.Configuration
                 return;
 
             var flowMutator = new FlowMutator<TTrigger, TTriggerContext>(triggerContext);
-            var stateStepInfo = new ExitStateStepInfo<TState, TTrigger, TTriggerContext>(triggerContext,
+            var stateStepInfo = new ExitStateTaskInfo<TState, TTrigger, TTriggerContext>(triggerContext,
                                                                                          transition);
 
             foreach (var item in items)
@@ -82,39 +82,39 @@ namespace fluentworkflow.core.Configuration
 
         }
 
-        private void Dispatch(IStateStep<TState, TTrigger, TTriggerContext> stateStep,
-                               ExitStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo)
+        private void Dispatch(IStateTask<TState, TTrigger, TTriggerContext> stateTask,
+                               ExitStateTaskInfo<TState, TTrigger, TTriggerContext> entryStateTaskInfo)
         {
-            var exitStep = stateStep as IExitStateStep<TState, TTrigger, TTriggerContext>;
+            var exitStep = stateTask as IExitStateTask<TState, TTrigger, TTriggerContext>;
 
             if (exitStep == null)
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                                                                   "Internal error mismatch on entry type with state step {0}",
-                                                                  stateStep.GetType()));
+                                                                  stateTask.GetType()));
 
-            exitStep.Execute(entryStateStepInfo);
+            exitStep.Execute(entryStateTaskInfo);
         }
 
-        private void Dispatch(IStateStep<TState, TTrigger, TTriggerContext> stateStep,
-                               EntryStateStepInfo<TState, TTrigger, TTriggerContext> entryStateStepInfo,
+        private void Dispatch(IStateTask<TState, TTrigger, TTriggerContext> stateTask,
+                               EntryStateTaskInfo<TState, TTrigger, TTriggerContext> entryStateTaskInfo,
                                IFlowMutator<TTrigger, TTriggerContext> flowMutator)
         {
-            var mutatingStateStep = stateStep as IMutatingEntryStateStep<TState, TTrigger, TTriggerContext>;
+            var mutatingStateStep = stateTask as IMutatingEntryStateTask<TState, TTrigger, TTriggerContext>;
 
             if (mutatingStateStep != null)
             {
-                mutatingStateStep.Execute(entryStateStepInfo, flowMutator);
+                mutatingStateStep.Execute(entryStateTaskInfo, flowMutator);
                 return;
             }
 
-            var entryStateStep = stateStep as IEntryStateStep<TState, TTrigger, TTriggerContext>;
+            var entryStateStep = stateTask as IEntryStateTask<TState, TTrigger, TTriggerContext>;
 
             if (entryStateStep == null)
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                                                                   "Internal error mismatch on entry type with state step {0}",
-                                                                  stateStep.GetType()));
+                                                                  stateTask.GetType()));
 
-            entryStateStep.Execute(entryStateStepInfo);
+            entryStateStep.Execute(entryStateTaskInfo);
 
         }
     }

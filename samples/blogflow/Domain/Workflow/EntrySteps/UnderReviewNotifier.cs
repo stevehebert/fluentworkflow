@@ -7,7 +7,7 @@ namespace blogflow.Domain.Workflow.EntrySteps
     /// <summary>
     /// Responsible for initiating notifications based on a document entering the under review state
     /// </summary>
-    public class UnderReviewNotifier : IEntryStateStep<WorkflowState, StateTrigger, IDocumentContext>
+    public class UnderReviewNotifier : IEntryStateTask<WorkflowState, StateTrigger, IDocumentContext>
     {
         private readonly IContextNotification _contextNotification;
 
@@ -23,10 +23,10 @@ namespace blogflow.Domain.Workflow.EntrySteps
         /// <summary>
         /// Executes the specified state step notifying when a document is under review
         /// </summary>
-        /// <param name="entryStateStepInfo">The state step info.</param>
-        public void Execute(EntryStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo)
+        /// <param name="entryStateTaskInfo">The state step info.</param>
+        public void Execute(EntryStateTaskInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateTaskInfo)
         {
-            _contextNotification.NotifyUnderReviewStatus(entryStateStepInfo.Context);
+            _contextNotification.NotifyUnderReviewStatus(entryStateTaskInfo.Context);
         }
     }
 }

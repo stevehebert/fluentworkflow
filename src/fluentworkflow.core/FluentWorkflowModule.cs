@@ -11,7 +11,7 @@ namespace fluentworkflow.core
 {
     public abstract class FluentWorkflowModule<TWorkflow, TState, TTrigger, TTriggerContext> : Module
     {
-        internal class FluentWorkflowMetadataModule : MetadataModule<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>
+        internal class FluentWorkflowMetadataModule : MetadataModule<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>
         {
             private readonly IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> _metadataValues =
                 new Dictionary<Type, IStateActionMetadata<TWorkflow, TState>>();
@@ -21,7 +21,7 @@ namespace fluentworkflow.core
                 _metadataValues.Add(type, metadataValues);
             }
 
-            public override void Register(IMetadataRegistrar<IStateStep<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>> registrar)
+            public override void Register(IMetadataRegistrar<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>> registrar)
             {
                 var results = new MetadataDependencyConstraintSolver().Analyze(_metadataValues);
 

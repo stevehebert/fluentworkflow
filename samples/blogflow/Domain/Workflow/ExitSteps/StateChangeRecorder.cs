@@ -8,7 +8,7 @@ namespace blogflow.Domain.Workflow.ExitSteps
     /// <summary>
     /// Responsible for recording a state change on an exit state transition
     /// </summary>
-    public class StateChangeRecorder : IExitStateStep<WorkflowState, StateTrigger, IDocumentContext>
+    public class StateChangeRecorder : IExitStateTask<WorkflowState, StateTrigger, IDocumentContext>
     {
         private readonly IRepository _repository;
 
@@ -24,10 +24,10 @@ namespace blogflow.Domain.Workflow.ExitSteps
         /// <summary>
         /// Executes the specified state step.
         /// </summary>
-        /// <param name="entryStateStepInfo">The state step info.</param>
-        public void Execute(ExitStateStepInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateStepInfo)
+        /// <param name="entryStateTaskInfo">The state step info.</param>
+        public void Execute(ExitStateTaskInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateTaskInfo)
         {
-            var item = new StateChangeInfo(entryStateStepInfo.StateExitTransitionInfo.CurrentState, DateTime.Now);
+            var item = new StateChangeInfo(entryStateTaskInfo.StateExitTransitionInfo.CurrentState, DateTime.Now);
             _repository.Add(item);
             _repository.Save();
         }
