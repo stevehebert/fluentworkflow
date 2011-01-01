@@ -64,10 +64,8 @@
     <Compile Include="ExitStateTaskInfoTests.cs" />
     <Compile Include="ExitTask3.cs" />
     <Compile Include="EntryStateTaskInfoTests.cs" />
-    <Compile Include="StateExitTransitionInfoTests.cs" />
     <Compile Include="Task1.cs" />
     <Compile Include="Task2.cs" />
-    <Compile Include="StateEntryTransitionInfoTests.cs" />
     <Compile Include="enums\StateType.cs" />
     <Compile Include="enums\TriggerContext.cs" />
     <Compile Include="enums\TriggerType.cs" />

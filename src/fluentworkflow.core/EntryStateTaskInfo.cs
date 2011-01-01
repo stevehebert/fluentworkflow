@@ -17,10 +17,22 @@ namespace fluentworkflow.core
         public TTriggerContext Context { get; private set; }
 
         /// <summary>
-        /// Gets the state transition information
+        /// Gets the source state.
         /// </summary>
-        /// <value>The transition info.</value>
-        public StateEntryTransitionInfo<TState, TTrigger> StateEntryTransitionInfo { get; private set; }
+        /// <value>The source state.</value>
+        public TState PriorState { get; private set; }
+
+        /// <summary>
+        /// Gets the target state.
+        /// </summary>
+        /// <value>The target state.</value>
+        public TState CurrentState { get; private set; }
+
+        /// <summary>
+        /// Gets the trigger value intiating the state change
+        /// </summary>
+        /// <value>The trigger value.</value>
+        public TTrigger Trigger { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntryStateTaskInfo{TState,TTrigger,TTriggerContext}"/> class.
@@ -33,7 +45,9 @@ namespace fluentworkflow.core
         {
             Context = triggerContext;
 
-            StateEntryTransitionInfo = new StateEntryTransitionInfo<TState, TTrigger>(transition);
+            PriorState = transition.Source;
+            CurrentState = transition.Destination;
+            Trigger = transition.Trigger;
         }
     }
 }

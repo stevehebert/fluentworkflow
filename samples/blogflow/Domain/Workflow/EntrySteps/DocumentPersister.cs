@@ -15,7 +15,7 @@ namespace blogflow.Domain.Workflow.EntrySteps
         public void Execute(EntryStateTaskInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateTaskInfo)
         {
 
-            entryStateTaskInfo.Context.SetState(entryStateTaskInfo.StateEntryTransitionInfo.CurrentState);
+            entryStateTaskInfo.Context.SetState(entryStateTaskInfo.CurrentState);
             entryStateTaskInfo.Context.Save();
         }
     }

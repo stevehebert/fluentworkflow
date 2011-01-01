@@ -27,7 +27,7 @@ namespace blogflow.Domain.Workflow.ExitSteps
         /// <param name="entryStateTaskInfo">The state step info.</param>
         public void Execute(ExitStateTaskInfo<WorkflowState, StateTrigger, IDocumentContext> entryStateTaskInfo)
         {
-            var item = new StateChangeInfo(entryStateTaskInfo.StateExitTransitionInfo.CurrentState, DateTime.Now);
+            var item = new StateChangeInfo(entryStateTaskInfo.CurrentState, DateTime.Now);
             _repository.Add(item);
             _repository.Save();
         }

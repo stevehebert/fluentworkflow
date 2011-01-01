@@ -74,9 +74,7 @@
     <Compile Include="IStateTask.cs" />
     <Compile Include="Metadata\MetadataBuildModule.cs" />
     <Compile Include="Metadata\MetadataInstance.cs" />
-    <Compile Include="StateExitTransitionInfo.cs" />
     <Compile Include="StepPriority.cs" />
-    <Compile Include="StateEntryTransitionInfo.cs" />
     <Compile Include="IFluentStateEngine.cs" />
     <Compile Include="FluentStateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

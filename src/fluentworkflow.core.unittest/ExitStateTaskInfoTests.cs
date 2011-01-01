@@ -26,9 +26,8 @@ namespace fluentworkflow.core.unittest
 
             var stateStepInfo = new ExitStateTaskInfo<StateType, TriggerType, TriggerContext>(new TriggerContext { DocumentId = 5 }, transition);
 
-            Assert.That(stateStepInfo.StateExitTransitionInfo.CurrentState, Is.EqualTo(StateType.New));
-            Assert.That(stateStepInfo.StateExitTransitionInfo.NextState, Is.EqualTo(StateType.UnderReview));
+            Assert.That(stateStepInfo.CurrentState, Is.EqualTo(StateType.New));
+            Assert.That(stateStepInfo.NextState, Is.EqualTo(StateType.UnderReview));
         }
-
     }
 }
