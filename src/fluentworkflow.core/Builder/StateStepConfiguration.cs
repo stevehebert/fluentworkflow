@@ -11,9 +11,9 @@ namespace fluentworkflow.core.Builder
             _stateStepMetadata = stateStepMetadata;
         }
 
-        public StateStepConfiguration<TState, TTrigger, TTriggerContext> DependsOn<TType>()
+        public StateStepConfiguration<TState, TTrigger, TTriggerContext> DependsOn<TStateTask>() where TStateTask : IStateTask<TState, TTrigger, TTriggerContext> 
         {
-            _stateStepMetadata.SetDependency(typeof (TType));
+            _stateStepMetadata.SetDependency(typeof (TStateTask));
             return this;
         }
         
@@ -76,10 +76,10 @@ namespace fluentworkflow.core.Builder
         /// <summary>
         /// declares a step to be executed when entering the underlying state
         /// </summary>
-        /// <typeparam name="TStateStep">The type of the state step.</typeparam>
-        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnEntry<TStateStep>() where TStateStep : IEntryStateTask<TState, TTrigger, TTriggerContext>
+        /// <typeparam name="TStateTask">The type of the state step.</typeparam>
+        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnEntry<TStateTask>() where TStateTask : IEntryStateTask<TState, TTrigger, TTriggerContext>
         {
-            var metadata = new StateStepMetadata(typeof (TStateStep), 0, WorkflowTaskActionType.Entry);
+            var metadata = new StateStepMetadata(typeof (TStateTask), 0, WorkflowTaskActionType.Entry);
 
             _stateStepInfoList.Add(metadata);
             return new ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext>(metadata, State, _permittedTriggers, _stateStepInfoList);
@@ -88,10 +88,10 @@ namespace fluentworkflow.core.Builder
         /// <summary>
         /// declares a step to be executed when entering the underlying state
         /// </summary>
-        /// <typeparam name="TStateStep">The type of the state step.</typeparam>
-        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnMutatableEntry<TStateStep>() where TStateStep : IMutatingEntryStateTask<TState, TTrigger, TTriggerContext>
+        /// <typeparam name="TStateTask">The type of the state step.</typeparam>
+        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnMutatableEntry<TStateTask>() where TStateTask : IMutatingEntryStateTask<TState, TTrigger, TTriggerContext>
         {
-            var metadata = new StateStepMetadata(typeof (TStateStep), 0, WorkflowTaskActionType.Entry);
+            var metadata = new StateStepMetadata(typeof (TStateTask), 0, WorkflowTaskActionType.Entry);
 
             _stateStepInfoList.Add(metadata);
             return new ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext>(metadata, State,
@@ -103,10 +103,10 @@ namespace fluentworkflow.core.Builder
         /// <summary>
         /// declares a step to tbe executed when exiting the underlying state
         /// </summary>
-        /// <typeparam name="TStateStep">The type of the state step.</typeparam>
-        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnExit<TStateStep>() where TStateStep : IExitStateTask<TState, TTrigger, TTriggerContext>
+        /// <typeparam name="TStateTask">The type of the state step.</typeparam>
+        public ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext> OnExit<TStateTask>() where TStateTask : IExitStateTask<TState, TTrigger, TTriggerContext>
         {
-            var metadata = new StateStepMetadata(typeof (TStateStep), 0, WorkflowTaskActionType.Exit);
+            var metadata = new StateStepMetadata(typeof (TStateTask), 0, WorkflowTaskActionType.Exit);
 
             _stateStepInfoList.Add(metadata);
             return new ActiveStateStepConfiguration<TState, TTrigger, TTriggerContext>(metadata, State, _permittedTriggers, _stateStepInfoList);
