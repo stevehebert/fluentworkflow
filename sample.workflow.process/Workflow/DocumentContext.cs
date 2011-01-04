@@ -1,5 +1,4 @@
-﻿using System;
-using sample.workflow.process.Domain;
+﻿using sample.workflow.process.Domain;
 using sample.workflow.process.Repository;
 
 namespace sample.workflow.process.Workflow
