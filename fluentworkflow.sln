@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blogflow", "samples\blogflo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blogflow.unittests", "samples\blogflow.unittests\blogflow.unittests.csproj", "{63A23E69-71FC-442D-8D85-C4AD0B9F019C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.workflow.process", "sample.workflow.process\sample.workflow.process.csproj", "{8B25FCAE-5A44-4488-8D7C-60C575B4F854}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.workflow.process", "samples\sample.workflow.process\sample.workflow.process.csproj", "{8B25FCAE-5A44-4488-8D7C-60C575B4F854}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
