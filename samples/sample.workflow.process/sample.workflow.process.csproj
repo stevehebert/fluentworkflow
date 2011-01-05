@@ -37,22 +37,22 @@
   <ItemGroup>
     <Reference Include="Autofac, Version=2.3.2.632, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\autofac\Autofac.dll</HintPath>
+      <HintPath>..\..\lib\autofac\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded">
-      <HintPath>..\samples\lib\ravendb\Raven.Client.Embedded.dll</HintPath>
+      <HintPath>..\lib\ravendb\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\samples\lib\ravendb\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\lib\ravendb\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database">
-      <HintPath>..\samples\lib\ravendb\Raven.Database.dll</HintPath>
+      <HintPath>..\lib\ravendb\Raven.Database.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Storage.Esent">
-      <HintPath>..\samples\lib\ravendb\Raven.Storage.Esent.dll</HintPath>
+      <HintPath>..\lib\ravendb\Raven.Storage.Esent.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Storage.Managed">
-      <HintPath>..\samples\lib\ravendb\Raven.Storage.Managed.dll</HintPath>
+      <HintPath>..\lib\ravendb\Raven.Storage.Managed.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
