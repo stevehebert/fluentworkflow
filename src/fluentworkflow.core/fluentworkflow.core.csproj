@@ -50,14 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Analysis\ClosureAnalysisException.cs" />
     <Compile Include="Analysis\ClosureAnalyzer.cs" />
     <Compile Include="Analysis\MetadataDependencyConstraintSolver.cs" />
     <Compile Include="Analysis\StateStepDependencyException.cs" />
-    <Compile Include="Analysis\StateStepDependencyError.cs" />
+    <Compile Include="Analysis\StateTaskDependencyError.cs" />
     <Compile Include="Analysis\StepDeclarationClosureError.cs" />
     <Compile Include="Builder\IFlowMutator.cs" />
-    <Compile Include="Builder\StateStepConfiguration.cs" />
+    <Compile Include="Builder\StateTaskConfiguration.cs" />
     <Compile Include="Builder\StateStepMetadata.cs" />
     <Compile Include="Builder\FlowMutator.cs" />
     <Compile Include="Builder\WorkflowBuilder.cs" />

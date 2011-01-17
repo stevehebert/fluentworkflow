@@ -5,13 +5,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fluentworkflow.core", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fluentworkflow.core.unittest", "src\fluentworkflow.core.unittest\fluentworkflow.core.unittest.csproj", "{639E403F-9927-4A8C-AB33-0994443AFD90}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{AEA8B37B-9207-41E4-8183-ADD9CBB05CED}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fluentworkflow.core.testhelpers", "fluentworkflow.core.testhelpers\fluentworkflow.core.testhelpers.csproj", "{204719BC-3753-45B6-AE77-EA47FD9E1C56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blogflow", "samples\blogflow\blogflow.csproj", "{695A7B56-B704-4ABD-B781-4598B8B9D0CB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF2D0AD1-1F82-4025-A651-4E199E50708B}"
+	ProjectSection(SolutionItems) = preProject
+		rakefile = rakefile
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blogflow.unittests", "samples\blogflow.unittests\blogflow.unittests.csproj", "{63A23E69-71FC-442D-8D85-C4AD0B9F019C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{95E13850-B4C0-49C8-A6F8-BC697305655B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.workflow.process", "samples\sample.workflow.process\sample.workflow.process.csproj", "{8B25FCAE-5A44-4488-8D7C-60C575B4F854}"
 EndProject
@@ -55,26 +57,6 @@ Global
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|x86.ActiveCfg = Release|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB}.Release|x86.ActiveCfg = Release|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B25FCAE-5A44-4488-8D7C-60C575B4F854}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{8B25FCAE-5A44-4488-8D7C-60C575B4F854}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{8B25FCAE-5A44-4488-8D7C-60C575B4F854}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -90,8 +72,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{695A7B56-B704-4ABD-B781-4598B8B9D0CB} = {AEA8B37B-9207-41E4-8183-ADD9CBB05CED}
-		{63A23E69-71FC-442D-8D85-C4AD0B9F019C} = {AEA8B37B-9207-41E4-8183-ADD9CBB05CED}
-		{8B25FCAE-5A44-4488-8D7C-60C575B4F854} = {AEA8B37B-9207-41E4-8183-ADD9CBB05CED}
+		{8B25FCAE-5A44-4488-8D7C-60C575B4F854} = {95E13850-B4C0-49C8-A6F8-BC697305655B}
 	EndGlobalSection
 EndGlobal

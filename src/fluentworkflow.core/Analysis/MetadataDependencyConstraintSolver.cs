@@ -18,7 +18,7 @@ namespace fluentworkflow.core.Analysis
         /// <typeparam name="TState">The type of the state.</typeparam>
         /// <param name="typeRegistrations">The type registrations.</param>
         /// <returns></returns>
-        public IEnumerable<StateStepDependencyError<TWorkflow, TState>> Analyze<TWorkflow, TState>(IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> typeRegistrations)
+        public IEnumerable<StateTaskDependencyError<TWorkflow, TState>> Analyze<TWorkflow, TState>(IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> typeRegistrations)
         {
             // first, we'll verify that each workflow, state, action type is
             // a fully closed set
@@ -34,7 +34,7 @@ namespace fluentworkflow.core.Analysis
                                                         && a.Value.StateActionInfos.Any(b => b.State.Equals(p.q.State)
                                                         && b.Workflow.Equals(p.q.Workflow)
                                                         && b.WorkflowTaskActionType == p.q.WorkflowTaskActionType))
-                                        select new StateStepDependencyError<TWorkflow, TState>
+                                        select new StateTaskDependencyError<TWorkflow, TState>
                                                    {
                                                        ErrorReason = StateDependencyErrorReason.UnknownDependency,
                                                        Dependency = p.q.Dependency,
@@ -93,7 +93,7 @@ namespace fluentworkflow.core.Analysis
                 {
                     foreach (var item in targetItems)
                         yield return
-                            new StateStepDependencyError<TWorkflow, TState>
+                            new StateTaskDependencyError<TWorkflow, TState>
                             {
                                 Workflow = item.q.Workflow,
                                 State = item.q.State,

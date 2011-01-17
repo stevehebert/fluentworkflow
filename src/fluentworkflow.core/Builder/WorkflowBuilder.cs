@@ -13,7 +13,7 @@ namespace fluentworkflow.core.Builder
         /// <param name="workflow">The workflow step.</param>
         /// <param name="state">The state.</param>
         /// <returns></returns>
-        StateStepConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state);
+        StateTaskConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state);
     }
 
     public class StepTypeInfo<TWorkflow, TState>
@@ -64,8 +64,8 @@ namespace fluentworkflow.core.Builder
     /// <typeparam name="TTriggerContext">The type of the trigger context.</typeparam>
     public class WorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext> : IWorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext>
     {
-        private readonly IDictionary<TWorkflow, IList<StateStepConfiguration<TState, TTrigger, TTriggerContext>>> _workflowConfiguration =
-            new Dictionary<TWorkflow, IList<StateStepConfiguration<TState, TTrigger, TTriggerContext>>>();
+        private readonly IDictionary<TWorkflow, IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>> _workflowConfiguration =
+            new Dictionary<TWorkflow, IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>>();
 
         internal IEnumerable<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>> ProduceStepDeclarations()
         {
@@ -101,16 +101,16 @@ namespace fluentworkflow.core.Builder
         /// <param name="workflow">The workflow.</param>
         /// <param name="state">The state.</param>
         /// <returns></returns>
-        public StateStepConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state)
+        public StateTaskConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state)
         {
-            IList<StateStepConfiguration<TState, TTrigger, TTriggerContext>> stateStepConfigurationList = null;
+            IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>> stateStepConfigurationList = null;
 
             if (!_workflowConfiguration.TryGetValue(workflow, out stateStepConfigurationList))
             {
-                stateStepConfigurationList = new List<StateStepConfiguration<TState, TTrigger, TTriggerContext>>();
+                stateStepConfigurationList = new List<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>();
                 _workflowConfiguration.Add(workflow, stateStepConfigurationList);
             }
-            var configuration = new StateStepConfiguration<TState, TTrigger, TTriggerContext>(state);
+            var configuration = new StateTaskConfiguration<TState, TTrigger, TTriggerContext>(state);
             stateStepConfigurationList.Add(configuration);
             return configuration;
         }

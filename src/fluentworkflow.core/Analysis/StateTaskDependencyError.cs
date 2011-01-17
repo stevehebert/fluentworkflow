@@ -10,7 +10,7 @@ namespace fluentworkflow.core.Analysis
         ParticipatesInCyclicalReference
     }
 
-    public class StateStepDependencyError<TWorkflow, TState>
+    public class StateTaskDependencyError<TWorkflow, TState>
     {
         /// <summary>
         /// Gets or sets the workflow.

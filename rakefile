@@ -1,0 +1,58 @@
+require 'albacore'
+
+revision_number = ENV['revision']
+revision_number = 0 if revision_number.nil?
+revision_number = Integer(revision_number)
+
+full_version = "0.0.8.#{revision_number}"
+
+p "Creating build #{full_version}."
+
+desc "Run a sample assembly info generator"
+assemblyinfo :assemblyinfo do |asm|
+  asm.version = full_version
+  asm.file_version = full_version
+  asm.company_name = "Hebert Software Services"
+  asm.product_name = "fluentworkflow"
+  asm.copyright = "Copyright Hebertsoft 2010-2011"
+  asm.output_file = "SharedAssemblyInfo.cs"
+end
+
+desc "Run a sample build using the MSBuild Task"
+msbuild :corebuild do |msb|
+    msb.properties :configuration => :Release, :OutDir => "../../Build/Core/"
+    msb.targets :Clean, :Build
+    msb.solution = "FluentWorkflow.sln"
+end
+
+desc "Run a sample build using the MSBuild Task"
+msbuild :samplebuild do |msb|
+    msb.properties :configuration => :Release, :OutDir => "../../Build/Samples/"
+    msb.targets :Clean, :Build
+    msb.solution = "samples/fluentworkflow.samples.sln"
+end
+
+nunit :nunitcore do |nunit|
+	nunit.command = "Packages/NUnit.2.5.7.10213/Tools/nunit-console.exe"
+	nunit.assemblies << "Build/Core/fluentworkflow.core.unittest.dll"
+        nunit.options = ['/framework:net-4.0']
+end
+
+exec :deploycopy do |dc|
+    dc.command = "deploy.cmd"
+    dc.working_directory = "Build"
+end
+
+exec :nuget do |nuget|
+    nuget.command = "nuget"
+    nuget.parameters = "pack fluentworkflow.nuspec"
+    nuget.working_directory = "Build/Deploy"
+end
+
+task :deploy => [:assemblyinfo, :corebuild, :samplebuild, :nunitcore, :deploycopy, :nuget] do
+    puts "deployment build complete for #{full_version}" 
+end
+
+task :default => [:corebuild, :nunitcore] do
+    puts "core build plus tests complete" 
+end

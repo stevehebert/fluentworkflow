@@ -6,14 +6,14 @@ namespace fluentworkflow.core.Analysis
 {
     public class StateStepDependencyException<TWorkflow, TState> : Exception
     {
-        public StateStepDependencyException(IEnumerable<StateStepDependencyError<TWorkflow, TState>> stateStepDependencyErrors) : base( CreateMessage(stateStepDependencyErrors))
+        public StateStepDependencyException(IEnumerable<StateTaskDependencyError<TWorkflow, TState>> stateStepDependencyErrors) : base( CreateMessage(stateStepDependencyErrors))
         {
             StateStepDependencyErrors = stateStepDependencyErrors;
         }
 
-        public IEnumerable<StateStepDependencyError<TWorkflow, TState>> StateStepDependencyErrors { get; private set; }
+        public IEnumerable<StateTaskDependencyError<TWorkflow, TState>> StateStepDependencyErrors { get; private set; }
 
-        private static string CreateMessage(IEnumerable<StateStepDependencyError<TWorkflow, TState>> stateStepDependencyErrors)
+        private static string CreateMessage(IEnumerable<StateTaskDependencyError<TWorkflow, TState>> stateStepDependencyErrors)
         {
             var builder = new StringBuilder();
 

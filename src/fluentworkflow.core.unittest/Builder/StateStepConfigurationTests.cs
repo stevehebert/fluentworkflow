@@ -11,7 +11,7 @@ namespace fluentworkflow.core.unittest.Builder
         [Test]
         public void verify_permitted_trigger_declarations()
         {
-            var config = new StateStepConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
+            var config = new StateTaskConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
 
             config.Permit(TriggerType.Ignore, StateType.UnderReview);
             config.Permit(TriggerType.Submit, StateType.New);
@@ -24,7 +24,7 @@ namespace fluentworkflow.core.unittest.Builder
         [Test]
         public void verify_state_entrance_and_exit_declarations()
         {
-            var config = new StateStepConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
+            var config = new StateTaskConfiguration<StateType, TriggerType, TriggerContext>(StateType.Rejected);
 
             config.OnEntry<Task1>();
             config.OnExit<ExitTask3>();
