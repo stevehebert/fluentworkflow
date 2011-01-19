@@ -1,5 +1,6 @@
 require 'albacore'
 require 'nokogiri'
+require 'build/nuget.rb'
 
 revision_number = ENV['revision']
 revision_number = 0 if revision_number.nil?
@@ -19,18 +20,11 @@ assemblyinfo :assemblyinfo do |asm|
   asm.output_file = "SharedAssemblyInfo.cs"
 end
 
-desc "Run a sample build using the MSBuild Task"
+desc "Run the core build using the MSBuild Task"
 msbuild :corebuild do |msb|
     msb.properties :configuration => :Release, :OutDir => "../../Build/Core/"
     msb.targets :Clean, :Build
     msb.solution = "FluentWorkflow.sln"
-end
-
-desc "Run a sample build using the MSBuild Task"
-msbuild :samplebuild do |msb|
-    msb.properties :configuration => :Release, :OutDir => "../../Build/Samples/"
-    msb.targets :Clean, :Build
-    msb.solution = "samples/fluentworkflow.samples.sln"
 end
 
 nunit :nunitcore do |nunit|
@@ -44,23 +38,21 @@ exec :deploycopy do |dc|
     dc.working_directory = "Build"
 end
 
-exec :nuget do |nuget|
-    nuget.command = "nuget"
-    nuget.parameters = "pack fluentworkflow.nuspec"
-    nuget.working_directory = "Build/Deploy"
+nuget :nugetbuild do |nuget|
+   nuget.id="fluentworkflow"
+   nuget.output_file = "fluentworkflow.nuspec"
+   nuget.version = full_version
+   nuget.authors = "Steve Hebert"
+   nuget.description = "FluentWorkflow is a workflow/saga dsl and runtime component"
+   nuget.language = "en-US"
+   nuget.licenseUrl = "http://fluentworkflow.codeplex.com/license"
+   nuget.projectUrl = "http://fluentworkflow.codeplex.com"
+   nuget.command = "nuget.exe"
+   nuget.working_directory = "Build/Deploy"
 end
 
 
-
-task :nugetbuild do  
-  nuget = NugetInfo.new("fluentworkflow",full_version,"Steve Hebert","FluentWorkflow is a workflow/saga dsl and runtime component.","en-US",
-              "http://fluentworkflow.codeplex.com/license", "http://fluentworkflow.codeplex.com/")
-			  
-  build_xml(nuget)
-end
-
-
-task :deploy => [:assemblyinfo, :corebuild, :samplebuild, :nunitcore, :deploycopy, :nugetbuild, :nuget] do
+task :deploy => [:assemblyinfo, :corebuild, :nunitcore, :deploycopy, :nugetbuild] do
     puts "deployment build complete for #{full_version}" 
 end
 
@@ -68,38 +60,3 @@ task :default => [:corebuild, :nunitcore] do
     puts "core build plus tests complete" 
 end
 
-
-
-def build_xml(nuget)
-  # build xml docoument
-  builder = Nokogiri::XML::Builder.new do |xml|
-    nuget.Builder(xml)
-  end
-  File.open("Build/Deploy/fluentworkflow.nuspec", 'w') {|f| f.write(builder.to_xml) }
-end
-
-class NugetInfo
-   def initialize(id, version, authors, description, language, licenseUrl, projectUrl)
-     @id = id
-	 @version = version
-	 @authors = authors
-	 @description = description
-	 @language = language
-	 @licenseUrl = licenseUrl
-	 @projectUrl = projectUrl
-   end
-   
-   def Builder(xml)
-     xml.package{
-	   xml.metadata{
-	     xml.id @id
-		 xml.version @version
-		 xml.authors @authors
-		 xml.description @description
-		 xml.language @language
-		 xml.licenseUrl @licenseUrl
-		 xml.projectUrl @projectUrl
-	   }
-	 }
-   end
-end
