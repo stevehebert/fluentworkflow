@@ -10,7 +10,7 @@ full_version = "0.0.8.#{revision_number}"
 
 p "Creating build #{full_version}."
 
-desc "Run a sample assembly info generator"
+desc "Run the assembly info generator on our project"
 assemblyinfo :assemblyinfo do |asm|
   asm.version = full_version
   asm.file_version = full_version
@@ -27,17 +27,20 @@ msbuild :corebuild do |msb|
     msb.solution = "FluentWorkflow.sln"
 end
 
+desc "execute all unit tasks"
 nunit :nunitcore do |nunit|
 	nunit.command = "Packages/NUnit.2.5.7.10213/Tools/nunit-console.exe"
 	nunit.assemblies << "Build/Core/fluentworkflow.core.unittest.dll"
         nunit.options = ['/framework:net-4.0']
 end
 
+desc "cherry-pick the dlls for deployment"
 exec :deploycopy do |dc|
     dc.command = "deploy.cmd"
     dc.working_directory = "Build"
 end
 
+desc "create the nuget package"
 nuget :nugetbuild do |nuget|
    nuget.id="fluentworkflow"
    nuget.output_file = "fluentworkflow.nuspec"
