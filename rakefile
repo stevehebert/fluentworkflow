@@ -1,12 +1,11 @@
 require 'albacore'
-require 'nokogiri'
-require 'build/nuget.rb'
+require 'build/nuspec.rb'
 
 revision_number = ENV['revision']
 revision_number = 0 if revision_number.nil?
 revision_number = Integer(revision_number)
 
-full_version = "0.0.8.#{revision_number}"
+full_version = "0.8.0.#{revision_number}"
 
 p "Creating build #{full_version}."
 
@@ -41,21 +40,21 @@ exec :deploycopy do |dc|
 end
 
 desc "create the nuget package"
-nuget :nugetbuild do |nuget|
-   nuget.id="fluentworkflow"
-   nuget.output_file = "fluentworkflow.nuspec"
-   nuget.version = full_version
-   nuget.authors = "Steve Hebert"
-   nuget.description = "FluentWorkflow is a workflow/saga dsl and runtime component"
-   nuget.language = "en-US"
-   nuget.licenseUrl = "http://fluentworkflow.codeplex.com/license"
-   nuget.projectUrl = "http://fluentworkflow.codeplex.com"
-   nuget.command = "nuget.exe"
-   nuget.working_directory = "Build/Deploy"
+nuspec do |nuspec|
+   nuspec.id="fluentworkflow"
+   nuspec.output_file = "fluentworkflow.nuspec"
+   nuspec.version = full_version
+   nuspec.authors = "Steve Hebert"
+   nuspec.description = "FluentWorkflow is a workflow/saga dsl and runtime component"
+   nuspec.language = "en-US"
+   nuspec.licenseUrl = "http://fluentworkflow.codeplex.com/license"
+   nuspec.projectUrl = "http://fluentworkflow.codeplex.com"
+   nuspec.working_directory = "Build/Deploy"
+   nuspec.command = "nuget.exe"
 end
 
 
-task :deploy => [:assemblyinfo, :corebuild, :nunitcore, :deploycopy, :nugetbuild] do
+task :deploy => [:assemblyinfo, :corebuild, :nunitcore, :deploycopy, :nuspec] do
     puts "deployment build complete for #{full_version}" 
 end
 
