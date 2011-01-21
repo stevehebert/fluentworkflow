@@ -45,3 +45,4 @@ glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/highCompat.css
 glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/lowCompat.css
 glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/nav/timeStamp.dat
 glob:frontend/src/ThomsonReuters.Pubs.Web/App_Sprites/timeStamp.dat
+SharedAssemblyInfo.cs
