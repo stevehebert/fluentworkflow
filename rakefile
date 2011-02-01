@@ -49,8 +49,9 @@ nuspec do |nuspec|
    nuspec.language = "en-US"
    nuspec.licenseUrl = "http://fluentworkflow.codeplex.com/license"
    nuspec.projectUrl = "http://fluentworkflow.codeplex.com"
+   nuspec.dependency "Autofac", "2.4.3.700"
    nuspec.working_directory = "Build/Deploy"
-   nuspec.command = "nuget.exe"
+   nuspec.command = "../../lib/nuget/nuget.exe"
 end
 
 

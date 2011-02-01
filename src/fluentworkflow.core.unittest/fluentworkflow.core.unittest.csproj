@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>..\..\lib\autofac\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.2.4.3.700\lib\NET40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="AutofacContrib.Attributed">
-      <HintPath>..\..\lib\autofac\AutofacContrib.Attributed.dll</HintPath>
+      <HintPath>..\..\lib\AutofacContrib.Attributed\AutofacContrib.Attributed.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\lib\moq\Moq.dll</HintPath>
@@ -82,7 +82,9 @@
       <Name>fluentworkflow.core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

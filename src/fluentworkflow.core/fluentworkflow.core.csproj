@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>..\..\lib\autofac\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.2.4.3.700\lib\NET40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="AutofacContrib.Attributed">
-      <HintPath>..\..\lib\autofac\AutofacContrib.Attributed.dll</HintPath>
+      <HintPath>..\..\lib\AutofacContrib.Attributed\AutofacContrib.Attributed.dll</HintPath>
     </Reference>
     <Reference Include="Stateless">
       <HintPath>..\..\lib\stateless\Stateless.dll</HintPath>
@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FluentStateEngine.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
