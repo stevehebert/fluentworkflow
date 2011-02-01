@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Stateless">
-      <HintPath>..\lib\stateless\Stateless.dll</HintPath>
+      <HintPath>..\..\lib\stateless\Stateless.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,14 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs">
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\fluentworkflow.core\fluentworkflow.core.csproj">
+    <ProjectReference Include="..\fluentworkflow.core\fluentworkflow.core.csproj">
       <Project>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</Project>
       <Name>fluentworkflow.core</Name>
     </ProjectReference>
