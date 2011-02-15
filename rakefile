@@ -55,7 +55,7 @@ nuspec do |nuspec|
 end
 
 
-task :deploy => [:assemblyinfo, :corebuild, :nunitcore, :deploycopy, :nuspec] do
+task :deploy => [:assemblyinfo, :default, :deploycopy, :nuspec] do
     puts "deployment build complete for #{full_version}" 
 end
 
