@@ -56,25 +56,83 @@ namespace fluentworkflow.core.unittest
     [TestFixture]
     public class WorkflowModuleTests
     {
+        public class FooProducer
+        {
+            public int Value { get; private set; }
+            public Task1 Task { get; private set; }
 
+            public FooProducer(int i, Task1 task)
+            {
+                Task = task;
+                Value = i;
+            }
+        }
+
+        [Test]
+        public void task1_test_from_func()
+        {
+            TaskDisposalTracker.Reset();
+
+            var builder = new ContainerBuilder();
+            builder.RegisterType<Task1>();
+            builder.RegisterType<FooProducer>();
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var item = scope.Resolve<Func<int, FooProducer>>();
+
+                item(5).Task.Execute(null);
+            }
+
+            Assert.That(TaskDisposalTracker.DisposeCount, Is.EqualTo(1));
+            
+        }
+        [Test]
+        public void task1_test()
+        {
+            TaskDisposalTracker.Reset();
+
+            var builder = new ContainerBuilder();
+            builder.RegisterType<Task1>();
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var item = scope.Resolve<Task1>();
+
+                item.Execute(null);
+            }
+
+            Assert.That(TaskDisposalTracker.DisposeCount, Is.EqualTo(1));
+        }
         [Test]
         public void verify_workflow_execution_through_entry_and_exit_phases()
         {
+            TaskDisposalTracker.Reset();
+           
             var startingCount = Task1.ExecutionCount;
             var builder = new ContainerBuilder();
             builder.RegisterModule(new MyFluentWorkflowModule());
 
             var container = builder.Build();
+            IFluentStateEngine<WorkflowType, StateType, TriggerType, TriggerContext> machine;
+            using (var resolver = container.BeginLifetimeScope())
+            {
 
-            var stateMachine =
-                container.Resolve
-                    <Func<WorkflowType, StateType, IFluentStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
+                 var stateMachine =
+                    resolver.Resolve
+                        <
+                            Func
+                                <WorkflowType, StateType,
+                                    IFluentStateEngine<WorkflowType, StateType, TriggerType, TriggerContext>>>();
 
-            var machine = stateMachine(WorkflowType.Comment, StateType.UnderReview);
-            machine.Fire(TriggerType.Publish, new TriggerContext { DocumentId = 5 });
+                machine = stateMachine(WorkflowType.Comment, StateType.UnderReview);
+                machine.Fire(TriggerType.Publish, new TriggerContext {DocumentId = 5});
+            }
 
             Assert.That(machine.State, Is.EqualTo(StateType.Complete));
             Assert.That(Task1.ExecutionCount - startingCount, Is.EqualTo(1));
+
+            Assert.That(TaskDisposalTracker.DisposeCount, Is.EqualTo(1));
         }
 
         [Test]
