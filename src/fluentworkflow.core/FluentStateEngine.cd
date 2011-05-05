@@ -25,11 +25,10 @@
   <Class Name="fluentworkflow.core.Configuration.StateStepDispatcher&lt;TWorkflow, TState, TTrigger, TTriggerContext&gt;">
     <Position X="9" Y="5.25" Width="4.5" />
     <Members>
-      <Field Name="_stateSteps" Hidden="true" />
       <Method Name="StateStepDispatcher" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAgAAAAAAAAAAAEAAAABAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Configuration\StateStepDispatcher.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

@@ -67,6 +67,8 @@
     <Compile Include="Builder\StateStepConfigurationTests.cs" />
     <Compile Include="Builder\TriggerTripTests.cs" />
     <Compile Include="Configuration\StateStepDispatcherTests.cs" />
+    <Compile Include="Configuration\v2\WorkflowExecutionUniverseTests.cs" />
+    <Compile Include="Configuration\v2\WorkflowStateExecutionSetTests.cs" />
     <Compile Include="ExitStateTaskInfoTests.cs" />
     <Compile Include="ExitTask3.cs" />
     <Compile Include="EntryStateTaskInfoTests.cs" />

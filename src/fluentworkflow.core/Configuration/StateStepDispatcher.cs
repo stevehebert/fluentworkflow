@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using fluentworkflow.core.Builder;
+using fluentworkflow.core.Configuration.v2;
+using fluentworkflow.core.unittest.Configuration.v2;
 using Stateless;
 
 namespace fluentworkflow.core.Configuration
 {
     public class StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext> : IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>
     {
-        private readonly
-            IEnumerable<Lazy<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> _stateSteps;
+        private readonly WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> _workflowExecutionUniverse;
+        private readonly IResolver _resolver;
 
-        public StateStepDispatcher(IEnumerable<Lazy<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>> stateSteps)
+        public StateStepDispatcher(WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> workflowExecutionUniverse, IResolver resolver)
         {
-            _stateSteps = stateSteps;
+            _workflowExecutionUniverse = workflowExecutionUniverse;
+            _resolver = resolver;
         }
 
 
@@ -23,13 +25,9 @@ namespace fluentworkflow.core.Configuration
                                        StateMachine<TState, TTrigger>.Transition transition,
                                        StateMachine<TState, TTrigger> stateMachine)
         {
-            var items = (from p in _stateSteps
-                         from q in p.Metadata.StateActionInfos
-                         where
-                             (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
-                             q.WorkflowTaskActionType == WorkflowTaskActionType.Entry)
-                         orderby q.Priority
-                         select p.Value);
+            var items =
+                _workflowExecutionUniverse.Retrieve(stepDeclaration.Workflow, stepDeclaration.State,
+                                                    WorkflowTaskActionType.Entry);
 
             if (!items.Any())
                 return;
@@ -53,13 +51,9 @@ namespace fluentworkflow.core.Configuration
 
         public void ExecuteExitStepActions(WorkflowStepDeclaration<TWorkflow, TState, TTrigger> stepDeclaration, TTriggerContext triggerContext, StateMachine<TState, TTrigger>.Transition transition, StateMachine<TState, TTrigger> stateMachine)
         {
-            var items = (from p in _stateSteps
-                         from q in p.Metadata.StateActionInfos
-                         where
-                             (q.Workflow.Equals(stepDeclaration.Workflow) && q.State.Equals(stepDeclaration.State) &&
-                             q.WorkflowTaskActionType == WorkflowTaskActionType.Exit)
-                         orderby q.Priority
-                         select p.Value);
+            var items =
+                _workflowExecutionUniverse.Retrieve(stepDeclaration.Workflow, stepDeclaration.State,
+                                                    WorkflowTaskActionType.Exit);
 
             if (!items.Any())
                 return;
@@ -70,7 +64,6 @@ namespace fluentworkflow.core.Configuration
 
             foreach (var item in items)
             {
-
                 Dispatch(item, stateStepInfo);
 
                 if (!flowMutator.IsSet)
@@ -82,23 +75,24 @@ namespace fluentworkflow.core.Configuration
 
         }
 
-        private void Dispatch(IStateTask<TState, TTrigger, TTriggerContext> stateTask,
+        private void Dispatch(Type stateTaskType,
                                ExitStateTaskInfo<TState, TTrigger, TTriggerContext> entryStateTaskInfo)
         {
-            var exitStep = stateTask as IExitStateTask<TState, TTrigger, TTriggerContext>;
+            var exitStep = _resolver.Resolve(stateTaskType) as IExitStateTask<TState, TTrigger, TTriggerContext>;
 
             if (exitStep == null)
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                                                                   "Internal error mismatch on entry type with state step {0}",
-                                                                  stateTask.GetType()));
+                                                                  stateTaskType));
 
             exitStep.Execute(entryStateTaskInfo);
         }
 
-        private void Dispatch(IStateTask<TState, TTrigger, TTriggerContext> stateTask,
+        private void Dispatch(Type stateTaskType,
                                EntryStateTaskInfo<TState, TTrigger, TTriggerContext> entryStateTaskInfo,
                                IFlowMutator<TTrigger, TTriggerContext> flowMutator)
         {
+            var stateTask = _resolver.Resolve(stateTaskType) as IStateTask<TState, TTrigger, TTriggerContext>;
             var mutatingStateStep = stateTask as IMutatingEntryStateTask<TState, TTrigger, TTriggerContext>;
 
             if (mutatingStateStep != null)
@@ -112,10 +106,9 @@ namespace fluentworkflow.core.Configuration
             if (entryStateStep == null)
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                                                                   "Internal error mismatch on entry type with state step {0}",
-                                                                  stateTask.GetType()));
+                                                                  stateTaskType));
 
             entryStateStep.Execute(entryStateTaskInfo);
-
         }
     }
 }
