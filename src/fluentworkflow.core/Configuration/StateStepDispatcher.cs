@@ -11,9 +11,9 @@ namespace fluentworkflow.core.Configuration
     public class StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext> : IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>
     {
         private readonly WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> _workflowExecutionUniverse;
-        private readonly IComponentContext _resolver;
+        private readonly Func<Type, object> _resolver;
 
-        public StateStepDispatcher(WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> workflowExecutionUniverse, IComponentContext resolver)
+        public StateStepDispatcher(WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> workflowExecutionUniverse, Func<Type, object> resolver)
         {
             _workflowExecutionUniverse = workflowExecutionUniverse;
             _resolver = resolver;
@@ -78,7 +78,7 @@ namespace fluentworkflow.core.Configuration
         private void Dispatch(Type stateTaskType,
                                ExitStateTaskInfo<TState, TTrigger, TTriggerContext> entryStateTaskInfo)
         {
-            var exitStep = _resolver.Resolve(stateTaskType) as IExitStateTask<TState, TTrigger, TTriggerContext>;
+            var exitStep = _resolver(stateTaskType) as IExitStateTask<TState, TTrigger, TTriggerContext>;
 
             if (exitStep == null)
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
@@ -92,7 +92,7 @@ namespace fluentworkflow.core.Configuration
                                EntryStateTaskInfo<TState, TTrigger, TTriggerContext> entryStateTaskInfo,
                                IFlowMutator<TTrigger, TTriggerContext> flowMutator)
         {
-            var stateTask = _resolver.Resolve(stateTaskType) as IStateTask<TState, TTrigger, TTriggerContext>;
+            var stateTask = _resolver(stateTaskType) as IStateTask<TState, TTrigger, TTriggerContext>;
             var mutatingStateStep = stateTask as IMutatingEntryStateTask<TState, TTrigger, TTriggerContext>;
 
             if (mutatingStateStep != null)

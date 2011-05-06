@@ -83,7 +83,11 @@ namespace fluentworkflow.core
                 builder.Register(c => localItem);
             }
 
-            builder.Register<Func<Type, object>>(c => named => c.Resolve(named));
+            builder.Register<Func<Type, object>>(c =>
+                                                     {
+                                                         var resolver = c.Resolve<IComponentContext>();
+                                                         return named => resolver.Resolve(named);
+                                                     });
 
 
             builder.RegisterAdapter
