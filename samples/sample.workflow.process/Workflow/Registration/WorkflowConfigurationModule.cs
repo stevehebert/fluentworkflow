@@ -1,4 +1,4 @@
-﻿using fluentworkflow.core;
+﻿using fluentworkflow.autofac;
 using fluentworkflow.core.Builder;
 using sample.workflow.process.Workflow.EntryTasks;
 using sample.workflow.process.Workflow.ExitTasks;

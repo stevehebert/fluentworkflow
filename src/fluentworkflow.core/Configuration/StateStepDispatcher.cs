@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using Autofac;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration.v2;
 using Stateless;

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{639E403F-9927-4A8C-AB33-0994443AFD90}</ProjectGuid>
+    <ProjectGuid>{0345AFA9-E9A2-492C-956D-B82BBE96469C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>fluentworkflow.core.unittest</RootNamespace>
-    <AssemblyName>fluentworkflow.core.unittest</AssemblyName>
+    <RootNamespace>fluentworkflow.autofac</RootNamespace>
+    <AssemblyName>fluentworkflow.autofac</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,26 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=2.4.5.724, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Autofac">
       <HintPath>..\..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Configuration">
       <HintPath>..\..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\..\lib\moq\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.7.10213\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Stateless, Version=2.2.1.1, Culture=neutral, PublicKeyToken=93038f0927583c9a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\stateless\Stateless.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,38 +46,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\MetadataDependencyConstraintSolverTests.cs" />
-    <Compile Include="Analysis\StateStepDependencyExceptionTests.cs" />
-    <Compile Include="Builder\StateStepConfigurationTests.cs" />
-    <Compile Include="Builder\TriggerTripTests.cs" />
-    <Compile Include="Configuration\StateStepDispatcherTests.cs" />
-    <Compile Include="Configuration\v2\WorkflowExecutionUniverseTests.cs" />
-    <Compile Include="Configuration\v2\WorkflowStateExecutionSetTests.cs" />
-    <Compile Include="ExitStateTaskInfoTests.cs" />
-    <Compile Include="ExitTask3.cs" />
-    <Compile Include="EntryStateTaskInfoTests.cs" />
-    <Compile Include="Task1.cs" />
-    <Compile Include="Task2.cs" />
-    <Compile Include="enums\StateType.cs" />
-    <Compile Include="enums\TriggerContext.cs" />
-    <Compile Include="enums\TriggerType.cs" />
-    <Compile Include="enums\WorkflowType.cs" />
-    <Compile Include="FluentStateEngineTests.cs" />
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="FluentWorkflowModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkflowModuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\fluentworkflow.autofac\fluentworkflow.autofac.csproj">
-      <Project>{0345AFA9-E9A2-492C-956D-B82BBE96469C}</Project>
-      <Name>fluentworkflow.autofac</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\fluentworkflow.core\fluentworkflow.core.csproj">
       <Project>{77A47D74-B89D-4B6A-8BD0-8E71116FED5C}</Project>
       <Name>fluentworkflow.core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

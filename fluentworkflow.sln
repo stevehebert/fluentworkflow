@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.workflow.process", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fluentworkflow.core.testhelpers", "src\fluentworkflow.core.testhelpers\fluentworkflow.core.testhelpers.csproj", "{204719BC-3753-45B6-AE77-EA47FD9E1C56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fluentworkflow.autofac", "src\fluentworkflow.autofac\fluentworkflow.autofac.csproj", "{0345AFA9-E9A2-492C-956D-B82BBE96469C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,16 @@ Global
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{204719BC-3753-45B6-AE77-EA47FD9E1C56}.Release|x86.ActiveCfg = Release|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0345AFA9-E9A2-492C-956D-B82BBE96469C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

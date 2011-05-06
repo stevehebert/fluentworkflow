@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
+using fluentworkflow.autofac;
 using fluentworkflow.core.Analysis;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration;

@@ -67,7 +67,7 @@ namespace fluentworkflow.core.Builder
         private readonly IDictionary<TWorkflow, IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>> _workflowConfiguration =
             new Dictionary<TWorkflow, IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>>();
 
-        internal IEnumerable<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>> ProduceStepDeclarations()
+        public IEnumerable<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>> ProduceStepDeclarations()
         {
             return from p in _workflowConfiguration
                    from q in p.Value
@@ -77,7 +77,7 @@ namespace fluentworkflow.core.Builder
         }
 
 
-        internal IEnumerable<StepTypeInfo<TWorkflow, TState>> ProduceTypeRoles()
+        public IEnumerable<StepTypeInfo<TWorkflow, TState>> ProduceTypeRoles()
         {
             return from p in _workflowConfiguration
                    from q in p.Value

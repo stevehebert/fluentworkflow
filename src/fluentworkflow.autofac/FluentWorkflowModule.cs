@@ -1,37 +1,16 @@
 ﻿using System;
 using System.Linq;
 using Autofac;
+using fluentworkflow.core;
 using fluentworkflow.core.Analysis;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration;
 using fluentworkflow.core.Configuration.v2;
 
-namespace fluentworkflow.core
+namespace fluentworkflow.autofac
 {
     public abstract class FluentWorkflowModule<TWorkflow, TState, TTrigger, TTriggerContext> : Module
     {
-        //internal class FluentWorkflowMetadataModule : MetadataModule<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>>
-        //{
-        //    private readonly IDictionary<Type, IStateActionMetadata<TWorkflow, TState>> _metadataValues =
-        //        new Dictionary<Type, IStateActionMetadata<TWorkflow, TState>>();
-
-        //    public void Add(Type type, IStateActionMetadata<TWorkflow, TState> metadataValues)
-        //    {
-        //        _metadataValues.Add(type, metadataValues);
-        //    }
-
-        //    public override void Register(IMetadataRegistrar<IStateTask<TState, TTrigger, TTriggerContext>, IStateActionMetadata<TWorkflow, TState>> registrar)
-        //    {
-        //        var results = new MetadataDependencyConstraintSolver().Analyze(_metadataValues);
-
-        //        if (results.Any())
-        //            throw new StateStepDependencyException<TWorkflow, TState>(results);
-
-        //        foreach (var value in _metadataValues)
-        //            RegisterType(value.Key, value.Value);
-        //    }
-        //}
-
         public abstract void Configure(IWorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext> builder);
 
         protected sealed override void Load(ContainerBuilder builder)
@@ -49,8 +28,8 @@ namespace fluentworkflow.core
 
             var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
                               group p by p.StateStepType
-                                  into g
-                                  select g.Key;
+                              into g
+                              select g.Key;
 
             var universe = new WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext>();
 
@@ -68,8 +47,9 @@ namespace fluentworkflow.core
                                         Types = from s in p1 orderby s.Priority select s.StateStepType
                                     };
 
-                foreach(var item in items)
-                    universe.Add(new WorkflowStateExecutionSet<TWorkflow, TState>(item.Workflow, item.State, item.ActionType, item.Types));
+                foreach (var item in items)
+                    universe.Add(new WorkflowStateExecutionSet<TWorkflow, TState>(item.Workflow, item.State,
+                                                                                  item.ActionType, item.Types));
             }
 
             builder.RegisterInstance(universe);
@@ -92,7 +72,16 @@ namespace fluentworkflow.core
 
             builder.RegisterAdapter
                 <WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,
-                    WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>((ctx, c)=> new WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>(c, ctx.Resolve<IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>>())).InstancePerDependency();
+                    WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>(
+                        (ctx, c) =>
+                        new WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>(c,
+                                                                                              ctx.Resolve
+                                                                                                  <
+                                                                                                  IStateStepDispatcher
+                                                                                                  <TWorkflow, TState,
+                                                                                                  TTrigger,
+                                                                                                  TTriggerContext>>())).
+                InstancePerDependency();
 
             builder.RegisterGeneric(typeof (StateStepDispatcher<,,,>)).As(typeof (IStateStepDispatcher<,,,>)).
                 InstancePerDependency();
