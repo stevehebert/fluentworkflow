@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Autofac;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration.v2;
-using fluentworkflow.core.unittest.Configuration.v2;
 using Stateless;
 
 namespace fluentworkflow.core.Configuration
@@ -11,9 +11,9 @@ namespace fluentworkflow.core.Configuration
     public class StateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext> : IStateStepDispatcher<TWorkflow, TState, TTrigger, TTriggerContext>
     {
         private readonly WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> _workflowExecutionUniverse;
-        private readonly IResolver _resolver;
+        private readonly IComponentContext _resolver;
 
-        public StateStepDispatcher(WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> workflowExecutionUniverse, IResolver resolver)
+        public StateStepDispatcher(WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext> workflowExecutionUniverse, IComponentContext resolver)
         {
             _workflowExecutionUniverse = workflowExecutionUniverse;
             _resolver = resolver;

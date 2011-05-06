@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Autofac;
 using fluentworkflow.core.Analysis;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration;
 using fluentworkflow.core.Configuration.v2;
-using fluentworkflow.core.unittest.Configuration.v2;
 
 namespace fluentworkflow.core
 {
@@ -83,7 +83,8 @@ namespace fluentworkflow.core
                 builder.Register(c => localItem);
             }
 
-            builder.Register<IResolver>(cc => new Resolver(cc)).InstancePerDependency();
+            builder.Register<Func<Type, object>>(c => named => c.Resolve(named));
+
 
             builder.RegisterAdapter
                 <WorkflowStepDeclaration<TWorkflow, TState, TTrigger>,

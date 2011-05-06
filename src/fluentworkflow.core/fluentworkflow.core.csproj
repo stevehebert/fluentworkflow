@@ -72,7 +72,6 @@
     <Compile Include="Configuration\StateMachineConfigurator.cs" />
     <Compile Include="Configuration\StateStepDispatcher.cs" />
     <Compile Include="Configuration\StateTriggerAction.cs" />
-    <Compile Include="Configuration\v2\IResolver.cs" />
     <Compile Include="Configuration\v2\WorkflowExecutionUniverse.cs" />
     <Compile Include="Configuration\v2\WorkflowStateExecutionSet.cs" />
     <Compile Include="Configuration\WorkflowStepAdapter.cs" />
