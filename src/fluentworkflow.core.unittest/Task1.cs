@@ -5,7 +5,6 @@ namespace fluentworkflow.core.unittest
 {
     public class TaskDisposalTracker
     {
-        private static int _disposeCount = 0;
         public static void Reset()
         {
             DisposeCount = 0;
