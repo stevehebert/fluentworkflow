@@ -5,6 +5,7 @@ using Autofac;
 using fluentworkflow.core.Analysis;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration;
+using fluentworkflow.core.Configuration.v2;
 using fluentworkflow.core.unittest.enums;
 using NUnit.Framework;
 
@@ -173,7 +174,7 @@ namespace fluentworkflow.core.unittest
         }
 
         [Test]
-        public void verify_workflow_state_step_registrations()
+        public void verify_workflow_state_step_partial_registration_1()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new MyFluentWorkflowModule());
@@ -181,13 +182,64 @@ namespace fluentworkflow.core.unittest
             var container = builder.Build();
 
             var set =
-                container.Resolve<IEnumerable<Lazy<IStateTask<StateType, TriggerType, TriggerContext>, IStateActionMetadata<WorkflowType, StateType>>>>();
+                container.Resolve<WorkflowExecutionUniverse<WorkflowType, StateType, TriggerContext>>();
+            var underReviewTasks = set.Retrieve(WorkflowType.Comment, StateType.UnderReview, WorkflowTaskActionType.Entry);
 
-
-            Assert.That(set.Count(), Is.EqualTo(3));
-            Assert.That(set.First().Metadata.StateActionInfos, Is.Not.Null);
-            Assert.That(set.Where(p => p.Value.GetType() == typeof(Task1)).First().Metadata.StateActionInfos.Count(), Is.EqualTo(2));
+            Assert.That(underReviewTasks.Count(), Is.EqualTo(2));
+            Assert.That(underReviewTasks.Where(p => p == typeof(Task1)).Count(), Is.EqualTo(1));
+            Assert.That(underReviewTasks.Where(p => p == typeof(Task2)).Count(), Is.EqualTo(1));
         }
+
+        [Test]
+        public void verify_workflow_state_step_partial_registration_2()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MyFluentWorkflowModule());
+
+            var container = builder.Build();
+
+            var set =
+                container.Resolve<WorkflowExecutionUniverse<WorkflowType, StateType, TriggerContext>>();
+
+            var underReviewTasks = set.Retrieve(WorkflowType.Comment, StateType.UnderReview, WorkflowTaskActionType.Exit);
+
+            Assert.That(underReviewTasks.Count(), Is.EqualTo(1));
+            Assert.That(underReviewTasks.Where(p => p == typeof(ExitTask3)).Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void verify_workflow_state_step_partial_registration_3()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MyFluentWorkflowModule());
+
+            var container = builder.Build();
+
+            var set =
+                container.Resolve<WorkflowExecutionUniverse<WorkflowType, StateType, TriggerContext>>();
+
+            var underReviewTasks = set.Retrieve(WorkflowType.Comment, StateType.Complete, WorkflowTaskActionType.Entry);
+
+            Assert.That(underReviewTasks.Count(), Is.EqualTo(1));
+            Assert.That(underReviewTasks.Where(p => p == typeof(Task1)).Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void verify_workflow_state_step_empty_partial_registration()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new MyFluentWorkflowModule());
+
+            var container = builder.Build();
+
+            var set =
+                container.Resolve<WorkflowExecutionUniverse<WorkflowType, StateType, TriggerContext>>();
+
+            var rejectedCommentTasks = set.Retrieve(WorkflowType.Comment, StateType.Rejected, WorkflowTaskActionType.Entry);
+
+            Assert.That(rejectedCommentTasks.Count(), Is.EqualTo(0));
+        }
+
 
         [Test]
         public void verify_workflow_wireup_without_step_declarations()
