@@ -34,9 +34,11 @@ namespace fluentworkflow.ninject
 
                 // doing the following to compenstate for Ninject's inability setup an adapter pattern
                 // please prove me wrong!
+
+                var localItem = item;
                 Bind<WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>>().ToMethod(
                     ctx =>
-                    new WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>(item,
+                    new WorkflowStepAdapter<TWorkflow, TState, TTrigger, TTriggerContext>(localItem,
                                                                                           ctx.Kernel.Get
                                                                                               <
                                                                                               IStateStepDispatcher
