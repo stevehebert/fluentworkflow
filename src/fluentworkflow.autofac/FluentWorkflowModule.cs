@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Autofac;
 using fluentworkflow.core;
-using fluentworkflow.core.Analysis;
 using fluentworkflow.core.Builder;
 using fluentworkflow.core.Configuration;
-using fluentworkflow.core.Configuration.v2;
 
 namespace fluentworkflow.autofac
 {
@@ -19,45 +16,14 @@ namespace fluentworkflow.autofac
 
             Configure(workflowBuilder);
 
-            var declarations = workflowBuilder.ProduceStepDeclarations();
+            var results = workflowBuilder.Compile();
 
-            var errors = new ClosureAnalyzer().ValidateStepDeclarationClosure(declarations);
+            builder.RegisterInstance(results.WorkflowExecutionUniverse);
 
-            if (errors.Any())
-                throw new ClosureAnalysisException<TWorkflow, TState, TTrigger>(errors);
-
-            var uniqueTypes = from p in workflowBuilder.ProduceTypeRoles()
-                              group p by p.StateStepType
-                              into g
-                              select g.Key;
-
-            var universe = new WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext>();
-
-            if (uniqueTypes.Any())
-            {
-                var items = from p in workflowBuilder.ProduceTypeRoles()
-                            group p by new {p.Workflow, p.State, p.ActionType}
-                            into p1
-                            select
-                                new
-                                    {
-                                        p1.Key.Workflow,
-                                        p1.Key.State,
-                                        p1.Key.ActionType,
-                                        Types = from s in p1 orderby s.Priority select s.StateStepType
-                                    };
-
-                foreach (var item in items)
-                    universe.Add(new WorkflowStateExecutionSet<TWorkflow, TState>(item.Workflow, item.State,
-                                                                                  item.ActionType, item.Types));
-            }
-
-            builder.RegisterInstance(universe);
-
-            foreach (var uniqueType in uniqueTypes)
+            foreach (var uniqueType in results.TransientTypes)
                 builder.RegisterType(uniqueType);
 
-            foreach (var item in declarations)
+            foreach (var item in results.WorkflowStepDeclarations)
             {
                 var localItem = item;
                 builder.Register(c => localItem);

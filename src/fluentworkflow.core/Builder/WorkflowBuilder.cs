@@ -1,60 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
+using fluentworkflow.core.Analysis;
 using fluentworkflow.core.Configuration;
+using fluentworkflow.core.Configuration.v2;
 
 namespace fluentworkflow.core.Builder
 {
-    public interface IWorkflowBuilder<TWorkflow, TState, TTrigger, TTriggerContext>
-    {
-        /// <summary>
-        /// declare a step for a workflow and state
-        /// </summary>
-        /// <param name="workflow">The workflow step.</param>
-        /// <param name="state">The state.</param>
-        /// <returns></returns>
-        StateTaskConfiguration<TState, TTrigger, TTriggerContext> ForWorkflow(TWorkflow workflow, TState state);
-    }
-
-    public class StepTypeInfo<TWorkflow, TState>
-    {
-        /// <summary>
-        /// Gets or sets the workflow.
-        /// </summary>
-        /// <value>The workflow.</value>
-        public TWorkflow Workflow { get; set; }
-
-        /// <summary>
-        /// Gets or sets the state.
-        /// </summary>
-        /// <value>The state.</value>
-        public TState State { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the state step.
-        /// </summary>
-        /// <value>The type of the state step.</value>
-        public Type StateStepType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the action.
-        /// </summary>
-        /// <value>The type of the action.</value>
-        public WorkflowTaskActionType ActionType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the priority.
-        /// </summary>
-        /// <value>The priority.</value>
-        public int Priority { get; set; }
-
-        /// <summary>
-        /// Gets or sets the dependency.
-        /// </summary>
-        /// <value>The dependency.</value>
-        public Type Dependency { get; set; }
-    }
-
     /// <summary>
     /// The workflow builder used to configure state steps and action steps
     /// </summary>
@@ -66,6 +17,49 @@ namespace fluentworkflow.core.Builder
     {
         private readonly IDictionary<TWorkflow, IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>> _workflowConfiguration =
             new Dictionary<TWorkflow, IList<StateTaskConfiguration<TState, TTrigger, TTriggerContext>>>();
+
+        public RegistrationInfo<TWorkflow, TState, TTrigger, TTriggerContext> Compile()
+        {
+            var declarations = ProduceStepDeclarations();
+
+            var errors = new ClosureAnalyzer().ValidateStepDeclarationClosure(declarations);
+
+            if (errors.Any())
+                throw new ClosureAnalysisException<TWorkflow, TState, TTrigger>(errors);
+
+            var typeRoles = ProduceTypeRoles();
+
+            var uniqueTypes = from p in typeRoles
+                              group p by p.StateStepType
+                                  into g
+                                  select g.Key;
+
+            var universe = new WorkflowExecutionUniverse<TWorkflow, TState, TTriggerContext>();
+
+            if (uniqueTypes.Any())
+            {
+                var items = from p in typeRoles
+                            group p by new { p.Workflow, p.State, p.ActionType }
+                                into p1
+                                select
+                                    new
+                                    {
+                                        p1.Key.Workflow,
+                                        p1.Key.State,
+                                        p1.Key.ActionType,
+                                        Types = from s in p1 orderby s.Priority select s.StateStepType
+                                    };
+
+                foreach (var item in items)
+                    universe.Add(new WorkflowStateExecutionSet<TWorkflow, TState>(item.Workflow, item.State,
+                                                                                  item.ActionType, item.Types));
+            }
+
+            return new RegistrationInfo<TWorkflow, TState, TTrigger, TTriggerContext>(universe, uniqueTypes,
+                                                                                      declarations);
+
+        }
+
 
         public IEnumerable<WorkflowStepDeclaration<TWorkflow, TState, TTrigger>> ProduceStepDeclarations()
         {
