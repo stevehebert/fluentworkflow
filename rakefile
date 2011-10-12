@@ -1,5 +1,5 @@
 require 'albacore'
-require 'build/nuspec.rb'
+require './build/nuspec.rb'
 
 revision_number = ENV['revision']
 revision_number = 0 if revision_number.nil?
